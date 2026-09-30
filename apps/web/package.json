@@ -1,5 +1,5 @@
 {
-  "name": "@ovn-saas/web",
+  "name": "@cordel/web",
   "version": "0.1.0",
   "private": true,
 "scripts": {
@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ovn-saas/types": "workspace:*",
+    "@cordel/types": "workspace:*",
     "next": "16.3.0",
     "react": "19.2.8",
     "react-dom": "19.2.8"

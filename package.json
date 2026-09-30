@@ -1,8 +1,8 @@
 {
-  "name": "ovn-saas",
+  "name": "cordel",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@11.20.0",
+  "packageManager": "pnpm@12.8.1",
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
