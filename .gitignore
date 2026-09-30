@@ -1,0 +1,39 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# turbo
+.turbo/
+
+# build outputs
+dist/
+build/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+lerna-debug.log*
+
+# env files
+.env
+.env.*
+!.env.example
+
+# misc
+.DS_Store
+*.pem
+
+# platform
+.vercel
+.idea/
+.vscode/
+
+# scratch / planning (not part of the product)
+/pdawork
