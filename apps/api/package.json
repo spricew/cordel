@@ -5,10 +5,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
-  "packageManager": "pnpm@11.20.0",
   "scripts": {
-    "build": "nest build",
     "dev": "nest start --watch",
+    "build": "nest build",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
