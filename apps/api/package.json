@@ -8,6 +8,7 @@
   "packageManager": "pnpm@11.20.0",
   "scripts": {
     "build": "nest build",
+    "dev": "nest start --watch",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
