@@ -1,30 +1,28 @@
-import type { Server } from 'node:net';
-import { describe, it, beforeEach, afterEach } from 'vitest';
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import type { INestApplication } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
+import type { Server } from 'node:http';
 import request from 'supertest';
-import { AppModule } from './../src/app.module.js';
+import { AppModule } from '../src/app.module.js';
 
-describe('AppController (e2e)', () => {
-  let app: INestApplication<Server>;
+describe('App (e2e)', () => {
+  let app: INestApplication;
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
+  beforeAll(async () => {
+    const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
-    app = moduleFixture.createNestApplication();
+    app = moduleRef.createNestApplication();
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  afterAll(async () => {
+    await app.close();
   });
 
-  afterEach(async () => {
-    await app.close();
+  it('GET / returns the API greeting', async () => {
+    const server = app.getHttpServer() as Server;
+
+    await request(server).get('/').expect(200).expect('Cordel API');
   });
 });

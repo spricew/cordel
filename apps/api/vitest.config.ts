@@ -1,10 +1,11 @@
-import swc from 'unplugin-swc';
 import { defineConfig } from 'vitest/config';
+import { tscTransform } from './vite.plugin-tsc.js';
 
 export default defineConfig({
   test: {
+    globals: true,
     include: ['src/**/*.spec.ts'],
     root: './',
   },
-  plugins: [swc.vite()],
+  plugins: [tscTransform()],
 });
