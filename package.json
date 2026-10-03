@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "pnpm --parallel -r run dev",
     "dev:web": "pnpm --filter @cordel/web run dev",
-    "dev:api": "pnpm --filter api run dev",
+    "dev:api": "pnpm --filter @cordel/api run dev",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
