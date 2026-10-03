@@ -4,15 +4,13 @@
   "private": true,
   "packageManager": "pnpm@12.8.1",
   "scripts": {
-    "dev": "turbo run dev",
-    "dev:web": "turbo run dev --filter=@cordel/web",
-    "dev:api": "turbo run dev --filter=api",
-    "build": "turbo run build",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
-    "typecheck": "turbo run typecheck"
+    "dev": "pnpm --parallel -r run dev",
+    "dev:web": "pnpm --filter @cordel/web run dev",
+    "dev:api": "pnpm --filter api run dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck"
   },
-  "devDependencies": {
-    "turbo": "^2"
-  }
+  "devDependencies": {}
 }
