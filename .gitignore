@@ -3,9 +3,6 @@ node_modules/
 .pnp
 .pnp.*
 
-# turbo
-.turbo/
-
 # build outputs
 dist/
 build/
