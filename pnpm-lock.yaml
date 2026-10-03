@@ -162,16 +162,13 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  turbo@2.10.9: 322515a47f7dd4ce9cd6d074eca2d737b2de7a7b99e999cd3bf2ec4b3f9dda2a
-
 importers:
 
   .:
     devDependencies:
       turbo:
         specifier: ^2
-        version: 2.10.9(patch_hash=322515a47f7dd4ce9cd6d074eca2d737b2de7a7b99e999cd3bf2ec4b3f9dda2a)
+        version: 2.10.9
 
   apps/api:
     dependencies:
@@ -7400,7 +7397,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  turbo@2.10.9(patch_hash=322515a47f7dd4ce9cd6d074eca2d737b2de7a7b99e999cd3bf2ec4b3f9dda2a):
+  turbo@2.10.9:
     optionalDependencies:
       '@turbo/darwin-64': 2.10.9
       '@turbo/darwin-arm64': 2.10.9

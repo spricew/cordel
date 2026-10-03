@@ -5,6 +5,3 @@ packages:
 allowBuilds:
   unrs-resolver: false
   '@swc/core': true
-
-patchedDependencies:
-  turbo@2.10.9: patches/turbo@2.10.9.patch
