@@ -1,42 +1,23 @@
-export type Role = "OWNER" | "ADMIN" | "MANAGER" | "MEMBER";
+/* * Contrato compartido entre la API y el frontend. */
 
-export interface Organization {
-  id: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-}
+/* # Marca de tiempo serializada por la API (ISO 8601). */
+export type ISODateString = string;
 
-export interface Membership {
-  userId: string;
-  organizationId: string;
-  role: Role;
-}
 
-export interface Team {
-  id: string;
-  organizationId: string;
-  name: string;
-  description?: string;
-}
+/* # Rol dentro de una organización o de un equipo. */
+/* * Nunca es una propiedad de `User`: el rol es una relación entre el usuario y
+* la organización (Membership) o el equipo (TeamMember).*/
 
-export interface Project {
-  id: string;
-  organizationId: string;
-  name: string;
-  description?: string;
-}
+export type Role = "OWNER" | "ADMIN" | "MEMBER";
 
-export interface Task {
-  id: string;
-  projectId: string;
-  title: string;
-  status: "TODO" | "IN_PROGRESS" | "DONE";
-  assigneeId?: string;
-}
+
+/* # Plan de la cuenta. Determina los límites y las funciones de IA. */
+export type Plan = "FREE" | "PREMIUM";
+
+
+/* # Estado de una tarea o subtarea. */
+/* * `BLOCKED` representa el estado "no disponible": hay un bloqueo, pero no
+ * impide el seguimiento del resto del trabajo.*/
+export type TaskStatus = "PENDING" | "IN_PROGRESS" | "DONE" | "BLOCKED";
+export type Priority = "LOW" | "MEDIUM" | "HIGH" | "URGENT";
