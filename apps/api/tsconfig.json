@@ -18,5 +18,12 @@
     "noFallthroughCasesInSwitch": true,
     "types": ["vitest/globals", "node"]
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "vitest*.config.ts", "vite.plugin-tsc.ts"]
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "vitest*.config.ts",
+    "vite.plugin-tsc.ts",
+    "prisma.config.ts",
+    "prisma/**/*.ts"
+  ]
 }
