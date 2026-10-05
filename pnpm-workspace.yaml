@@ -5,3 +5,5 @@ packages:
 allowBuilds:
   unrs-resolver: false
   '@swc/core': true
+  '@prisma/engines': true
+  prisma: true
