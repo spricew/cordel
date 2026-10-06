@@ -12,6 +12,8 @@ const prisma = new PrismaClient({ adapter });
 async function main(): Promise<void> {
     // upsert: si ya existe no duplica, solo lo deja como está.
     // Así se puede correr el seed cuantas veces se requiera.
+    // Los ids fijos ("seed-...") hacen repetibles los modelos sin
+    // campo único propio (Task, Subtask, Comment, ...).
 
     // Dueños: uno por organización, con datos distintos.
     const acmeOwner = await prisma.user.upsert({
@@ -34,8 +36,8 @@ async function main(): Promise<void> {
         },
     });
 
-    // Organizaciones apuntando a un user real
-    await prisma.organization.upsert({
+    // Organizaciones apuntando a sus dueños reales.
+    const acme = await prisma.organization.upsert({
         where: { slug: "acme" },
         update: { ownerId: acmeOwner.id },
         create: {
@@ -45,7 +47,7 @@ async function main(): Promise<void> {
         },
     });
 
-    await prisma.organization.upsert({
+    const globex = await prisma.organization.upsert({
         where: { slug: "globex" },
         update: { ownerId: globexOwner.id },
         create: {
@@ -55,7 +57,186 @@ async function main(): Promise<void> {
         },
     });
 
-    console.log("Seed OK: 2 usuarios + 2 organizaciones (acme, globex)");
+    // Membresías: cada dueño es OWNER de su organización.
+    for (const [userId, organizationId] of [
+        [acmeOwner.id, acme.id],
+        [globexOwner.id, globex.id],
+    ] as const) {
+        await prisma.membership.upsert({
+            where: { userId_organizationId: { userId, organizationId } },
+            update: { role: "OWNER" },
+            create: { userId, organizationId, role: "OWNER" },
+        });
+    }
+
+    // Equipos: uno por organización, con slug para la URL
+    // (/acme/desarrollo, /globex/ventas).
+    const desarrollo = await prisma.team.upsert({
+        where: {
+            organizationId_slug: {
+                organizationId: acme.id,
+                slug: "desarrollo",
+            },
+        },
+        update: {},
+        create: {
+            organizationId: acme.id,
+            name: "Desarrollo",
+            slug: "desarrollo",
+            description: "Equipo de desarrollo de Acme",
+        },
+    });
+
+    const ventas = await prisma.team.upsert({
+        where: {
+            organizationId_slug: {
+                organizationId: globex.id,
+                slug: "ventas",
+            },
+        },
+        update: {},
+        create: {
+            organizationId: globex.id,
+            name: "Ventas",
+            slug: "ventas",
+            description: "Equipo de ventas de Globex",
+        },
+    });
+
+    // Miembros de equipo: cada dueño es OWNER de su equipo.
+    for (const [teamId, userId] of [
+        [desarrollo.id, acmeOwner.id],
+        [ventas.id, globexOwner.id],
+    ] as const) {
+        await prisma.teamMember.upsert({
+            where: { teamId_userId: { teamId, userId } },
+            update: { role: "OWNER" },
+            create: { teamId, userId, role: "OWNER" },
+        });
+    }
+
+    // Tareas: una por equipo, asignada a su dueño.
+    // Llevan organizationId + teamId (la FK compuesta exige ambos).
+    const campana = await prisma.task.upsert({
+        where: { id: "seed-task-acme-1" },
+        update: {},
+        create: {
+            id: "seed-task-acme-1",
+            organizationId: acme.id,
+            teamId: desarrollo.id,
+            title: "Migrar la API a NestJS",
+            description: "Tarea de ejemplo del seed",
+            status: "IN_PROGRESS",
+            priority: "HIGH",
+            assigneeId: acmeOwner.id,
+        },
+    });
+
+    await prisma.task.upsert({
+        where: { id: "seed-task-globex-1" },
+        update: {},
+        create: {
+            id: "seed-task-globex-1",
+            organizationId: globex.id,
+            teamId: ventas.id,
+            title: "Campaña de Navidad",
+            description: "Tarea de ejemplo del seed",
+            status: "PENDING",
+            priority: "MEDIUM",
+            assigneeId: globexOwner.id,
+        },
+    });
+
+    // Subtareas: dos pasos, el segundo bloqueado y dependiente del primero.
+    await prisma.subtask.upsert({
+        where: { id: "seed-subtask-acme-1" },
+        update: {},
+        create: {
+            id: "seed-subtask-acme-1",
+            taskId: campana.id,
+            title: "Diseñar la interfaz",
+            status: "DONE",
+            priority: "MEDIUM",
+            position: 1,
+        },
+    });
+
+    await prisma.subtask.upsert({
+        where: { id: "seed-subtask-acme-2" },
+        update: {},
+        create: {
+            id: "seed-subtask-acme-2",
+            taskId: campana.id,
+            title: "Codificar el diseño",
+            status: "BLOCKED",
+            priority: "HIGH",
+            blockedReason: "Falta el acceso a Figma",
+            blockedAt: new Date("2026-10-01T00:00:00.000Z"),
+            position: 2,
+        },
+    });
+
+    await prisma.subtaskDependency.upsert({
+        where: {
+            subtaskId_dependsOnSubtaskId: {
+                subtaskId: "seed-subtask-acme-2",
+                dependsOnSubtaskId: "seed-subtask-acme-1",
+            },
+        },
+        update: {},
+        create: {
+            subtaskId: "seed-subtask-acme-2",
+            dependsOnSubtaskId: "seed-subtask-acme-1",
+        },
+    });
+
+    // Comentario y adjunto sobre la tarea de Acme.
+    await prisma.comment.upsert({
+        where: { id: "seed-comment-acme-1" },
+        update: {},
+        create: {
+            id: "seed-comment-acme-1",
+            organizationId: acme.id,
+            teamId: desarrollo.id,
+            taskId: campana.id,
+            authorId: acmeOwner.id,
+            body: "Empezamos con el diseño esta semana.",
+        },
+    });
+
+    await prisma.attachment.upsert({
+        where: { id: "seed-attachment-acme-1" },
+        update: {},
+        create: {
+            id: "seed-attachment-acme-1",
+            organizationId: acme.id,
+            teamId: desarrollo.id,
+            taskId: campana.id,
+            fileName: "wireframe.png",
+            storageKey: "seed/acme/wireframe.png",
+            mimeType: "image/png",
+            sizeBytes: 1234,
+            uploadedById: acmeOwner.id,
+        },
+    });
+
+    // Notificación para el dueño de Acme.
+    await prisma.notification.upsert({
+        where: { id: "seed-notification-acme-1" },
+        update: {},
+        create: {
+            id: "seed-notification-acme-1",
+            organizationId: acme.id,
+            teamId: desarrollo.id,
+            userId: acmeOwner.id,
+            type: "TASK_ASSIGNED",
+            title: "Tarea asignada",
+            body: "Se te asignó Migrar la API a NestJS.",
+            taskId: campana.id,
+        },
+    });
+
+    console.log("Seed OK: 2 usuarios, 2 orgs, equipos, tareas y más");
 }
 
 try {
