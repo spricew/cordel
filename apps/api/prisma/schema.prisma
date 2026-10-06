@@ -30,3 +30,35 @@ model Organization {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
+
+model Session {
+    id        String   @id @default(cuid())
+    token     String
+    expiresAt DateTime
+    userId    String
+    createdAt DateTime @default(now())
+}
+
+enum Role {
+    OWNER
+    ADMIN
+    MEMBER
+}
+
+model Membership {
+    role           Role     @default(MEMBER)
+    userId         String
+    organizationId String
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+    
+    @@id([userId, organizationId])
+}
+
+model Team {
+    id             String   @id @default(cuid())
+    slug           String
+    organizationId String
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+}
