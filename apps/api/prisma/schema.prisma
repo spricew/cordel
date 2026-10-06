@@ -16,6 +16,13 @@ model User {
     createdAt          DateTime       @default(now())
     updatedAt          DateTime       @updatedAt
     ownedOrganizations Organization[]
+    sessions           Session[]
+    memberships        Membership[]
+    teamMemberships    TeamMember[]
+    assignedTasks      Task[]
+    comments           Comment[]
+    attachments        Attachment[]
+    notifications      Notification[]
 }
 
 enum Plan {
@@ -24,20 +31,23 @@ enum Plan {
 }
 
 model Organization {
-    id        String   @id @default(cuid())
-    name      String
-    slug      String   @unique
-    ownerId   String
-    owner     User     @relation(fields: [ownerId], references: [id])
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id          String       @id @default(cuid())
+    name        String
+    slug        String       @unique
+    ownerId     String
+    owner       User         @relation(fields: [ownerId], references: [id])
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+    members     Membership[]
+    teams       Team[]
 }
 
 model Session {
     id        String   @id @default(cuid())
-    token     String
-    expiresAt DateTime
     userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    token     String   @unique
+    expiresAt DateTime
     createdAt DateTime @default(now())
 }
 
@@ -48,23 +58,166 @@ enum Role {
 }
 
 model Membership {
-    role           Role     @default(MEMBER)
     userId         String
+    user           User         @relation(fields: [userId], references: [id])
     organizationId String
-    createdAt      DateTime @default(now())
-    updatedAt      DateTime @updatedAt
-    
+    organization   Organization @relation(fields: [organizationId], references: [id])
+    role           Role         @default(MEMBER)
+    createdAt      DateTime     @default(now())
+    updatedAt      DateTime     @updatedAt
+
     @@id([userId, organizationId])
 }
 
 model Team {
-    id             String   @id @default(cuid())
+    id             String       @id @default(cuid())
     organizationId String
+    organization   Organization @relation(fields: [organizationId], references: [id])
     name           String
     slug           String
     description    String?
-    createdAt      DateTime @default(now())
-    updatedAt      DateTime @updatedAt
+    createdAt      DateTime     @default(now())
+    updatedAt      DateTime     @updatedAt
+    members        TeamMember[]
+    tasks          Task[]
 
     @@unique([organizationId, slug])
+    // La FK compuesta de Task apunta a (id, organizationId),
+    // por eso el par necesita su propio índice único.
+    @@unique([id, organizationId])
+}
+
+model TeamMember {
+    teamId    String
+    team      Team     @relation(fields: [teamId], references: [id])
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    role      Role     @default(MEMBER)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@id([teamId, userId])
+}
+
+enum TaskStatus {
+    PENDING
+    IN_PROGRESS
+    DONE
+    BLOCKED
+}
+
+enum Priority {
+    LOW
+    MEDIUM
+    HIGH
+    URGENT
+}
+
+model Task {
+    id             String      @id @default(cuid())
+    organizationId String
+    teamId         String
+    // FK compuesta: la tarea pertenece al equipo Y a su organización
+    // a la vez. Es lo que impone el aislamiento estricto por equipo.
+    team           Team        @relation(fields: [teamId, organizationId], references: [id, organizationId])
+    title          String
+    description    String?
+    status         TaskStatus  @default(PENDING)
+    priority       Priority    @default(MEDIUM)
+    assigneeId     String?
+    assignee       User?       @relation(fields: [assigneeId], references: [id])
+    dueDate        DateTime?
+    createdAt      DateTime    @default(now())
+    updatedAt      DateTime    @updatedAt
+    subtasks       Subtask[]
+    comments       Comment[]
+    attachments    Attachment[]
+    notifications  Notification[]
+}
+
+model Subtask {
+    id            String               @id @default(cuid())
+    taskId        String
+    task          Task                 @relation(fields: [taskId], references: [id])
+    title         String
+    description   String?
+    status        TaskStatus           @default(PENDING)
+    priority      Priority             @default(MEDIUM)
+    dueDate       DateTime?
+    blockedReason String?
+    blockedAt     DateTime?
+    position      Int
+    createdAt     DateTime             @default(now())
+    updatedAt     DateTime             @updatedAt
+    dependencies  SubtaskDependency[]  @relation("DependsOn")
+    dependents    SubtaskDependency[]  @relation("RequiredBy")
+    comments      Comment[]
+    attachments   Attachment[]
+    notifications Notification[]
+}
+
+model SubtaskDependency {
+    subtaskId         String
+    subtask           Subtask @relation("DependsOn", fields: [subtaskId], references: [id])
+    dependsOnSubtaskId String
+    dependsOn         Subtask @relation("RequiredBy", fields: [dependsOnSubtaskId], references: [id])
+
+    @@id([subtaskId, dependsOnSubtaskId])
+}
+
+model Comment {
+    id             String   @id @default(cuid())
+    organizationId String
+    teamId         String
+    taskId         String?
+    task           Task?    @relation(fields: [taskId], references: [id])
+    subtaskId      String?
+    subtask        Subtask? @relation(fields: [subtaskId], references: [id])
+    authorId       String
+    author         User     @relation(fields: [authorId], references: [id])
+    body           String
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+}
+
+model Attachment {
+    id             String   @id @default(cuid())
+    organizationId String
+    teamId         String
+    taskId         String?
+    task           Task?    @relation(fields: [taskId], references: [id])
+    subtaskId      String?
+    subtask        Subtask? @relation(fields: [subtaskId], references: [id])
+    fileName       String
+    storageKey     String   @unique
+    mimeType       String
+    sizeBytes      Int
+    uploadedById   String
+    uploadedBy     User     @relation(fields: [uploadedById], references: [id])
+    createdAt      DateTime @default(now())
+}
+
+enum NotificationType {
+    TASK_ASSIGNED
+    TASK_DUE_SOON
+    SUBTASK_BLOCKED
+    SUBTASK_UNBLOCKED
+    MEMBER_ADDED
+}
+
+model Notification {
+    id             String           @id @default(cuid())
+    organizationId String
+    teamId         String?
+    userId         String
+    user           User             @relation(fields: [userId], references: [id])
+    type           NotificationType
+    title          String
+    body           String
+    taskId         String?
+    task           Task?            @relation(fields: [taskId], references: [id])
+    subtaskId      String?
+    subtask        Subtask?         @relation(fields: [subtaskId], references: [id])
+    readAt         DateTime?
+    createdAt      DateTime         @default(now())
 }
