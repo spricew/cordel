@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "./generated/client.js";
+import bcrypt from "bcryptjs";
 import { Pool } from "pg";
 
 // La conexión se lee del .env (DATABASE_URL). Este script corre con
@@ -15,6 +16,12 @@ async function main(): Promise<void> {
     // Los ids fijos ("seed-...") hacen repetibles los modelos sin
     // campo único propio (Task, Subtask, Comment, ...).
 
+    const seedPassword = process.env["SEED_PASSWORD"];
+    if (seedPassword === undefined || seedPassword === "") {
+        throw new Error("Missing SEED_PASSWORD in .env");
+    }
+    const passwordHash = await bcrypt.hash(seedPassword, 10);
+    
     // Dueños: uno por organización, con datos distintos.
     const acmeOwner = await prisma.user.upsert({
         where: { email: "owner@acme.test" },
@@ -22,6 +29,7 @@ async function main(): Promise<void> {
         create: {
             email: "owner@acme.test",
             name: "Acme Owner",
+            passwordHash,
             plan: "FREE",
         },
     });
@@ -32,6 +40,7 @@ async function main(): Promise<void> {
         create: {
             email: "owner@globex.test",
             name: "Globex Owner",
+            passwordHash,
             plan: "FREE",
         },
     });
