@@ -19,6 +19,7 @@ export const envSchema = z.object({
     .int()
     .positive()
     .default(10),
+  SEED_PASSWORD: z.string().min(8).optional(),
 });
 
 export type Env = z.infer<typeof envSchema>;
