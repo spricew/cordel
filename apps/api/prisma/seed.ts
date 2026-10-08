@@ -25,7 +25,8 @@ async function main(): Promise<void> {
     // Dueños: uno por organización, con datos distintos.
     const acmeOwner = await prisma.user.upsert({
         where: { email: "owner@acme.test" },
-        update: {},
+        // Refresca el hash en cada corrida
+        update: { passwordHash },
         create: {
             email: "owner@acme.test",
             name: "Acme Owner",
@@ -36,7 +37,7 @@ async function main(): Promise<void> {
 
     const globexOwner = await prisma.user.upsert({
         where: { email: "owner@globex.test" },
-        update: {},
+        update: { passwordHash },
         create: {
             email: "owner@globex.test",
             name: "Globex Owner",
