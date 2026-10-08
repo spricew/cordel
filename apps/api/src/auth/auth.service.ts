@@ -2,12 +2,15 @@ import {
   ConflictException,
   Injectable,
   UnauthorizedException,
+  NotFoundException,
 } from '@nestjs/common';
 import bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service.js';
 import type { RegisterDto } from './dto/register.dto.js';
 import type { LoginDto } from './dto/login.dto.js';
+import type { SessionDto } from './dto/session.dto.js';
 import { randomUUID } from 'crypto';
+import { Prisma } from '../../prisma/generated/client.js';
 
 export interface RegisteredUser {
   id: string;
@@ -24,7 +27,7 @@ export interface LoggedUser extends RegisteredUser {
 // ValidationPipe) y devuelve al usuario SIN el hash: el hash jamás sale.
 @Injectable()
 export class AuthService {
-  public constructor(private readonly prisma: PrismaService) {}
+  public constructor(private readonly prisma: PrismaService) { }
 
   public async register(dto: RegisterDto): Promise<RegisteredUser> {
     const existing = await this.prisma.user.findUnique({
@@ -65,5 +68,24 @@ export class AuthService {
       token: session.token,
       expiresAt: session.expiresAt,
     };
+  }
+
+  public async logout(dto: SessionDto) {
+    const session = await this.prisma.session.findUnique({
+      where: { token: dto.token },
+    });
+
+    if (!session) {
+      throw new NotFoundException('Sesión no encontrada');
+    }
+
+    try {
+      await this.prisma.session.delete({ where: { token: dto.token } });
+    } catch (error: unknown) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+        throw new NotFoundException("...");
+      }
+      throw error;
+    }
   }
 }
