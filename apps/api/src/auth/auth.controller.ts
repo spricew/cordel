@@ -6,13 +6,14 @@ import {
 } from './auth.service.js';
 import { RegisterDto } from './dto/register.dto.js';
 import { LoginDto } from './dto/login.dto.js';
+import { SessionDto } from './dto/session.dto.js';
 
 // Traduce HTTP a llamadas al servicio. No sabe de base de
 // datos ni de hashes; solo recibe el DTO (ya validado) y devuelve.
 // Vive en POST /api/v1/auth/register (prefijo global + "auth").
 @Controller('auth')
 export class AuthController {
-  public constructor(private readonly auth: AuthService) {}
+  public constructor(private readonly auth: AuthService) { }
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
@@ -24,5 +25,11 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   public login(@Body() dto: LoginDto): Promise<LoggedUser> {
     return this.auth.login(dto);
+  }
+
+  @Post('logout')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public logout(@Body() dto: SessionDto): Promise<void> {
+    return this.auth.logout(dto);
   }
 }
