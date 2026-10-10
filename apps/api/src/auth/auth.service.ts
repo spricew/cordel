@@ -34,7 +34,7 @@ export class AuthService {
       where: { email: dto.email },
     });
     if (existing !== null) {
-      throw new ConflictException('Email already registered');
+      throw new ConflictException('Correo ya registrado');
     }
 
     const passwordHash = await bcrypt.hash(dto.password, 10);
@@ -50,7 +50,7 @@ export class AuthService {
     });
 
     if (!user || !(await bcrypt.compare(dto.password, user.passwordHash))) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Credenciales inválidas');
     }
 
     const session = await this.prisma.session.create({
