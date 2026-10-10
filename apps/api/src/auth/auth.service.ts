@@ -27,7 +27,7 @@ export interface LoggedUser extends RegisteredUser {
 // ValidationPipe) y devuelve al usuario SIN el hash: el hash jamás sale.
 @Injectable()
 export class AuthService {
-  public constructor(private readonly prisma: PrismaService) { }
+  public constructor(private readonly prisma: PrismaService) {}
 
   public async register(dto: RegisterDto): Promise<RegisteredUser> {
     const existing = await this.prisma.user.findUnique({
@@ -57,7 +57,7 @@ export class AuthService {
       data: {
         userId: user.id,
         token: randomUUID(),
-        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 días
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 días
       },
     });
 
@@ -82,8 +82,11 @@ export class AuthService {
     try {
       await this.prisma.session.delete({ where: { token: dto.token } });
     } catch (error: unknown) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
-        throw new NotFoundException("...");
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException('...');
       }
       throw error;
     }
