@@ -70,15 +70,7 @@ export class AuthService {
     };
   }
 
-  public async logout(dto: SessionDto) {
-    const session = await this.prisma.session.findUnique({
-      where: { token: dto.token },
-    });
-
-    if (!session) {
-      throw new NotFoundException('Sesión no encontrada');
-    }
-
+  public async logout(dto: SessionDto): Promise<void> {
     try {
       await this.prisma.session.delete({ where: { token: dto.token } });
     } catch (error: unknown) {
@@ -86,7 +78,7 @@ export class AuthService {
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2025'
       ) {
-        throw new NotFoundException('...');
+        throw new NotFoundException('Sesión no encontrada');
       }
       throw error;
     }
