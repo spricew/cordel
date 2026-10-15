@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service.js';
-import type { CreateOrganizationDto } from './dto/org.dto.js';
+import type { CreateOrganizationDto } from './dto/create-organization.dto.js';
 
 export interface CreatedOrganization {
   id: string;
@@ -17,7 +17,7 @@ export interface CreatedOrganization {
 // operación (escritura anidada: o salen ambas filas o no sale ninguna).
 // El dueño sale del token, nunca del body. Respeta el límite free.
 @Injectable()
-export class OrgService {
+export class OrganizationsService {
   public constructor(
     private readonly prisma: PrismaService,
     private readonly config: ConfigService,
