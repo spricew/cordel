@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import {
   AuthService,
   type RegisteredUser,
@@ -6,7 +13,9 @@ import {
 } from './auth.service.js';
 import { RegisterDto } from './dto/register.dto.js';
 import { LoginDto } from './dto/login.dto.js';
+import { CurrentUser } from './current-user.decorator.js';
 import { SessionToken } from './session-token.decorator.js';
+import type { UserSummary } from '@cordel/types';
 import { Public } from './public.decorator.js';
 
 // Traduce HTTP a llamadas al servicio. No sabe de base de
@@ -34,5 +43,10 @@ export class AuthController {
   @HttpCode(HttpStatus.NO_CONTENT)
   public logout(@SessionToken() token: string): Promise<void> {
     return this.auth.logout(token);
+  }
+
+  @Get('me')
+  public me(@CurrentUser() user: UserSummary): UserSummary {
+    return user;
   }
 }
