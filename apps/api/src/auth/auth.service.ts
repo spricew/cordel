@@ -8,8 +8,7 @@ import bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service.js';
 import type { RegisterDto } from './dto/register.dto.js';
 import type { LoginDto } from './dto/login.dto.js';
-import type { SessionDto } from './dto/session.dto.js';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import { Prisma } from '../../prisma/generated/client.js';
 
 export interface RegisteredUser {
@@ -70,9 +69,9 @@ export class AuthService {
     };
   }
 
-  public async logout(dto: SessionDto): Promise<void> {
+  public async logout(token: string): Promise<void> {
     try {
-      await this.prisma.session.delete({ where: { token: dto.token } });
+      await this.prisma.session.delete({ where: { token } });
     } catch (error: unknown) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
