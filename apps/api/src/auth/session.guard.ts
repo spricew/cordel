@@ -11,6 +11,7 @@ import { IS_PUBLIC_KEY } from './public.decorator.js';
 
 export interface AuthenticatedRequest extends Request {
   user?: { id: string; email: string; name: string };
+  sessionToken?: string;
 }
 
 const INVALID_SESSION_MESSAGE = 'Sesión inválida o vencida';
@@ -23,10 +24,10 @@ export class SessionGuard implements CanActivate {
   ) {}
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
-    const isPublic = this.reflector.getAllAndOverride<boolean>(
-      IS_PUBLIC_KEY,
-      [context.getHandler(), context.getClass()],
-    );
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
     if (isPublic === true) {
       return true;
     }
@@ -61,6 +62,7 @@ export class SessionGuard implements CanActivate {
       email: session.user.email,
       name: session.user.name,
     };
+    request.sessionToken = token;
     return true;
   }
 }
