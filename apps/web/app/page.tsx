@@ -1,5 +1,5 @@
-"use client";
-import { useState, type SubmitEvent } from "react";
+'use client';
+import { useState, type SubmitEvent } from 'react';
 
 interface TeamItem {
   id: string;
@@ -7,23 +7,22 @@ interface TeamItem {
 }
 
 export default function Home() {
-
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>('');
   const [teams, setTeams] = useState<TeamItem[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const handleOpen = (): void => {
-    setName("");
+    setName('');
     setError(null);
     setIsModalOpen(true);
-  }
+  };
 
   const handleSubmit = (e: SubmitEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const trimmed: string = name.trim();
     if (!trimmed) {
-      setError("El nombre es obligatorio");
+      setError('El nombre es obligatorio');
       return;
     }
     const newTeam: TeamItem = {
@@ -31,10 +30,10 @@ export default function Home() {
       name: trimmed,
     };
     setTeams((prev: TeamItem[]): TeamItem[] => [...prev, newTeam]);
-    setName("");
+    setName('');
     setError(null);
     setIsModalOpen(false);
-  }
+  };
 
   return (
     <div className="relative flex h-screen w-full flex-col items-center justify-center gap-6">
@@ -45,7 +44,10 @@ export default function Home() {
       ) : (
         <div className="flex flex-wrap items-center justify-center gap-4">
           {teams.map((team: TeamItem) => (
-            <div key={team.id} className="aspect-square w-60 rounded-2xl border border-black bg-white p-4">
+            <div
+              key={team.id}
+              className="aspect-square w-60 rounded-2xl border border-black bg-white p-4"
+            >
               {team.name}
             </div>
           ))}
@@ -59,9 +61,13 @@ export default function Home() {
 
               <form onSubmit={handleSubmit}>
                 <input
-                  type="text" placeholder="Nombre del equipo"
+                  type="text"
+                  placeholder="Nombre del equipo"
                   className="h-10 w-full rounded-md border border-gray-300 p-2"
-                  onChange={(e) => { setName(e.target.value); if (error) setError(null); }}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (error) setError(null);
+                  }}
                   value={name}
                   maxLength={50}
                   required
@@ -69,14 +75,17 @@ export default function Home() {
                   autoFocus
                 />
                 {error !== null && <p className="text-sm text-red-600">{error}</p>}
-                <button type="submit" className="h-10 w-full rounded-md bg-black text-white">Crear</button>
+                <button type="submit" className="h-10 w-full rounded-md bg-black text-white">
+                  Crear
+                </button>
               </form>
-
             </div>
           </div>
         )}
-        <button onClick={handleOpen}
-          className="h-fit w-fit rounded-full bg-black px-4 py-2 text-white">
+        <button
+          onClick={handleOpen}
+          className="h-fit w-fit rounded-full bg-black px-4 py-2 text-white"
+        >
           Crear equipo
         </button>
       </>

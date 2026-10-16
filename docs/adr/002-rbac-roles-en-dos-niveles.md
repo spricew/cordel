@@ -64,26 +64,26 @@ equipo dentro de GitHub Inc, actúa como `ADMIN`.
 
 ### Permisos por rol
 
-| Permiso | Owner | Admin | Member |
-| --- | :---: | :---: | :---: |
-| `organization:delete` | ✓ | | |
-| `organization:update` | ✓ | ✓ | |
-| `member:invite` | ✓ | ✓ | |
-| `member:remove` | ✓ | ✓ | |
-| `member:update_role` | ✓ | ✓ | |
-| `team:create` | ✓ | ✓ | |
-| `team:delete` | ✓ | | |
-| `task:create` | ✓ | ✓ | |
-| `task:assign` | ✓ | ✓ | |
-| `task:update` | ✓ | ✓ | solo las tareas que tiene asignadas |
-| `task:delete` | ✓ | ✓ | |
-| `subtask:create` | ✓ | ✓ | solo las tareas que tiene asignadas |
-| `subtask:update` | ✓ | ✓ | solo las subtareas de sus propias tareas |
+| Permiso               | Owner | Admin |                  Member                  |
+| --------------------- | :---: | :---: | :--------------------------------------: |
+| `organization:delete` |   ✓   |       |                                          |
+| `organization:update` |   ✓   |   ✓   |                                          |
+| `member:invite`       |   ✓   |   ✓   |                                          |
+| `member:remove`       |   ✓   |   ✓   |                                          |
+| `member:update_role`  |   ✓   |   ✓   |                                          |
+| `team:create`         |   ✓   |   ✓   |                                          |
+| `team:delete`         |   ✓   |       |                                          |
+| `task:create`         |   ✓   |   ✓   |                                          |
+| `task:assign`         |   ✓   |   ✓   |                                          |
+| `task:update`         |   ✓   |   ✓   |   solo las tareas que tiene asignadas    |
+| `task:delete`         |   ✓   |   ✓   |                                          |
+| `subtask:create`      |   ✓   |   ✓   |   solo las tareas que tiene asignadas    |
+| `subtask:update`      |   ✓   |   ✓   | solo las subtareas de sus propias tareas |
 
 El detalle importante de la última fila, y la razón de ser de `subtask:*`: la
 segmentación de una tarea es responsabilidad de quien tiene la tarea asignada, incluso si
 su rol es `MEMBER`. Esa es la regla que sostiene la filosofía del producto de que los
-responsables definen *qué* se hace y los empleados definen *cómo* se ejecuta.
+responsables definen _qué_ se hace y los empleados definen _cómo_ se ejecuta.
 
 La tabla se implementará en un `PermissionService` con una matriz explícita por rol, de
 modo que asignar un permiso nuevo sea agregar una fila y no reescribir condicionales.
