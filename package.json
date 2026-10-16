@@ -10,7 +10,11 @@
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "prettier": "^3.9.10"
+  }
 }

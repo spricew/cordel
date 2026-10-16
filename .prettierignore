@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+dist
+build
+coverage
+pnpm-lock.yaml
+
+# generated / scratch
+apps/api/prisma/generated
+apps/web/next-env.d.ts
+pdawork
