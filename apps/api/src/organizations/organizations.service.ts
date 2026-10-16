@@ -78,10 +78,7 @@ export class OrganizationsService {
     }));
   }
 
-  public async findBySlug(
-    slug: string,
-    userId: string,
-  ): Promise<Organization> {
+  public async findBySlug(slug: string, userId: string): Promise<Organization> {
     // Si no existe la org O no soy miembro, el resultado es el mismo
     // (null → 404). Así no se filtra qué slugs existen.
     const membership = await this.prisma.membership.findFirst({
