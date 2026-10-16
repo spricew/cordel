@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { Organization } from '@cordel/types';
+import type { Organization, MembershipWithUser } from '@cordel/types';
 import type { CreateOrganizationDto } from './dto/create-organization.dto.js';
 
 export interface CreatedOrganization {
@@ -98,5 +98,32 @@ export class OrganizationsService {
       createdAt: o.createdAt.toISOString(),
       updatedAt: o.updatedAt.toISOString(),
     };
+  }
+
+  public async findMembersBySlug(
+    slug: string,
+    userId: string,
+  ): Promise<MembershipWithUser[]> {
+    const mine = await this.prisma.membership.findFirst({
+      where: { userId, organization: { slug } },
+    });
+    if (mine === null) {
+      throw new NotFoundException('Organización no encontrada');
+    }
+
+    const memberships = await this.prisma.membership.findMany({
+      where: { organization: { slug } },
+      include: { user: true },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    return memberships.map((m) => ({
+      userId: m.userId,
+      organizationId: m.organizationId,
+      role: m.role,
+      createdAt: m.createdAt.toISOString(),
+      updatedAt: m.updatedAt.toISOString(),
+      user: { id: m.user.id, email: m.user.email, name: m.user.name },
+    }));
   }
 }
