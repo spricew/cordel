@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
 } from '@nestjs/common';
 import type { UserSummary, Organization } from '@cordel/types';
@@ -21,6 +22,14 @@ export class OrganizationsController {
   @Get()
   public listMine(@CurrentUser() user: UserSummary): Promise<Organization[]> {
     return this.org.listMine(user.id);
+  }
+
+  @Get(':slug')
+  public findBySlug(
+    @Param('slug') slug: string,
+    @CurrentUser() user: UserSummary,
+  ): Promise<Organization> {
+    return this.org.findBySlug(slug, user.id);
   }
 
   @Post()
