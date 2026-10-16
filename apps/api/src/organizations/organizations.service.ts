@@ -2,6 +2,7 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service.js';
@@ -75,5 +76,30 @@ export class OrganizationsService {
       createdAt: organization.createdAt.toISOString(),
       updatedAt: organization.updatedAt.toISOString(),
     }));
+  }
+
+  public async findBySlug(
+    slug: string,
+    userId: string,
+  ): Promise<Organization> {
+    // Si no existe la org O no soy miembro, el resultado es el mismo
+    // (null → 404). Así no se filtra qué slugs existen.
+    const membership = await this.prisma.membership.findFirst({
+      where: { userId, organization: { slug } },
+      include: { organization: true },
+    });
+    if (membership === null) {
+      throw new NotFoundException('Organización no encontrada');
+    }
+
+    const o = membership.organization;
+    return {
+      id: o.id,
+      name: o.name,
+      slug: o.slug,
+      ownerId: o.ownerId,
+      createdAt: o.createdAt.toISOString(),
+      updatedAt: o.updatedAt.toISOString(),
+    };
   }
 }
