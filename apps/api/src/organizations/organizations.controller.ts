@@ -7,7 +7,7 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import type { UserSummary, Organization } from '@cordel/types';
+import type { UserSummary, MembershipWithUser, Organization } from '@cordel/types';
 import { CurrentUser } from '../auth/current-user.decorator.js';
 import { CreateOrganizationDto } from './dto/create-organization.dto.js';
 import {
@@ -30,6 +30,14 @@ export class OrganizationsController {
     @CurrentUser() user: UserSummary,
   ): Promise<Organization> {
     return this.org.findBySlug(slug, user.id);
+  }
+  
+  @Get(':slug/members')
+  public findMembersBySlug(
+    @Param('slug') slug: string,
+    @CurrentUser() user: UserSummary,
+  ): Promise<MembershipWithUser[]> {
+    return this.org.findMembersBySlug(slug, user.id);
   }
 
   @Post()
