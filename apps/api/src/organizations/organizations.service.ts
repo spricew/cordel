@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { Organization } from '@cordel/types';
 import type { CreateOrganizationDto } from './dto/create-organization.dto.js';
 
 export interface CreatedOrganization {
@@ -57,5 +58,22 @@ export class OrganizationsService {
       name: organization.name,
       slug: organization.slug,
     };
+  }
+
+  public async listMine(ownerId: string): Promise<Organization[]> {
+    const memberships = await this.prisma.membership.findMany({
+      where: { userId: ownerId },
+      include: { organization: true },
+      orderBy: { organization: { name: 'asc' } },
+    });
+
+    return memberships.map(({ organization }) => ({
+      id: organization.id,
+      name: organization.name,
+      slug: organization.slug,
+      ownerId: organization.ownerId,
+      createdAt: organization.createdAt.toISOString(),
+      updatedAt: organization.updatedAt.toISOString(),
+    }));
   }
 }
