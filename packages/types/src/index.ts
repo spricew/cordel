@@ -70,6 +70,7 @@ export interface Team {
   organizationId: string;
   name: string;
   description: string | null;
+  slug: string;
   createdAt: ISODateString;
   updatedAt: ISODateString;
 }
