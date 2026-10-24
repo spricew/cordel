@@ -1,12 +1,13 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Param,
   Post,
 } from '@nestjs/common';
-import type { UserSummary } from '@cordel/types';
+import type { Team, UserSummary } from '@cordel/types';
 import { CurrentUser } from '../auth/current-user.decorator.js';
 import { CreateTeamDto } from './dto/create-team.dto.js';
 import { TeamsService, type CreatedTeam } from './teams.service.js';
@@ -25,5 +26,22 @@ export class TeamsController {
     @CurrentUser() user: UserSummary,
   ): Promise<CreatedTeam> {
     return this.teams.create(slug, dto, user.id);
+  }
+
+  @Get(':slug/teams')
+  public list(
+    @Param('slug') slug: string,
+    @CurrentUser() user: UserSummary,
+  ): Promise<Team[]> {
+    return this.teams.list(slug, user.id);
+  }
+
+  @Get(':slug/teams/:teamSlug')
+  public findBySlug(
+    @Param('slug') slug: string,
+    @Param('teamSlug') teamSlug: string,
+    @CurrentUser() user: UserSummary,
+  ): Promise<Team> {
+    return this.teams.findBySlug(slug, teamSlug, user.id);
   }
 }
