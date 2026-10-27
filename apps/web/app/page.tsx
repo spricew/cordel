@@ -46,7 +46,7 @@ export default function Home() {
           {teams.map((team: TeamItem) => (
             <div
               key={team.id}
-              className="aspect-square w-60 rounded-2xl border border-black bg-white p-4"
+              className="aspect-square w-60 rounded-lg border border-black bg-white p-4"
             >
               {team.name}
             </div>
@@ -56,14 +56,14 @@ export default function Home() {
       <>
         {isModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-black/50">
-            <div className="flex h-fit w-90 flex-col gap-2 rounded-3xl bg-white p-6">
+            <div className="flex h-fit w-90 flex-col gap-2 rounded-xl bg-white p-6">
               <span className="text-2xl font-semibold tracking-tight">Crear equipo</span>
 
               <form onSubmit={handleSubmit}>
                 <input
                   type="text"
                   placeholder="Nombre del equipo"
-                  className="h-10 w-full rounded-md border border-gray-300 p-2"
+                  className="h-10 w-full rounded-full border border-gray-300 px-4"
                   onChange={(e) => {
                     setName(e.target.value);
                     if (error) setError(null);
@@ -75,7 +75,7 @@ export default function Home() {
                   autoFocus
                 />
                 {error !== null && <p className="text-sm text-red-600">{error}</p>}
-                <button type="submit" className="h-10 w-full rounded-md bg-black text-white">
+                <button type="submit" className="h-10 w-full rounded-full bg-black text-white">
                   Crear
                 </button>
               </form>
