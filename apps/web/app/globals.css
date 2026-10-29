@@ -132,7 +132,7 @@
   --text-headline-sm--letter-spacing: -0.01em;
 
   --text-body-lg: 1rem; /* 16px */
-  --text-body-lg--line-height: 1.625rem; /* 26px */
+  --text-body-lg--line-height: 1.25rem; /* 20px */
   --text-body-lg--font-weight: 400;
   --text-body-lg--letter-spacing: -0.005em;
 
