@@ -7,7 +7,7 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import type { Team, UserSummary } from '@cordel/types';
+import type { Team, TeamMemberWithUser, UserSummary } from '@cordel/types';
 import { CurrentUser } from '../auth/current-user.decorator.js';
 import { CreateTeamDto } from './dto/create-team.dto.js';
 import { TeamsService, type CreatedTeam } from './teams.service.js';
@@ -43,5 +43,15 @@ export class TeamsController {
     @CurrentUser() user: UserSummary,
   ): Promise<Team> {
     return this.teams.findBySlug(slug, teamSlug, user.id);
+  }
+
+  // GET /api/v1/organizations/:slug/teams/:teamSlug/members — 4 segmentos.
+  @Get(':slug/teams/:teamSlug/members')
+  public findMembers(
+    @Param('slug') slug: string,
+    @Param('teamSlug') teamSlug: string,
+    @CurrentUser() user: UserSummary,
+  ): Promise<TeamMemberWithUser[]> {
+    return this.teams.findMembers(slug, teamSlug, user.id);
   }
 }
