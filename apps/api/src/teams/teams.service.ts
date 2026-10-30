@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import type { CreateTeamDto } from './dto/create-team.dto.js';
-import type { Team } from '@cordel/types';
+import type { Team, TeamMemberWithUser } from '@cordel/types';
 
 export interface CreatedTeam {
   id: string;
@@ -116,5 +116,40 @@ export class TeamsService {
     }
 
     return this.toTeam(team);
+  }
+
+  public async findMembers(
+    orgSlug: string,
+    teamSlug: string,
+    userId: string,
+  ): Promise<TeamMemberWithUser[]> {
+    const membership = await this.prisma.membership.findFirst({
+      where: { userId, organization: { slug: orgSlug } },
+    });
+    if (membership === null) {
+      throw new NotFoundException('Organización no encontrada');
+    }
+
+    const team = await this.prisma.team.findFirst({
+      where: { organizationId: membership.organizationId, slug: teamSlug },
+    });
+    if (team === null) {
+      throw new NotFoundException('Equipo no encontrado');
+    }
+
+    const members = await this.prisma.teamMember.findMany({
+      where: { teamId: team.id },
+      include: { user: true },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    return members.map((m) => ({
+      teamId: m.teamId,
+      userId: m.userId,
+      role: m.role,
+      createdAt: m.createdAt.toISOString(),
+      updatedAt: m.updatedAt.toISOString(),
+      user: { id: m.user.id, email: m.user.email, name: m.user.name },
+    }));
   }
 }
