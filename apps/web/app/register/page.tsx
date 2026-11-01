@@ -26,11 +26,11 @@ export default function Register() {
 
           <div className="flex justify-center pt-30 h-full">
             <div className="flex flex-col gap-y-space-sm max-w-md">
-              <p className="text-label-lg">CORDEL MULTI TENANCY</p>
+              <p className="text-label-lg text-on-primary-fixed">CORDEL MULTI TENANCY</p>
               <p className="text-display-lg">
                 Retoma tu ritmo de trabajo con serenidad y claridad.
               </p>
-              <p className="text-body-lg">
+              <p className="text-body-lg text-on-primary-fixed-variant">
                 Un santuario digital concebido para disipar el ruido cognitivo y desplegar tu
                 pensamiento más profundo.
               </p>
