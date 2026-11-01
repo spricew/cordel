@@ -1,6 +1,7 @@
 export default function Register() {
   return (
     <div className="flex flex-col w-full h-screen">
+      <div className="absolute inset-0 -z-10 w-full h-full bg-black/10 mask-l-from-0"></div>
       <div className="absolute inset-0 -z-50">
         <img src={'images/register-bg.jpg'} className="w-full h-full object-cover" />
       </div>
