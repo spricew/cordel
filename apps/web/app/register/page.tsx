@@ -20,16 +20,26 @@ export default function Register() {
         </ul>
       </nav>
 
-      <div className="grid grid-cols-2 w-full flex-1 p-space-lg pt-0">
-        <div className="flex justify-center py-54 w-full h-full">
-          <div className="flex flex-col">
-            <p>CORDEL MULTI TENANCY</p>
-            <p>Retoma tu ritmo de trabajo con serenidad y claridad.</p>
-            <p>
-              Un santuario digital concebido para disipar el ruido cognitivo y desplegar tu
-              pensamiento más profundo.
-            </p>
+      <div className="w-full flex-1 flex items-center justify-center">
+
+        <div className="grid grid-cols-[1fr_500px] w-7xl h-full justify-center items-center p-space-lg pt-0">
+
+          <div className="flex justify-center pt-30 h-full">
+            <div className="flex flex-col gap-y-space-sm max-w-md">
+              <p className="text-label-lg">CORDEL MULTI TENANCY</p>
+              <p className="text-display-lg">
+                Retoma tu ritmo de trabajo con serenidad y claridad.
+              </p>
+              <p className="text-body-lg">
+                Un santuario digital concebido para disipar el ruido cognitivo y desplegar tu
+                pensamiento más profundo.
+              </p>
+            </div>
           </div>
+
+          {/* Login content */}
+          <div className="w-full h-full rounded-xl bg-white/50 backdrop-blur-2xl"></div>
+
         </div>
       </div>
     </div>
