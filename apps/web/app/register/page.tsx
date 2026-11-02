@@ -46,21 +46,21 @@ export default function Register() {
                 </p>
               </header>
               <div>
-                <label htmlFor="name" className="text-label-lg text-on-primary-fixed">
+                <label htmlFor="name" className="text-label-lg">
                   Nombre
                 </label>
                 <input
                   type="text"
                   id="name"
-                  className="w-full p-space-sm rounded-md border border-gray-300"
+                  className="w-full p-3 rounded-full bg-panel border border-input-border"
                 />
-                <label htmlFor="email" className="text-label-lg text-on-primary-fixed">
+                <label htmlFor="email" className="text-label-lg">
                   Email
                 </label>
                 <input
                   type="email"
                   id="email"
-                  className="w-full p-space-sm rounded-md border border-gray-300"
+                  className="w-full p-3 rounded-full bg-panel border border-input-border"
                 />
               </div>
             </form>
