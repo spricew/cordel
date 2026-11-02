@@ -22,7 +22,7 @@ export default function Register() {
       </nav>
 
       <div className="w-full flex-1 flex items-center justify-center">
-        <div className="grid grid-cols-[1fr_500px] w-7xl h-full justify-center items-center p-space-lg pt-0">
+        <div className="grid grid-cols-[1fr_550px] w-7xl h-full justify-center items-center px-space-lg pb-space-md pt-0">
           <div className="flex justify-center pt-30 h-full">
             <div className="flex flex-col gap-y-space-sm max-w-md">
               <p className="text-label-lg text-on-primary-fixed">CORDEL MULTI TENANCY</p>
@@ -37,8 +37,11 @@ export default function Register() {
           </div>
 
           {/* Login content */}
-          <div className="flex items-center justify-center w-full h-full rounded-xl bg-white/50 backdrop-blur-2xl">
-            <form className="flex flex-col gap-y-space-md w-115">
+          <div className="relative flex items-center justify-center w-full h-full rounded-xl overflow-clip z-0">
+            <div className="absolute inset-0 backdrop-blur-2xl z-40"></div>
+            <div className="absolute inset-0 backdrop-saturate-150 z-50"></div>
+            <div className="absolute inset-0 bg-white/50 z-60"></div>
+            <form className="flex flex-col gap-y-space-md w-115 z-100">
               <header>
                 <span className="text-headline-lg">Crear cuenta</span>
                 <p className="text-body-lg text-muted">
