@@ -45,7 +45,7 @@ export default function Register() {
                   Potencia la productividad de tu empresa ahora mismo
                 </p>
               </header>
-              <div>
+              <div className="flex flex-col gap-y-space-xs">
                 <label htmlFor="name" className="text-label-lg">
                   Nombre
                 </label>
