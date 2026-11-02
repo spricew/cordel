@@ -64,6 +64,24 @@ export default function Register() {
                   placeholder="example@email.com"
                   className="w-full p-3 rounded-full bg-panel border border-input-border"
                 />
+                <label htmlFor="password" className="text-label-lg">
+                  Contraseña
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="********"
+                  className="w-full p-3 rounded-full bg-panel border border-input-border"
+                />
+                <label htmlFor="password" className="text-label-lg">
+                  Confirmar contraseña
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="********"
+                  className="w-full p-3 rounded-full bg-panel border border-input-border"
+                />
               </div>
             </form>
           </div>
