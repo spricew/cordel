@@ -52,14 +52,16 @@ export default function Register() {
                 <input
                   type="text"
                   id="name"
-                  className="w-full p-3 rounded-full bg-panel border border-input-border"
+                  placeholder="@username"
+                  className="w-114 p-3 rounded-full bg-panel border border-input-border"
                 />
                 <label htmlFor="email" className="text-label-lg">
-                  Email
+                  Correo electrónico
                 </label>
                 <input
                   type="email"
                   id="email"
+                  placeholder="example@email.com"
                   className="w-full p-3 rounded-full bg-panel border border-input-border"
                 />
               </div>
