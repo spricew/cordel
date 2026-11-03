@@ -52,44 +52,45 @@ export default function Register() {
                 <label htmlFor="name" className="text-label-lg">
                   Nombre
                 </label>
-                <input
-                  type="text"
-                  id="name"
-                  placeholder="@username"
-                  className="w-114 p-3 rounded-full bg-panel border border-input-border"
-                />
+                <PrimaryInput inputType="text" id="username" placeholder="@username" />
+
                 <label htmlFor="email" className="text-label-lg">
                   Correo electrónico
                 </label>
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="example@email.com"
-                  className="w-full p-3 rounded-full bg-panel border border-input-border"
-                />
+                <PrimaryInput inputType="email" id="email" placeholder="example@email.com" />
+
                 <label htmlFor="password" className="text-label-lg">
                   Contraseña
                 </label>
-                <input
-                  type="password"
-                  id="password"
-                  placeholder="********"
-                  className="w-full p-3 rounded-full bg-panel border border-input-border"
-                />
-                <label htmlFor="password" className="text-label-lg">
+                <PrimaryInput inputType="password" id="password" placeholder="********" />
+
+                <label htmlFor="confirm-password" className="text-label-lg">
                   Confirmar contraseña
                 </label>
-                <input
-                  type="password"
-                  id="password"
-                  placeholder="********"
-                  className="w-full p-3 rounded-full bg-panel border border-input-border"
-                />
+                <PrimaryInput inputType="password" id="confirm-password" placeholder="********" />
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+type PrimaryInputProps = {
+  inputType: string;
+  id: string;
+  placeholder: string;
+  extraclass?: string;
+};
+
+export function PrimaryInput({ inputType, id, placeholder, extraclass = '' }: PrimaryInputProps) {
+  return (
+    <input
+      type={inputType}
+      id={id}
+      placeholder={placeholder}
+      className={`w-full px-3 py-2.5 rounded-full bg-panel border border-input-border ${extraclass}`}
+    />
   );
 }
