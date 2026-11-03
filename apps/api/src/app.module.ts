@@ -4,6 +4,7 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { envSchema } from './config/env.validation.js';
 import { AuthModule } from './auth/auth.module.js';
+import { RolesModule } from './roles/roles.module.js';
 import { HealthModule } from './health/health.module.js';
 import { OrganizationsModule } from './organizations/organizations.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
@@ -15,6 +16,7 @@ import { TeamsModule } from './teams/teams.module.js';
     // Si el .env está mal, la API no arranca.
     ConfigModule.forRoot({ isGlobal: true, validationSchema: envSchema }),
     PrismaModule,
+    RolesModule,
     HealthModule,
     AuthModule,
     OrganizationsModule,
