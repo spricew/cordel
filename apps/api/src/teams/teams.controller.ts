@@ -7,7 +7,12 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import type { Team, TeamMemberWithUser, UserSummary } from '@cordel/types';
+import type {
+  Team,
+  TeamMemberWithUser,
+  UserSummary,
+  EffectivePermissions,
+} from '@cordel/types';
 import { CurrentUser } from '../auth/current-user.decorator.js';
 import { CreateTeamDto } from './dto/create-team.dto.js';
 import { TeamsService, type CreatedTeam } from './teams.service.js';
@@ -53,5 +58,15 @@ export class TeamsController {
     @CurrentUser() user: UserSummary,
   ): Promise<TeamMemberWithUser[]> {
     return this.teams.findMembers(slug, teamSlug, user.id);
+  }
+
+  // GET /api/v1/organizations/:slug/teams/:teamSlug/effective-role
+  @Get(':slug/teams/:teamSlug/effective-role')
+  public myEffectivePermissions(
+    @Param('slug') slug: string,
+    @Param('teamSlug') teamSlug: string,
+    @CurrentUser() user: UserSummary,
+  ): Promise<EffectivePermissions> {
+    return this.teams.myEffectivePermissions(slug, teamSlug, user.id);
   }
 }
