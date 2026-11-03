@@ -5,8 +5,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { RolesService } from '../roles/roles.service.js';
 import type { CreateTeamDto } from './dto/create-team.dto.js';
-import type { Team, TeamMemberWithUser } from '@cordel/types';
+import type {
+  Team,
+  TeamMemberWithUser,
+  EffectivePermissions,
+} from '@cordel/types';
 
 export interface CreatedTeam {
   id: string;
@@ -16,7 +21,10 @@ export interface CreatedTeam {
 
 @Injectable()
 export class TeamsService {
-  public constructor(private readonly prisma: PrismaService) {}
+  public constructor(
+    private readonly prisma: PrismaService,
+    private readonly roles: RolesService,
+  ) {}
 
   public async create(
     orgSlug: string,
@@ -151,5 +159,22 @@ export class TeamsService {
       updatedAt: m.updatedAt.toISOString(),
       user: { id: m.user.id, email: m.user.email, name: m.user.name },
     }));
+  }
+
+  public async myEffectivePermissions(
+    orgSlug: string,
+    teamSlug: string,
+    userId: string,
+  ): Promise<EffectivePermissions> {
+    const team = await this.findBySlug(orgSlug, teamSlug, userId);
+    const resolved = await this.roles.resolve(
+      userId,
+      team.organizationId,
+      team.id,
+    );
+    if (resolved === null) {
+      throw new NotFoundException('Organización no encontrada');
+    }
+    return resolved;
   }
 }
