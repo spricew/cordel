@@ -1,4 +1,4 @@
-import { PrimaryInput } from '@/components/ui/PrimaryInput.jsx';
+import { PrimaryInput } from '@components/ui/PrimaryInput';
 
 export default function Register() {
   return (
