@@ -1,3 +1,5 @@
+import { PrimaryInput } from '@/components/ui/PrimaryInput.jsx';
+
 export default function Register() {
   return (
     <div className="flex flex-col w-full h-screen">
@@ -52,45 +54,27 @@ export default function Register() {
                 <label htmlFor="name" className="text-label-lg">
                   Nombre
                 </label>
-                <PrimaryInput inputType="text" id="username" placeholder="@username" />
+                <PrimaryInput type="text" id="name" placeholder="@username" />
 
                 <label htmlFor="email" className="text-label-lg">
                   Correo electrónico
                 </label>
-                <PrimaryInput inputType="email" id="email" placeholder="example@email.com" />
+                <PrimaryInput type="email" id="email" placeholder="example@email.com" />
 
                 <label htmlFor="password" className="text-label-lg">
                   Contraseña
                 </label>
-                <PrimaryInput inputType="password" id="password" placeholder="********" />
+                <PrimaryInput type="password" id="password" placeholder="********" />
 
                 <label htmlFor="confirm-password" className="text-label-lg">
                   Confirmar contraseña
                 </label>
-                <PrimaryInput inputType="password" id="confirm-password" placeholder="********" />
+                <PrimaryInput type="password" id="confirm-password" placeholder="********" />
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
-  );
-}
-
-type PrimaryInputProps = {
-  inputType: string;
-  id: string;
-  placeholder: string;
-  extraclass?: string;
-};
-
-export function PrimaryInput({ inputType, id, placeholder, extraclass = '' }: PrimaryInputProps) {
-  return (
-    <input
-      type={inputType}
-      id={id}
-      placeholder={placeholder}
-      className={`w-full px-3 py-2.5 rounded-full bg-panel border border-input-border ${extraclass}`}
-    />
   );
 }
