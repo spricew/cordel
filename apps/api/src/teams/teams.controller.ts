@@ -45,7 +45,7 @@ export class TeamsController {
     return this.teams.findBySlug(slug, teamSlug, user.id);
   }
 
-  // GET /api/v1/organizations/:slug/teams/:teamSlug/members — 4 segmentos.
+  // GET /api/v1/organizations/:slug/teams/:teamSlug/members
   @Get(':slug/teams/:teamSlug/members')
   public findMembers(
     @Param('slug') slug: string,
