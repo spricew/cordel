@@ -6,37 +6,37 @@ La API expone todas sus rutas bajo el prefijo global `/api/v1` y sigue una arqui
 
 ## Stack
 
-| Tecnología | Versión | Uso |
-| --- | --- | --- |
-| NestJS | 12 | Framework backend |
-| TypeScript | 5.9 | Lenguaje (ESM) |
-| Prisma | 7.10 | ORM y migraciones |
-| PostgreSQL | — | Base de datos |
-| Zod | 4.6 | Validación de entorno y esquemas |
-| class-validator / class-transformer | — | Validación y transformación de DTOs |
-| bcryptjs | 3.0 | Hash de contraseñas |
-| Vitest | 5.0 | Pruebas unitarias y e2e |
-| Supertest | 7.0 | Pruebas HTTP de integración |
+| Tecnología                          | Versión | Uso                                 |
+| ----------------------------------- | ------- | ----------------------------------- |
+| NestJS                              | 12      | Framework backend                   |
+| TypeScript                          | 5.9     | Lenguaje (ESM)                      |
+| Prisma                              | 7.10    | ORM y migraciones                   |
+| PostgreSQL                          | —       | Base de datos                       |
+| Zod                                 | 4.6     | Validación de entorno y esquemas    |
+| class-validator / class-transformer | —       | Validación y transformación de DTOs |
+| bcryptjs                            | 3.0     | Hash de contraseñas                 |
+| Vitest                              | 5.0     | Pruebas unitarias y e2e             |
+| Supertest                           | 7.0     | Pruebas HTTP de integración         |
 
 ## Comandos
 
-| Comando | Qué hace |
-| --- | --- |
-| `pnpm dev:api` | Levanta la API en watch mode (puerto 3001) |
-| `pnpm --filter api build` | Compila a `dist/` |
-| `pnpm --filter api start` | Levanta la API compilada |
-| `pnpm --filter api start:prod` | Levanta en producción desde `dist/src/main.js` |
-| `pnpm --filter api test` | Pruebas unitarias |
-| `pnpm --filter api test:e2e` | Pruebas e2e |
-| `pnpm --filter api test:watch` | Pruebas unitarias en watch |
-| `pnpm --filter api test:cov` | Pruebas con cobertura |
-| `pnpm --filter api typecheck` | Verificación de tipos |
-| `pnpm --filter api lint` | ESLint con autofix |
-| `pnpm --filter api format` | Prettier sobre `src/` y `test/` |
-| `pnpm --filter api db:generate` | Genera el cliente Prisma |
-| `pnpm --filter api db:migrate` | Aplica migraciones de Prisma |
-| `pnpm --filter api db:seed` | Ejecuta el seed de desarrollo |
-| `pnpm --filter api db:studio` | Abre Prisma Studio |
+| Comando                         | Qué hace                                       |
+| ------------------------------- | ---------------------------------------------- |
+| `pnpm dev:api`                  | Levanta la API en watch mode (puerto 3001)     |
+| `pnpm --filter api build`       | Compila a `dist/`                              |
+| `pnpm --filter api start`       | Levanta la API compilada                       |
+| `pnpm --filter api start:prod`  | Levanta en producción desde `dist/src/main.js` |
+| `pnpm --filter api test`        | Pruebas unitarias                              |
+| `pnpm --filter api test:e2e`    | Pruebas e2e                                    |
+| `pnpm --filter api test:watch`  | Pruebas unitarias en watch                     |
+| `pnpm --filter api test:cov`    | Pruebas con cobertura                          |
+| `pnpm --filter api typecheck`   | Verificación de tipos                          |
+| `pnpm --filter api lint`        | ESLint con autofix                             |
+| `pnpm --filter api format`      | Prettier sobre `src/` y `test/`                |
+| `pnpm --filter api db:generate` | Genera el cliente Prisma                       |
+| `pnpm --filter api db:migrate`  | Aplica migraciones de Prisma                   |
+| `pnpm --filter api db:seed`     | Ejecuta el seed de desarrollo                  |
+| `pnpm --filter api db:studio`   | Abre Prisma Studio                             |
 
 ## Estructura interna
 
@@ -83,14 +83,14 @@ SHADOW_DATABASE_URL="postgresql://username:password@localhost:5433/shadow_databa
 SEED_PASSWORD="choose-a-dev-password-min-8-chars"
 ```
 
-| Variable | Qué es | Default |
-| --- | --- | --- |
-| `PORT` | Puerto de la API | `3001` |
-| `DATABASE_URL` | Conexión a PostgreSQL (requerida) | — |
-| `SHADOW_DATABASE_URL` | Base de sombra para migraciones Prisma | opcional |
-| `FREE_MAX_ORGANIZATIONS_PER_USER` | Límite plan gratuito: organizaciones por usuario | `3` |
-| `FREE_MAX_MEMBERS_PER_ORGANIZATION` | Límite plan gratuito: miembros por organización | `10` |
-| `SEED_PASSWORD` | Contraseña para el seed (mínimo 8 caracteres) | opcional |
+| Variable                            | Qué es                                           | Default  |
+| ----------------------------------- | ------------------------------------------------ | -------- |
+| `PORT`                              | Puerto de la API                                 | `3001`   |
+| `DATABASE_URL`                      | Conexión a PostgreSQL (requerida)                | —        |
+| `SHADOW_DATABASE_URL`               | Base de sombra para migraciones Prisma           | opcional |
+| `FREE_MAX_ORGANIZATIONS_PER_USER`   | Límite plan gratuito: organizaciones por usuario | `3`      |
+| `FREE_MAX_MEMBERS_PER_ORGANIZATION` | Límite plan gratuito: miembros por organización  | `10`     |
+| `SEED_PASSWORD`                     | Contraseña para el seed (mínimo 8 caracteres)    | opcional |
 
 Las variables se validan con Zod al arranque (`ConfigModule.forRoot({ validationSchema: envSchema })`). Si falta algo o está mal formado, la API no levanta.
 
@@ -104,22 +104,22 @@ Las variables se validan con Zod al arranque (`ConfigModule.forRoot({ validation
 
 ## Endpoints rápidos
 
-| Método | Ruta | Qué hace |
-| --- | --- | --- |
-| `POST` | `/api/v1/auth/register` | Registra usuario |
-| `POST` | `/api/v1/auth/login` | Inicia sesión |
-| `POST` | `/api/v1/auth/logout` | Cierra sesión |
-| `GET` | `/api/v1/auth/me` | Usuario autenticado |
-| `GET` | `/api/v1/organizations` | Mis organizaciones |
-| `GET` | `/api/v1/organizations/:slug` | Organización por slug |
-| `GET` | `/api/v1/organizations/:slug/members` | Miembros de una organización |
-| `POST` | `/api/v1/organizations` | Crear organización |
-| `POST` | `/api/v1/organizations/:slug/teams` | Crear equipo |
-| `GET` | `/api/v1/organizations/:slug/teams` | Listar equipos |
-| `GET` | `/api/v1/organizations/:slug/teams/:teamSlug` | Equipo por slug |
-| `GET` | `/api/v1/organizations/:slug/teams/:teamSlug/members` | Miembros del equipo |
-| `GET` | `/api/v1/organizations/:slug/teams/:teamSlug/effective-role` | Permisos efectivos |
-| `GET` | `/api/v1/health` | Salud de API y base de datos |
+| Método | Ruta                                                         | Qué hace                     |
+| ------ | ------------------------------------------------------------ | ---------------------------- |
+| `POST` | `/api/v1/auth/register`                                      | Registra usuario             |
+| `POST` | `/api/v1/auth/login`                                         | Inicia sesión                |
+| `POST` | `/api/v1/auth/logout`                                        | Cierra sesión                |
+| `GET`  | `/api/v1/auth/me`                                            | Usuario autenticado          |
+| `GET`  | `/api/v1/organizations`                                      | Mis organizaciones           |
+| `GET`  | `/api/v1/organizations/:slug`                                | Organización por slug        |
+| `GET`  | `/api/v1/organizations/:slug/members`                        | Miembros de una organización |
+| `POST` | `/api/v1/organizations`                                      | Crear organización           |
+| `POST` | `/api/v1/organizations/:slug/teams`                          | Crear equipo                 |
+| `GET`  | `/api/v1/organizations/:slug/teams`                          | Listar equipos               |
+| `GET`  | `/api/v1/organizations/:slug/teams/:teamSlug`                | Equipo por slug              |
+| `GET`  | `/api/v1/organizations/:slug/teams/:teamSlug/members`        | Miembros del equipo          |
+| `GET`  | `/api/v1/organizations/:slug/teams/:teamSlug/effective-role` | Permisos efectivos           |
+| `GET`  | `/api/v1/health`                                             | Salud de API y base de datos |
 
 Más detalles de arquitectura en [`../docs/adr/`](../docs/adr/):
 

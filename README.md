@@ -24,11 +24,11 @@ El principio fundamental es el **aislamiento estricto de datos**: un miembro de 
 
 ## 📦 ¿Qué hay dentro?
 
-| Paquete | Ruta | Qué es | Puerto |
-|:---|:---|:---|:---|
-| **`@cordel/api`** | `apps/api/` | Backend NestJS 12 sobre ESM con Prisma + PostgreSQL | `3001` |
-| **`@cordel/web`** | `apps/web/` | Frontend Next.js 16 + React 19 + Tailwind CSS 4 | `3000` |
-| **`@cordel/types`** | `packages/types/` | Contratos TypeScript compartidos API ↔ frontend | — |
+| Paquete             | Ruta              | Qué es                                              | Puerto |
+| :------------------ | :---------------- | :-------------------------------------------------- | :----- |
+| **`@cordel/api`**   | `apps/api/`       | Backend NestJS 12 sobre ESM con Prisma + PostgreSQL | `3001` |
+| **`@cordel/web`**   | `apps/web/`       | Frontend Next.js 16 + React 19 + Tailwind CSS 4     | `3000` |
+| **`@cordel/types`** | `packages/types/` | Contratos TypeScript compartidos API ↔ frontend     | —      |
 
 ## 🏗️ Estructura del repositorio
 
@@ -72,44 +72,44 @@ cordel/
 
 ## 🛠️ Stack tecnológico
 
-| Capa | Tecnología | Rol |
-|:---|:---|:---|
-| **API** | NestJS 12 · TypeScript (ESM) · Prisma · PostgreSQL · Zod · Vitest · Supertest | Backend, autenticación, multi-tenancy, RBAC |
-| **Web** | Next.js 16 (App Router) · React 19 · Tailwind CSS 4 · TypeScript | Interfaz de usuario |
-| **Compartido** | `@cordel/types` | Interfaces reutilizadas por API y frontend |
-| **Monorepo** | pnpm 12 con workspaces (`apps/*`, `packages/*`) | Gestión de dependencias y scripts |
-| **Calidad** | Prettier + ESLint | Formateo y linting |
+| Capa           | Tecnología                                                                    | Rol                                         |
+| :------------- | :---------------------------------------------------------------------------- | :------------------------------------------ |
+| **API**        | NestJS 12 · TypeScript (ESM) · Prisma · PostgreSQL · Zod · Vitest · Supertest | Backend, autenticación, multi-tenancy, RBAC |
+| **Web**        | Next.js 16 (App Router) · React 19 · Tailwind CSS 4 · TypeScript              | Interfaz de usuario                         |
+| **Compartido** | `@cordel/types`                                                               | Interfaces reutilizadas por API y frontend  |
+| **Monorepo**   | pnpm 12 con workspaces (`apps/*`, `packages/*`)                               | Gestión de dependencias y scripts           |
+| **Calidad**    | Prettier + ESLint                                                             | Formateo y linting                          |
 
 ## ⚡ Comandos útiles
 
 ### Desde la raíz del monorepo
 
-| Comando | Qué hace |
-|:---|:---|
-| `pnpm dev` | Levanta API y web en paralelo (watch mode) |
-| `pnpm dev:api` | Levanta solo la API en watch (puerto 3001) |
-| `pnpm dev:web` | Levanta solo la web en watch |
-| `pnpm build` | Compila todos los paquetes |
-| `pnpm typecheck` | Verificación de tipos en todos los paquetes |
-| `pnpm test` | Ejecuta todas las pruebas |
-| `pnpm lint` | Lint con autofix en todos los paquetes |
-| `pnpm format` | Formatea con Prettier |
-| `pnpm format:check` | Revisa que el formato esté correcto |
+| Comando             | Qué hace                                    |
+| :------------------ | :------------------------------------------ |
+| `pnpm dev`          | Levanta API y web en paralelo (watch mode)  |
+| `pnpm dev:api`      | Levanta solo la API en watch (puerto 3001)  |
+| `pnpm dev:web`      | Levanta solo la web en watch                |
+| `pnpm build`        | Compila todos los paquetes                  |
+| `pnpm typecheck`    | Verificación de tipos en todos los paquetes |
+| `pnpm test`         | Ejecuta todas las pruebas                   |
+| `pnpm lint`         | Lint con autofix en todos los paquetes      |
+| `pnpm format`       | Formatea con Prettier                       |
+| `pnpm format:check` | Revisa que el formato esté correcto         |
 
 ### Por paquete (filtro)
 
-| Comando | Qué hace |
-|:---|:---|
-| `pnpm --filter api build` | Compila la API a `dist/` |
-| `pnpm --filter api test` | Pruebas unitarias de la API |
-| `pnpm --filter api test:e2e` | Pruebas e2e de la API |
-| `pnpm --filter api typecheck` | Verificación de tipos de la API |
-| `pnpm --filter api db:generate` | Genera el cliente Prisma |
-| `pnpm --filter api db:migrate` | Aplica migraciones de Prisma |
-| `pnpm --filter api db:seed` | Ejecuta el seed de desarrollo |
-| `pnpm --filter api db:studio` | Abre Prisma Studio |
-| `pnpm --filter web build` | Compila la web para producción |
-| `pnpm --filter web typecheck` | Verificación de tipos de la web |
+| Comando                         | Qué hace                        |
+| :------------------------------ | :------------------------------ |
+| `pnpm --filter api build`       | Compila la API a `dist/`        |
+| `pnpm --filter api test`        | Pruebas unitarias de la API     |
+| `pnpm --filter api test:e2e`    | Pruebas e2e de la API           |
+| `pnpm --filter api typecheck`   | Verificación de tipos de la API |
+| `pnpm --filter api db:generate` | Genera el cliente Prisma        |
+| `pnpm --filter api db:migrate`  | Aplica migraciones de Prisma    |
+| `pnpm --filter api db:seed`     | Ejecuta el seed de desarrollo   |
+| `pnpm --filter api db:studio`   | Abre Prisma Studio              |
+| `pnpm --filter web build`       | Compila la web para producción  |
+| `pnpm --filter web typecheck`   | Verificación de tipos de la web |
 
 ## 🚀 Primeros pasos
 
@@ -139,37 +139,37 @@ Todas las rutas van bajo el prefijo global `/api/v1`.
 
 ### Autenticación
 
-| Método | Ruta | Qué hace |
-|:---:|:---|:---|
-| `POST` | `/auth/register` | Registra un nuevo usuario |
-| `POST` | `/auth/login` | Inicia sesión y devuelve token de sesión |
-| `POST` | `/auth/logout` | Cierra sesión (invalida el token) |
-| `GET` | `/auth/me` | Devuelve el usuario autenticado |
+| Método | Ruta             | Qué hace                                 |
+| :----: | :--------------- | :--------------------------------------- |
+| `POST` | `/auth/register` | Registra un nuevo usuario                |
+| `POST` | `/auth/login`    | Inicia sesión y devuelve token de sesión |
+| `POST` | `/auth/logout`   | Cierra sesión (invalida el token)        |
+| `GET`  | `/auth/me`       | Devuelve el usuario autenticado          |
 
 ### Organizaciones
 
-| Método | Ruta | Qué hace |
-|:---:|:---|:---|
-| `GET` | `/organizations` | Lista las organizaciones del usuario |
-| `GET` | `/organizations/:slug` | Obtiene una organización por su slug |
-| `GET` | `/organizations/:slug/members` | Miembros de una organización |
-| `POST` | `/organizations` | Crea una organización |
+| Método | Ruta                           | Qué hace                             |
+| :----: | :----------------------------- | :----------------------------------- |
+| `GET`  | `/organizations`               | Lista las organizaciones del usuario |
+| `GET`  | `/organizations/:slug`         | Obtiene una organización por su slug |
+| `GET`  | `/organizations/:slug/members` | Miembros de una organización         |
+| `POST` | `/organizations`               | Crea una organización                |
 
 ### Equipos
 
-| Método | Ruta | Qué hace |
-|:---:|:---|:---|
-| `POST` | `/organizations/:slug/teams` | Crea un equipo dentro de la organización |
-| `GET` | `/organizations/:slug/teams` | Lista los equipos de la organización |
-| `GET` | `/organizations/:slug/teams/:teamSlug` | Obtiene un equipo por su slug |
-| `GET` | `/organizations/:slug/teams/:teamSlug/members` | Miembros del equipo |
-| `GET` | `/organizations/:slug/teams/:teamSlug/effective-role` | Permisos efectivos del usuario en el equipo |
+| Método | Ruta                                                  | Qué hace                                    |
+| :----: | :---------------------------------------------------- | :------------------------------------------ |
+| `POST` | `/organizations/:slug/teams`                          | Crea un equipo dentro de la organización    |
+| `GET`  | `/organizations/:slug/teams`                          | Lista los equipos de la organización        |
+| `GET`  | `/organizations/:slug/teams/:teamSlug`                | Obtiene un equipo por su slug               |
+| `GET`  | `/organizations/:slug/teams/:teamSlug/members`        | Miembros del equipo                         |
+| `GET`  | `/organizations/:slug/teams/:teamSlug/effective-role` | Permisos efectivos del usuario en el equipo |
 
 ### Salud
 
-| Método | Ruta | Qué hace |
-|:---:|:---|:---|
-| `GET` | `/health` | Verifica que la API y PostgreSQL respondan |
+| Método | Ruta      | Qué hace                                   |
+| :----: | :-------- | :----------------------------------------- |
+| `GET`  | `/health` | Verifica que la API y PostgreSQL respondan |
 
 ## 🧠 Arquitectura y decisiones clave
 

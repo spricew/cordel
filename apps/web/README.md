@@ -6,24 +6,24 @@ Esta aplicación consume la API de Cordel (`@cordel/api`) para gestionar organiz
 
 ## Stack
 
-| Tecnología | Versión | Uso |
-| --- | --- | --- |
-| Next.js | 16.3 | Framework React (App Router) |
-| React | 19.2 | Librería de UI |
-| Tailwind CSS | 4 | Estilos |
-| TypeScript | 5.9 | Tipado |
-| ESLint | 9 | Lint (configuración de Next.js) |
+| Tecnología   | Versión | Uso                             |
+| ------------ | ------- | ------------------------------- |
+| Next.js      | 16.3    | Framework React (App Router)    |
+| React        | 19.2    | Librería de UI                  |
+| Tailwind CSS | 4       | Estilos                         |
+| TypeScript   | 5.9     | Tipado                          |
+| ESLint       | 9       | Lint (configuración de Next.js) |
 
 ## Comandos
 
-| Comando | Qué hace |
-| --- | --- |
-| `pnpm dev:web` | Levanta la web en watch mode (puerto 3000 por defecto) |
-| `pnpm --filter web dev` | Lo mismo que arriba, desde el filtro |
-| `pnpm --filter web build` | Compila para producción |
-| `pnpm --filter web start` | Levanta la versión compilada en producción |
-| `pnpm --filter web lint` | ESLint |
-| `pnpm --filter web typecheck` | Verificación de tipos |
+| Comando                       | Qué hace                                               |
+| ----------------------------- | ------------------------------------------------------ |
+| `pnpm dev:web`                | Levanta la web en watch mode (puerto 3000 por defecto) |
+| `pnpm --filter web dev`       | Lo mismo que arriba, desde el filtro                   |
+| `pnpm --filter web build`     | Compila para producción                                |
+| `pnpm --filter web start`     | Levanta la versión compilada en producción             |
+| `pnpm --filter web lint`      | ESLint                                                 |
+| `pnpm --filter web typecheck` | Verificación de tipos                                  |
 
 ## Estructura interna
 
