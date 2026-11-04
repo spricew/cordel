@@ -40,9 +40,7 @@ export default function Register() {
 
           {/* Login content */}
           <div className="relative flex items-center justify-center w-full h-full rounded-xl overflow-clip z-0">
-            <div className="absolute inset-0 backdrop-blur-2xl z-40"></div>
-            <div className="absolute inset-0 backdrop-saturate-180 z-50"></div>
-            <div className="absolute inset-0 z-60 rounded-[inherit] bg-white/60 glass-edge"></div>
+            <div className="glass-surface absolute inset-0 z-40"></div>
             <form className="flex flex-col gap-y-space-md w-115 z-100">
               <header>
                 <span className="text-headline-lg">Crear cuenta</span>
