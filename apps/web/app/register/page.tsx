@@ -49,25 +49,25 @@ export default function Register() {
                 </p>
               </header>
               <div className="flex flex-col gap-y-space-xs">
-                <label htmlFor="name" className="text-label-lg">
-                  Nombre
-                </label>
-                <PrimaryInput type="text" id="name" placeholder="@username" />
-
-                <label htmlFor="email" className="text-label-lg">
-                  Correo electrónico
-                </label>
-                <PrimaryInput type="email" id="email" placeholder="example@email.com" />
-
-                <label htmlFor="password" className="text-label-lg">
-                  Contraseña
-                </label>
-                <PrimaryInput type="password" id="password" placeholder="********" />
-
-                <label htmlFor="confirm-password" className="text-label-lg">
-                  Confirmar contraseña
-                </label>
-                <PrimaryInput type="password" id="confirm-password" placeholder="********" />
+                <PrimaryInput label="Nombre" type="text" id="name" placeholder="@username" />
+                <PrimaryInput
+                  label="Correo electrónico"
+                  type="email"
+                  id="email"
+                  placeholder="example@email.com"
+                />
+                <PrimaryInput
+                  label="Contraseña"
+                  type="password"
+                  id="password"
+                  placeholder="********"
+                />
+                <PrimaryInput
+                  label="Confirmar contraseña"
+                  type="password"
+                  id="confirm-password"
+                  placeholder="********"
+                />
               </div>
             </form>
           </div>
