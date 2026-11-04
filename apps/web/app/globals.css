@@ -274,6 +274,18 @@
   }
 }
 
+@layer components {
+  /* Material translúcido tipo iOS: hairline + brillo interior.
+     Receta de Glassmorphism Lab (paso 5), tema claro.
+     Va en la capa de superficie para que el inset no quede bajo el contenido. */
+  .glass-edge {
+    box-shadow:
+      inset 0 0 0 0.5px rgba(0, 0, 0, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.75),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+  }
+}
+
 /* * {
   border: 1px solid red;
   box-sizing: border-box;
