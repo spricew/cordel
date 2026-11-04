@@ -46,10 +46,7 @@ export default function Register() {
             <form className="flex flex-col gap-y-space-md w-115 z-100">
               <header>
                 <span className="text-headline-lg">Crear cuenta</span>
-                {/* <p className="text-body-lg text-muted">
-                  Potencia la productividad de tu empresa ahora mismo
-                </p> */}
-                <p className="text-body-lg text-black/90 mix-blend-multiply">
+                <p className="text-body-lg text-muted/90">
                   Potencia la productividad de tu empresa ahora mismo
                 </p>
               </header>
