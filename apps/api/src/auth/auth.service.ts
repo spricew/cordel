@@ -73,10 +73,7 @@ export class AuthService {
     try {
       await this.prisma.session.delete({ where: { token } });
     } catch (error: unknown) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
         throw new NotFoundException('Sesión no encontrada');
       }
       throw error;

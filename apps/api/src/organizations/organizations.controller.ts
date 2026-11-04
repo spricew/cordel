@@ -1,23 +1,8 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Post,
-} from '@nestjs/common';
-import type {
-  UserSummary,
-  MembershipWithUser,
-  Organization,
-} from '@cordel/types';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
+import type { UserSummary, MembershipWithUser, Organization } from '@cordel/types';
 import { CurrentUser } from '../auth/current-user.decorator.js';
 import { CreateOrganizationDto } from './dto/create-organization.dto.js';
-import {
-  OrganizationsService,
-  type CreatedOrganization,
-} from './organizations.service.js';
+import { OrganizationsService, type CreatedOrganization } from './organizations.service.js';
 
 @Controller('organizations')
 export class OrganizationsController {

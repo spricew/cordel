@@ -1,8 +1,4 @@
-import {
-  createParamDecorator,
-  ExecutionContext,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { createParamDecorator, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import type { AuthenticatedRequest } from './session.guard.js';
 
 // Saca el token Bearer ya validado por el guard. Si el guard pasó,

@@ -26,8 +26,7 @@ export const ALL_PERMISSIONS: Permission[] = [
 export const PERMISSIONS_BY_ROLE: Record<Role, Permission[]> = {
   OWNER: ALL_PERMISSIONS,
   ADMIN: ALL_PERMISSIONS.filter(
-    (permission) =>
-      permission !== 'organization:delete' && permission !== 'team:delete',
+    (permission) => permission !== 'organization:delete' && permission !== 'team:delete',
   ),
   MEMBER: [],
 };
@@ -54,8 +53,7 @@ export class RolesService {
       return null;
     }
 
-    const organizationRole: Role =
-      membership?.role ?? teamMember?.role ?? 'MEMBER';
+    const organizationRole: Role = membership?.role ?? teamMember?.role ?? 'MEMBER';
     const teamRole: Role | null = teamMember !== null ? teamMember.role : null;
     const effectiveRole: Role = teamRole ?? organizationRole;
 

@@ -1,18 +1,5 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Post,
-} from '@nestjs/common';
-import type {
-  Team,
-  TeamMemberWithUser,
-  UserSummary,
-  EffectivePermissions,
-} from '@cordel/types';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
+import type { Team, TeamMemberWithUser, UserSummary, EffectivePermissions } from '@cordel/types';
 import { CurrentUser } from '../auth/current-user.decorator.js';
 import { CreateTeamDto } from './dto/create-team.dto.js';
 import { TeamsService, type CreatedTeam } from './teams.service.js';
@@ -34,10 +21,7 @@ export class TeamsController {
   }
 
   @Get(':slug/teams')
-  public list(
-    @Param('slug') slug: string,
-    @CurrentUser() user: UserSummary,
-  ): Promise<Team[]> {
+  public list(@Param('slug') slug: string, @CurrentUser() user: UserSummary): Promise<Team[]> {
     return this.teams.list(slug, user.id);
   }
 

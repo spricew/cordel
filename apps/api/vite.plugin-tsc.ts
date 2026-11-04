@@ -21,11 +21,7 @@ export function tscTransform() {
     enforce: 'pre' as const,
     transform(code: string, id: string) {
       const path = id.split('?', 1)[0];
-      if (
-        !path.endsWith('.ts') ||
-        path.endsWith('.d.ts') ||
-        path.includes('node_modules')
-      ) {
+      if (!path.endsWith('.ts') || path.endsWith('.d.ts') || path.includes('node_modules')) {
         return null;
       }
       const output = ts.transpileModule(code, {

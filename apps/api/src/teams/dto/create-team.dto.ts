@@ -19,8 +19,7 @@ export class CreateTeamDto {
   // Formato de URL: minúsculas, números y guiones entre letras/números.
   // Sin guiones al inicio, al final ni seguidos (ver ADR 003).
   @Matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
-    message:
-      'El slug solo puede contener letras minúsculas, números y guiones intermedios',
+    message: 'El slug solo puede contener letras minúsculas, números y guiones intermedios',
   })
   public slug!: string;
 }

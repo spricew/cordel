@@ -25,10 +25,7 @@ export class OrganizationsService {
     private readonly config: ConfigService,
   ) {}
 
-  public async create(
-    dto: CreateOrganizationDto,
-    ownerId: string,
-  ): Promise<CreatedOrganization> {
+  public async create(dto: CreateOrganizationDto, ownerId: string): Promise<CreatedOrganization> {
     const slugTaken = await this.prisma.organization.findUnique({
       where: { slug: dto.slug },
     });
@@ -36,9 +33,7 @@ export class OrganizationsService {
       throw new ConflictException('Slug ya registrado');
     }
 
-    const limit = this.config.getOrThrow<number>(
-      'FREE_MAX_ORGANIZATIONS_PER_USER',
-    );
+    const limit = this.config.getOrThrow<number>('FREE_MAX_ORGANIZATIONS_PER_USER');
     const mine = await this.prisma.membership.count({
       where: { userId: ownerId },
     });
@@ -100,10 +95,7 @@ export class OrganizationsService {
     };
   }
 
-  public async findMembersBySlug(
-    slug: string,
-    userId: string,
-  ): Promise<MembershipWithUser[]> {
+  public async findMembersBySlug(slug: string, userId: string): Promise<MembershipWithUser[]> {
     const mine = await this.prisma.membership.findFirst({
       where: { userId, organization: { slug } },
     });

@@ -9,16 +9,8 @@ export const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(3001),
   DATABASE_URL: z.string().startsWith('postgresql://'),
   SHADOW_DATABASE_URL: z.string().startsWith('postgresql://').optional(),
-  FREE_MAX_ORGANIZATIONS_PER_USER: z.coerce
-    .number()
-    .int()
-    .positive()
-    .default(3),
-  FREE_MAX_MEMBERS_PER_ORGANIZATION: z.coerce
-    .number()
-    .int()
-    .positive()
-    .default(10),
+  FREE_MAX_ORGANIZATIONS_PER_USER: z.coerce.number().int().positive().default(3),
+  FREE_MAX_MEMBERS_PER_ORGANIZATION: z.coerce.number().int().positive().default(10),
   SEED_PASSWORD: z.string().min(8).optional(),
 });
 

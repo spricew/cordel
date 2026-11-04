@@ -7,11 +7,7 @@ import {
 import { PrismaService } from '../prisma/prisma.service.js';
 import { RolesService } from '../roles/roles.service.js';
 import type { CreateTeamDto } from './dto/create-team.dto.js';
-import type {
-  Team,
-  TeamMemberWithUser,
-  EffectivePermissions,
-} from '@cordel/types';
+import type { Team, TeamMemberWithUser, EffectivePermissions } from '@cordel/types';
 
 export interface CreatedTeam {
   id: string;
@@ -26,11 +22,7 @@ export class TeamsService {
     private readonly roles: RolesService,
   ) {}
 
-  public async create(
-    orgSlug: string,
-    dto: CreateTeamDto,
-    userId: string,
-  ): Promise<CreatedTeam> {
+  public async create(orgSlug: string, dto: CreateTeamDto, userId: string): Promise<CreatedTeam> {
     const membership = await this.prisma.membership.findFirst({
       where: { userId, organization: { slug: orgSlug } },
       include: { organization: true },
@@ -40,9 +32,7 @@ export class TeamsService {
     }
 
     if (membership.role !== 'OWNER' && membership.role !== 'ADMIN') {
-      throw new ForbiddenException(
-        'Solo OWNER o ADMIN pueden crear equipos en esta organización',
-      );
+      throw new ForbiddenException('Solo OWNER o ADMIN pueden crear equipos en esta organización');
     }
 
     const slugTaken = await this.prisma.team.findFirst({
@@ -104,11 +94,7 @@ export class TeamsService {
     return teams.map((t) => this.toTeam(t));
   }
 
-  public async findBySlug(
-    orgSlug: string,
-    teamSlug: string,
-    userId: string,
-  ): Promise<Team> {
+  public async findBySlug(orgSlug: string, teamSlug: string, userId: string): Promise<Team> {
     const membership = await this.prisma.membership.findFirst({
       where: { userId, organization: { slug: orgSlug } },
     });
@@ -167,11 +153,7 @@ export class TeamsService {
     userId: string,
   ): Promise<EffectivePermissions> {
     const team = await this.findBySlug(orgSlug, teamSlug, userId);
-    const resolved = await this.roles.resolve(
-      userId,
-      team.organizationId,
-      team.id,
-    );
+    const resolved = await this.roles.resolve(userId, team.organizationId, team.id);
     if (resolved === null) {
       throw new NotFoundException('Organización no encontrada');
     }

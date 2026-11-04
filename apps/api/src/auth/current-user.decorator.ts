@@ -1,8 +1,4 @@
-import {
-  createParamDecorator,
-  ExecutionContext,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { createParamDecorator, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import type { AuthenticatedRequest } from './session.guard.js';
 
 // Saca el usuario que el guard pegó al request. Si el guard pasó,

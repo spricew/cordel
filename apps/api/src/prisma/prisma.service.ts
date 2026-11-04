@@ -8,10 +8,7 @@ import { PrismaClient } from '../../prisma/generated/client.js';
 // de vida de Nest: conecta al arrancar y cierra pool + cliente al apagar.
 // La URL ya viene validada por env.validation.ts, por eso getOrThrow.
 @Injectable()
-export class PrismaService
-  extends PrismaClient
-  implements OnModuleInit, OnModuleDestroy
-{
+export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   private readonly pool: Pool;
 
   public constructor(private readonly config: ConfigService) {

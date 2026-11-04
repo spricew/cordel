@@ -9,9 +9,7 @@ async function validateSlug(slug: unknown): Promise<string[]> {
     slug,
   });
   const errors = await validate(dto);
-  return errors.flatMap((e) =>
-    e.constraints ? Object.values(e.constraints) : [],
-  );
+  return errors.flatMap((e) => (e.constraints ? Object.values(e.constraints) : []));
 }
 
 describe('CreateOrganizationDto', () => {
@@ -39,9 +37,7 @@ describe('CreateOrganizationDto', () => {
     ];
 
     for (const [slug, caso] of casos) {
-      expect(await validateSlug(slug), `debería rechazar: ${caso}`).not.toEqual(
-        [],
-      );
+      expect(await validateSlug(slug), `debería rechazar: ${caso}`).not.toEqual([]);
     }
   });
 
