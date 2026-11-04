@@ -41,12 +41,15 @@ export default function Register() {
           {/* Login content */}
           <div className="relative flex items-center justify-center w-full h-full rounded-xl overflow-clip z-0">
             <div className="absolute inset-0 backdrop-blur-2xl z-40"></div>
-            <div className="absolute inset-0 backdrop-saturate-150 z-50"></div>
-            <div className="absolute inset-0 bg-white/50 z-60"></div>
+            <div className="absolute inset-0 backdrop-saturate-180 z-50"></div>
+            <div className="absolute inset-0 bg-white/60 z-60"></div>
             <form className="flex flex-col gap-y-space-md w-115 z-100">
               <header>
                 <span className="text-headline-lg">Crear cuenta</span>
-                <p className="text-body-lg text-muted">
+                {/* <p className="text-body-lg text-muted">
+                  Potencia la productividad de tu empresa ahora mismo
+                </p> */}
+                <p className="text-body-lg text-black/90 mix-blend-multiply">
                   Potencia la productividad de tu empresa ahora mismo
                 </p>
               </header>
