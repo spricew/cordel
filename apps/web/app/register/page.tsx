@@ -52,7 +52,7 @@ export default function Register() {
                 <PrimaryInput label="Nombre" type="text" id="name" placeholder="@username" />
                 <PrimaryInput
                   label="Correo electrónico"
-                  type="email"  
+                  type="email"
                   id="email"
                   placeholder="example@email.com"
                 />
@@ -68,6 +68,20 @@ export default function Register() {
                   id="confirm-password"
                   placeholder="********"
                 />
+              </div>
+
+              <div className='flex flex-col gap-y-space-sm'>
+                <button className="w-full px-space-md py-space-sm rounded-full bg-action text-label-xl text-on-primary">
+                  Crear cuenta
+                </button>
+
+                <button className="w-full px-space-md py-space-sm rounded-full text-label-lg text-on-surface-variant">
+                  Ya tengo cuenta
+                </button>
+
+                <p className="text-body-sm text-center text-muted">
+                  Al crear tu cuenta estás aceptando todos nuestros <a>Términos y condiciones</a>
+                </p>
               </div>
             </form>
           </div>
