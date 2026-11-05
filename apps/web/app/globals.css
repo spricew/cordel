@@ -276,7 +276,7 @@
 
 @layer components {
   .glass-surface {
-    border-radius: inherit;
+    border-radius: 28px;
     background: rgb(250 249 246 / 0.65); /* fallback sin color-mix */
     background: color-mix(in srgb, var(--color-surface) 65%, transparent);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -295,8 +295,14 @@
       backdrop-filter: none;
     }
   }
-}
 
+  @supports (corner-shape: squircle) {
+    .glass-surface {
+      border-radius: 10%;
+      corner-shape: squircle;
+    }
+  }
+}
 /* * {
   border: 1px solid red;
   box-sizing: border-box;
