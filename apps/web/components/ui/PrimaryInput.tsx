@@ -30,8 +30,8 @@ export function PrimaryInput({ label, id, className = '', ...props }: PrimaryInp
       <input
         id={id}
         {...props}
-        className={`w-full px-3 py-2.5 mb-space-xs rounded-full border border-input-border bg-panel text-on-surface 
-          transition-colors focus-visible:border-action aria-invalid:border-error 
+        className={`w-full px-3.5 py-2.5 mb-space-xs rounded-full border border-input-border bg-panel text-on-surface 
+          transition-colors focus-visible:border-action/70 aria-invalid:border-error 
           disabled:cursor-not-allowed disabled:opacity-60 outline-none ${className}`}
       />
     </>
