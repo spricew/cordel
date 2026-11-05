@@ -1,3 +1,4 @@
+import { Navbar } from '@/components/layout/Navbar';
 import { PrimaryInput } from '@components/ui/PrimaryInput';
 
 export default function Register() {
@@ -8,20 +9,7 @@ export default function Register() {
         <img src={'images/register-bg.jpg'} className="w-full h-full object-cover" />
       </div>
 
-      <nav className="flex justify-between items-center w-full h-16 px-space-xl">
-        <span className="text-headline-lg">Cordel</span>
-        <ul className="flex gap-x-gutter text-label-xl">
-          <li>
-            <a href="">Nosotros</a>
-          </li>
-          <li>
-            <a href="">Legal</a>
-          </li>
-          <li>
-            <a href="">Políticas</a>
-          </li>
-        </ul>
-      </nav>
+      <Navbar />
 
       <div className="w-full flex-1 flex items-center justify-center">
         <div className="grid grid-cols-[1fr_600px] w-350 h-full justify-center items-center px-space-lg pb-space-md pt-0">
