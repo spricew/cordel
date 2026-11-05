@@ -1,6 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
 import type { Team, TeamMemberWithUser, UserSummary, EffectivePermissions } from '@cordel/types';
 import { CurrentUser } from '../auth/current-user.decorator.js';
+import { RequirePermission } from '../roles/require-permission.decorator.js';
 import { CreateTeamDto } from './dto/create-team.dto.js';
 import { TeamsService, type CreatedTeam } from './teams.service.js';
 
@@ -10,6 +11,9 @@ import { TeamsService, type CreatedTeam } from './teams.service.js';
 export class TeamsController {
   public constructor(private readonly teams: TeamsService) {}
 
+  // team:create (org-level, sin teamSlug): el PermissionGuard resuelve
+  // slugs → ids y exige el permiso; el service queda sin rol checks.
+  @RequirePermission('team:create', 'slug')
   @Post(':slug/teams')
   @HttpCode(HttpStatus.CREATED)
   public create(

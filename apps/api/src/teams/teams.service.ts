@@ -1,9 +1,4 @@
-import {
-  ConflictException,
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { RolesService } from '../roles/roles.service.js';
 import type { CreateTeamDto } from './dto/create-team.dto.js';
@@ -31,10 +26,8 @@ export class TeamsService {
       throw new NotFoundException('Organización no encontrada');
     }
 
-    if (membership.role !== 'OWNER' && membership.role !== 'ADMIN') {
-      throw new ForbiddenException('Solo OWNER o ADMIN pueden crear equipos en esta organización');
-    }
-
+    // El chequeo de rol (403) vive en el PermissionGuard vía
+    // @RequirePermission('team:create'); el service solo valida datos.
     const slugTaken = await this.prisma.team.findFirst({
       where: { organizationId: membership.organizationId, slug: dto.slug },
     });
