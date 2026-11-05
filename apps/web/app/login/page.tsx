@@ -24,20 +24,20 @@ export default function Login() {
                 id="email"
                 placeholder="example@email.com"
               />
-              <div className="flex flex-col gap-y-space-xs">
-                <PrimaryInput
-                  label="Contraseña"
-                  type="password"
-                  id="password"
-                  placeholder="********"
-                />
-                <Link
-                  href="/forgot-password"
-                  className="self-end text-label-md text-action underline-offset-4 transition-colors hover:underline"
-                >
-                  ¿Olvidaste tu contraseña?
-                </Link>
-              </div>
+              <PrimaryInput
+                label="Contraseña"
+                labelAction={
+                  <Link
+                    href="/forgot-password"
+                    className="text-label-md text-action underline-offset-4 transition-colors hover:underline"
+                  >
+                    ¿Olvidaste tu contraseña?
+                  </Link>
+                }
+                type="password"
+                id="password"
+                placeholder="********"
+              />
               <button className="w-full px-space-md py-space-sm rounded-full bg-action text-label-xl text-on-primary">
                 Crear cuenta
               </button>

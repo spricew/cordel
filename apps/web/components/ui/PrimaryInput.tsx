@@ -5,9 +5,14 @@ import type { ComponentProps, ReactNode } from 'react';
  * required, autoComplete, ref, aria-*, ...) para no redeclarar nada a mano.
  *
  * Si se pasa `label`, `id` es obligatorio: el <label> se asocia mediante htmlFor.
+ * `labelAction` se renderiza al final de la fila del label (por ejemplo, un
+ * enlace de "¿Olvidaste tu contraseña?"); requiere `label`.
  */
 export type PrimaryInputProps = ComponentProps<'input'> &
-  ({ label: ReactNode; id: string } | { label?: undefined });
+  (
+    | { label: ReactNode; labelAction?: ReactNode; id: string }
+    | { label?: undefined; labelAction?: never }
+  );
 
 /**
  * Input de texto base de Cordel, con label opcional.
@@ -19,13 +24,22 @@ export type PrimaryInputProps = ComponentProps<'input'> &
  * orden del atributo no resuelve conflictos; gana la regla que aparezca después
  * en el CSS compilado. Úsalo para estilos adicionales, no para sobrescribir los base.
  */
-export function PrimaryInput({ label, id, className = '', ...props }: PrimaryInputProps) {
+export function PrimaryInput({
+  label,
+  labelAction,
+  id,
+  className = '',
+  ...props
+}: PrimaryInputProps) {
   return (
     <>
       {label != null && (
-        <label htmlFor={id} className="text-label-lg">
-          {label}
-        </label>
+        <div className="flex items-baseline justify-between gap-x-space-sm">
+          <label htmlFor={id} className="text-label-lg">
+            {label}
+          </label>
+          {labelAction}
+        </div>
       )}
       <input
         id={id}
