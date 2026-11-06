@@ -218,6 +218,18 @@ export class TasksService {
     const { organizationId, teamId } = await this.resolveTeam(orgSlug, teamSlug);
     await this.findTeamTask(organizationId, teamId, taskId);
 
-    await this.prisma.task.delete({ where: { id: taskId } });
+    // Las subtareas (y sus dependencias) cuelgan de la tarea con FK
+    // restrictiva: se limpian de abajo hacia arriba en una transacción —
+    // o la base rechazaría borrar la tarea con hijos.
+    await this.prisma.$transaction([
+      this.prisma.subtaskDependency.deleteMany({
+        where: { subtask: { taskId } },
+      }),
+      this.prisma.subtaskDependency.deleteMany({
+        where: { dependsOn: { taskId } },
+      }),
+      this.prisma.subtask.deleteMany({ where: { taskId } }),
+      this.prisma.task.delete({ where: { id: taskId } }),
+    ]);
   }
 }
