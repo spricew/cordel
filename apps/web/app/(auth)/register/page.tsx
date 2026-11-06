@@ -1,4 +1,3 @@
-import { Navbar } from '@/components/layout/Navbar';
 import { PrimaryInput } from '@components/ui/PrimaryInput';
 
 export default function Register() {
@@ -8,8 +7,6 @@ export default function Register() {
       <div className="absolute inset-0 -z-50">
         <img src={'images/register-bg.jpg'} className="w-full h-full object-cover" />
       </div>
-
-      <Navbar />
 
       <div className="w-full flex-1 flex items-center justify-center">
         <div className="grid grid-cols-[1fr_600px] w-350 h-full justify-center items-center px-space-lg pb-space-md pt-0">
