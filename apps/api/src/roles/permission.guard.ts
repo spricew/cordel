@@ -10,7 +10,7 @@ import type { Permission } from '@cordel/types';
 import { PrismaService } from '../prisma/prisma.service.js';
 import type { AuthenticatedRequest } from '../auth/session.guard.js';
 import { PERMISSION_KEY, type RequirePermissionMetadata } from './require-permission.decorator.js';
-import { PermissionService } from './permission.service.js';
+import { PermissionService, type TaskRef } from './permission.service.js';
 
 /* Segundo guard global (después de SessionGuard): si la ruta declara
  * @RequirePermission, traduce slugs de ruta a ids y delega la regla
@@ -65,11 +65,30 @@ export class PermissionGuard implements CanActivate {
       teamId = team.id;
     }
 
+    // La tarea solo se resuelve con el par (org, equipo). Si alguien
+    // declara taskIdParam sin teamSlugParam no hay contexto — filtra
+    // contra cadena vacía y el service devuelve el 404 de siempre.
+    let task: TaskRef | undefined;
+    if (meta.taskIdParam !== undefined) {
+      const taskRow = await this.prisma.task.findFirst({
+        where: {
+          id: params[meta.taskIdParam],
+          organizationId: organization.id,
+          teamId: teamId ?? '',
+        },
+      });
+      if (taskRow === null) {
+        throw new NotFoundException('Tarea no encontrada');
+      }
+      task = { assigneeId: taskRow.assigneeId };
+    }
+
     await this.permissions.assert(
       request.user.id,
       organization.id,
       teamId,
       meta.permission satisfies Permission,
+      task,
     );
     return true;
   }
