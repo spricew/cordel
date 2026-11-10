@@ -6,6 +6,7 @@ import { envSchema } from './config/env.validation.js';
 import { AuthModule } from './auth/auth.module.js';
 import { AttachmentsModule } from './attachments/attachments.module.js';
 import { CommentsModule } from './comments/comments.module.js';
+import { InvitationsModule } from './invitations/invitations.module.js';
 import { RolesModule } from './roles/roles.module.js';
 import { TasksModule } from './tasks/tasks.module.js';
 import { HealthModule } from './health/health.module.js';
@@ -29,6 +30,8 @@ import { TeamsModule } from './teams/teams.module.js';
     CommentsModule,
     AttachmentsModule,
     NotificationsModule,
+    InvitationsModule,
+    InvitationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

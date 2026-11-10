@@ -184,6 +184,23 @@ export interface Notification {
   createdAt: ISODateString;
 }
 
+/* # Invitación por email a una organización. */
+/* * El token es el secreto que se manda por email: quien lo tiene puede
+ * aceptar la invitación (con la cuenta de ese email). `acceptedAt` y
+ * `revokedAt` en null = sigue pendiente. */
+export interface Invitation {
+  id: string;
+  organizationId: string;
+  email: string;
+  role: Role;
+  token: string;
+  invitedById: string;
+  acceptedAt: ISODateString | null;
+  revokedAt: ISODateString | null;
+  expiresAt: ISODateString;
+  createdAt: ISODateString;
+}
+
 /* # Acciones autorizables. Espeja la matriz de ADR 002: añadir un permiso
  * es añadir una fila aquí y en el `PermissionService`, sin condicionales. */
 export type Permission =

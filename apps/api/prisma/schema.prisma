@@ -26,6 +26,7 @@ model User {
     comments           Comment[]
     attachments        Attachment[]
     notifications      Notification[]
+    invitationsSent    Invitation[]   @relation("InvitationsSent")
 }
 
 enum Plan {
@@ -43,6 +44,7 @@ model Organization {
     updatedAt   DateTime     @updatedAt
     members     Membership[]
     teams       Team[]
+    invitations Invitation[]
 }
 
 model Session {
@@ -223,4 +225,25 @@ model Notification {
     subtask        Subtask?         @relation(fields: [subtaskId], references: [id])
     readAt         DateTime?
     createdAt      DateTime         @default(now())
+}
+
+// Paso 8: invitaciones por email. La fila es la "carta de invitación":
+// el token es el secreto que se manda por email (por ahora la respuesta
+// lo devuelve, para que quien invita lo copie — el SMTP llega luego).
+// acceptedAt/revokedAt en null y expiresAt a futuro = sigue pendiente.
+model Invitation {
+    id             String       @id @default(cuid())
+    organizationId String
+    organization   Organization @relation(fields: [organizationId], references: [id])
+    email          String
+    role           Role         @default(MEMBER)
+    token          String       @unique
+    invitedById    String
+    invitedBy      User         @relation("InvitationsSent", fields: [invitedById], references: [id])
+    acceptedAt     DateTime?
+    revokedAt      DateTime?
+    expiresAt      DateTime
+    createdAt      DateTime     @default(now())
+
+    @@index([organizationId, email])
 }
