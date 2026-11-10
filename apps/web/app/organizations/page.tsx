@@ -3,8 +3,25 @@ export default function Organizations() {
     <div className="grid grid-cols-[150px_1fr] w-full h-full">
       <aside className="flex flex-col items-center h-full py-space-xl">Home</aside>
       <section className="w-full h-full p-space-sm pt-0">
-        <div className="flex flex-col w-fullm h-full p-space-xl rounded-xl border border-border bg-panel">
+        <div className="flex flex-col gap-space-lg w-full h-full p-15 rounded-xl border border-border bg-panel">
           <h1 className="text-display-lg">Organizaciones</h1>
+
+          <div className="grid grid-cols-3 w-full bg-amber-200">
+            <div className="flex flex-col gap-space-md p-margin bg-panel border border-border">
+              <div className="w-44 aspect-square rounded-lg bg-amber-100"></div>
+              <span className="text-headline-lg">Ultra Hogar</span>
+              <div className="flex gap-space-sm">
+                <div className="w-6 aspect-square bg-amber-100"></div>
+                <span className="text-label-xl">www.ultrahogar.com</span>
+              </div>
+
+              <div className="flex gap-space-sm">
+                <div className="w-6 aspect-square bg-amber-100"></div>
+                <span className="text-label-xl">Calle 23 x 32 Mérida, Yucatán</span>
+              </div>
+              
+            </div>
+          </div>
         </div>
       </section>
     </div>
