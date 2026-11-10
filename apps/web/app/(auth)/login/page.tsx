@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { PrimaryInput } from '@/components/ui/PrimaryInput';
+import { LoginForm } from './LoginForm';
 
 export default function Login() {
   return (
@@ -14,31 +13,7 @@ export default function Login() {
               </p>
             </header>
 
-            <form className="flex flex-col gap-y-space-sm">
-              <PrimaryInput
-                label="Correo electrónico"
-                type="email"
-                id="email"
-                placeholder="example@email.com"
-              />
-              <PrimaryInput
-                label="Contraseña"
-                labelAction={
-                  <Link
-                    href="/forgot-password"
-                    className="text-label-md text-action underline-offset-4 transition-colors hover:underline"
-                  >
-                    ¿Olvidaste tu contraseña?
-                  </Link>
-                }
-                type="password"
-                id="password"
-                placeholder="********"
-              />
-              <button className="w-full px-space-md py-space-sm rounded-full bg-action text-label-xl text-on-primary">
-                Crear cuenta
-              </button>
-            </form>
+            <LoginForm />
           </div>
         </div>
       </section>
