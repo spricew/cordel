@@ -1,11 +1,22 @@
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { json, urlencoded } from 'express';
 import { AppModule } from './app.module.js';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter.js';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  // El body parser por defecto límita el JSON a 100 KB: los adjuntos
+  // llegan en base64 dentro del body (un archivo de 5 MB pesa ~7 MB en
+  // base64), así que lo apagamos y registramos los parsers a mano.
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    bodyParser: false,
+  });
+
+  // Mismo límite para los dos parsers de formularios/JSON de Express.
+  app.use(json({ limit: '8mb' }));
+  app.use(urlencoded({ extended: true, limit: '8mb' }));
 
   // Todas las rutas cuelgan de /api/v1 (ej. /api/v1/health).
   app.setGlobalPrefix('api/v1');

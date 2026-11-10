@@ -19,12 +19,25 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const response = context.getResponse<Response>();
     const request = context.getRequest<Request>();
 
-    const status =
+    // El body-parser de Express lanza un Error crudo (no HttpException)
+    // cuando el body supera el límite del parser (entity.too.large):
+    // lo traducimos a 413 con mensaje en español en vez de un 500.
+    let status =
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+    let tooLarge = false;
+    if (
+      exception instanceof Error &&
+      (exception as { type?: string }).type === 'entity.too.large'
+    ) {
+      tooLarge = true;
+      status = HttpStatus.PAYLOAD_TOO_LARGE;
+    }
 
     response.status(status).json({
       statusCode: status,
-      message: extractMessage(exception),
+      message: tooLarge
+        ? 'La petición supera el tamaño máximo permitido'
+        : extractMessage(exception),
       path: request.url,
       timestamp: new Date().toISOString(),
     } satisfies ErrorBody);
