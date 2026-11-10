@@ -30,9 +30,10 @@ export class TasksController {
   public create(
     @Param('slug') slug: string,
     @Param('teamSlug') teamSlug: string,
+    @CurrentUser() user: UserSummary,
     @Body() dto: CreateTaskDto,
   ): Promise<Task> {
-    return this.tasks.create(slug, teamSlug, dto);
+    return this.tasks.create(slug, teamSlug, user.id, dto);
   }
 
   @Get(':slug/teams/:teamSlug/tasks')

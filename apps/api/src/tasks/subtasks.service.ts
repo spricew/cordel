@@ -6,6 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { NotificationsService } from '../notifications/notifications.service.js';
 import type { CreateSubtaskDto } from './dto/create-subtask.dto.js';
 import type { UpdateSubtaskDto } from './dto/update-subtask.dto.js';
 import type { CreateDependencyDto } from './dto/create-dependency.dto.js';
@@ -20,7 +21,10 @@ import type { Subtask, SubtaskDependency } from '@cordel/types';
  * - position: orden secuencial dentro de la tarea. */
 @Injectable()
 export class SubtasksService {
-  public constructor(private readonly prisma: PrismaService) {}
+  public constructor(
+    private readonly prisma: PrismaService,
+    private readonly notifications: NotificationsService,
+  ) {}
 
   private toSubtask(subtask: {
     id: string;
@@ -242,9 +246,12 @@ export class SubtasksService {
       data.blockedReason = dto.blockedReason;
     }
 
-    if (dto.status !== undefined && current.status === 'BLOCKED' && dto.status !== 'BLOCKED') {
-      // SALIR del bloqueo: estado limpio. (La notificación
-      // SUBTASK_UNBLOCKED entra con el módulo de notificaciones.)
+    // SALIR del bloqueo: estado limpio (blockedReason/blockedAt en
+    // null). El aviso SUBTASK_UNBLOCKED se emite después del update,
+    // cuando la fila ya está confirmada.
+    const wasUnblocked =
+      dto.status !== undefined && current.status === 'BLOCKED' && dto.status !== 'BLOCKED';
+    if (wasUnblocked) {
       data.blockedReason = null;
       data.blockedAt = null;
     }
@@ -267,6 +274,22 @@ export class SubtasksService {
       where: { id: subtaskId },
       data,
     });
+
+    // SUBTASK_UNBLOCKED: para el responsable de la TAREA madre (las
+    // subtareas no llevan responsable propio). Si él mismo la
+    // desbloqueó, no hace falta avisar.
+    if (wasUnblocked && task.assigneeId !== null && task.assigneeId !== userId) {
+      await this.notifications.emit({
+        type: 'SUBTASK_UNBLOCKED',
+        userId: task.assigneeId,
+        organizationId,
+        teamId,
+        title: 'Subtarea desbloqueada',
+        body: subtask.title,
+        taskId: task.id,
+        subtaskId: subtask.id,
+      });
+    }
     return this.toSubtask(subtask);
   }
 

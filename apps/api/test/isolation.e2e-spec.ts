@@ -178,6 +178,16 @@ describe('Aislamiento multi-tenant (anti-BOLA)', () => {
     // (dependencias → subtareas → tareas...); las FK opcionales van con
     // SetNull y las requeridas Restrict. El prefijo `iso-` garantiza
     // que solo se borre lo de estos tests, nunca la demo.
+    // Notificaciones primero: apuntan a usuarios (FK restrict) y a
+    // tareas/subtareas (SetNull, pero sobran igual).
+    await prisma.notification.deleteMany({
+      where: {
+        OR: [
+          { user: { email: { startsWith: 'iso-' } } },
+          { task: { team: { organization: { slug: { startsWith: 'iso-' } } } } },
+        ],
+      },
+    });
     await prisma.subtaskDependency.deleteMany({
       where: {
         OR: [

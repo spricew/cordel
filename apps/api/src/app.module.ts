@@ -9,6 +9,7 @@ import { CommentsModule } from './comments/comments.module.js';
 import { RolesModule } from './roles/roles.module.js';
 import { TasksModule } from './tasks/tasks.module.js';
 import { HealthModule } from './health/health.module.js';
+import { NotificationsModule } from './notifications/notifications.module.js';
 import { OrganizationsModule } from './organizations/organizations.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { TeamsModule } from './teams/teams.module.js';
@@ -27,6 +28,7 @@ import { TeamsModule } from './teams/teams.module.js';
     TasksModule,
     CommentsModule,
     AttachmentsModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

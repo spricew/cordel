@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { NotificationsService } from '../notifications/notifications.service.js';
 import type { CreateTaskDto } from './dto/create-task.dto.js';
 import type { UpdateTaskDto } from './dto/update-task.dto.js';
 import type { Task } from '@cordel/types';
@@ -15,7 +16,10 @@ import type { Task } from '@cordel/types';
  * (equipo member) y la FK compuesta en acción. */
 @Injectable()
 export class TasksService {
-  public constructor(private readonly prisma: PrismaService) {}
+  public constructor(
+    private readonly prisma: PrismaService,
+    private readonly notifications: NotificationsService,
+  ) {}
 
   private toTask(task: {
     id: string;
@@ -105,7 +109,12 @@ export class TasksService {
     }
   }
 
-  public async create(orgSlug: string, teamSlug: string, dto: CreateTaskDto): Promise<Task> {
+  public async create(
+    orgSlug: string,
+    teamSlug: string,
+    userId: string,
+    dto: CreateTaskDto,
+  ): Promise<Task> {
     const { organizationId, teamId } = await this.resolveTeam(orgSlug, teamSlug);
     await this.assertAssigneeIsTeamMember(teamId, dto.assigneeId);
 
@@ -123,6 +132,21 @@ export class TasksService {
         organizationId,
       },
     });
+
+    // TASK_ASSIGNED: aviso al responsable nuevo. Si el actor se asigna
+    // a sí mismo no hace falta avisar (no se notifica a uno mismo).
+    if (dto.assigneeId !== undefined && dto.assigneeId !== null && dto.assigneeId !== userId) {
+      await this.notifications.emit({
+        type: 'TASK_ASSIGNED',
+        userId: dto.assigneeId,
+        organizationId,
+        teamId,
+        title: 'Te asignaron una tarea',
+        body: task.title,
+        taskId: task.id,
+        subtaskId: null,
+      });
+    }
     return this.toTask(task);
   }
 
@@ -183,7 +207,7 @@ export class TasksService {
     await this.assertOrgMembership(orgSlug, userId);
     const { organizationId, teamId } = await this.resolveTeam(orgSlug, teamSlug);
     await this.assertAssigneeIsTeamMember(teamId, dto.assigneeId);
-    await this.findTeamTask(organizationId, teamId, taskId); // 404 si no existe en este equipo
+    const previous = await this.findTeamTask(organizationId, teamId, taskId); // 404 si no existe en este equipo
 
     const data: {
       title?: string;
@@ -204,6 +228,26 @@ export class TasksService {
       where: { id: taskId },
       data,
     });
+
+    // TASK_ASSIGNED solo si el responsable CAMBIÓ (no avisar a quien
+    // ya lo era) y el cambio no lo hizo a sí mismo.
+    if (
+      dto.assigneeId !== undefined &&
+      task.assigneeId !== null &&
+      task.assigneeId !== previous.assigneeId &&
+      task.assigneeId !== userId
+    ) {
+      await this.notifications.emit({
+        type: 'TASK_ASSIGNED',
+        userId: task.assigneeId,
+        organizationId,
+        teamId,
+        title: 'Te asignaron una tarea',
+        body: task.title,
+        taskId: task.id,
+        subtaskId: null,
+      });
+    }
     return this.toTask(task);
   }
 
