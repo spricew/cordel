@@ -1,12 +1,12 @@
 export default function Organizations() {
   return (
-    <div className="grid grid-cols-[150px_1fr] w-full h-full">
+    <div className="grid grid-cols-[150px_1fr] w-full h-full overflow-hidden">
       <aside className="flex flex-col items-center h-full py-space-xl">Home</aside>
-      <section className="w-full h-full p-space-sm pt-0">
-        <div className="flex flex-col gap-space-lg w-full h-full p-15 rounded-xl border border-border bg-panel">
+      <section className="w-full h-full p-space-sm pt-0 overflow-hidden">
+        <div className="flex flex-col gap-space-lg w-full h-full p-15 rounded-xl border border-border bg-panel overflow-y-auto">
           <h1 className="text-display-lg">Organizaciones</h1>
 
-          <div className="grid grid-cols-3 w-full bg-amber-200">
+          <div className="grid grid-cols-3 w-full">
             <div className="flex flex-col gap-space-md min-h-125 p-margin bg-panel rounded-xl border border-border">
               <div className="w-36 aspect-square rounded-lg bg-amber-100"></div>
               <span className="text-headline-lg">Ultra Hogar</span>
