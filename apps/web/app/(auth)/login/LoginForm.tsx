@@ -1,21 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useActionState, useState } from 'react';
 import { PrimaryInput } from '@/components/ui/PrimaryInput';
+import { loginAction } from '@/actions/loginAction';
+import type { LoginActionState } from '@/types';
+
+const initialState: LoginActionState = {};
 
 export function LoginForm() {
+  const [state, formAction, pending] = useActionState(loginAction, initialState);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   return (
-    <form
-      className="flex flex-col gap-y-space-sm"
-      onSubmit={(event) => {
-        // Aquí irá la Server Action
-        event.preventDefault();
-      }}
-    >
+    <form action={formAction} className="flex flex-col gap-y-space-sm">
       <PrimaryInput
         label="Correo electrónico"
         type="email"
@@ -49,13 +48,19 @@ export function LoginForm() {
         onChange={(event) => setPassword(event.target.value)}
       />
 
+      {state.message && (
+        <p aria-live="polite" className="text-body-sm text-muted">
+          {state.message}
+        </p>
+      )}
+
       <button
         type="submit"
+        disabled={pending}
         className="w-full px-space-md py-space-sm rounded-full bg-action text-label-xl text-on-primary transition-colors hover:bg-action-hover"
       >
-        Iniciar sesión
+        {pending ? 'Entrando…' : 'Iniciar sesión'}
       </button>
-
       <p className="text-body-sm text-center text-muted">
         ¿No tienes cuenta?{' '}
         <Link
