@@ -306,6 +306,7 @@
   /* Quiet scrollbar — calm, low-contrast thumb on a transparent track.
      Use on scrollable panels that sit inside bordered surfaces. */
   .scrollbar-calm {
+    --scrollbar-inset: 2rem; /* keeps the thumb clear of rounded panel corners */
     scrollbar-gutter: stable;
   }
 
@@ -316,6 +317,7 @@
 
   .scrollbar-calm::-webkit-scrollbar-track {
     background: transparent;
+    margin-block: var(--scrollbar-inset);
   }
 
   .scrollbar-calm::-webkit-scrollbar-thumb {
