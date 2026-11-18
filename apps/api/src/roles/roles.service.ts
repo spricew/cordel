@@ -21,6 +21,7 @@ export const ALL_PERMISSIONS: Permission[] = [
   'task:delete',
   'subtask:create',
   'subtask:update',
+  'audit:read',
 ];
 
 export const PERMISSIONS_BY_ROLE: Record<Role, Permission[]> = {

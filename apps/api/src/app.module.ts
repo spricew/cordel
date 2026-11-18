@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { envSchema } from './config/env.validation.js';
+import { AuditModule } from './audit/audit.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { AttachmentsModule } from './attachments/attachments.module.js';
 import { CommentsModule } from './comments/comments.module.js';
@@ -23,6 +24,7 @@ import { TeamsModule } from './teams/teams.module.js';
     ConfigModule.forRoot({ isGlobal: true, validationSchema: envSchema }),
     PrismaModule,
     QueueModule,
+    AuditModule,
     RolesModule,
     HealthModule,
     AuthModule,
@@ -32,7 +34,6 @@ import { TeamsModule } from './teams/teams.module.js';
     CommentsModule,
     AttachmentsModule,
     NotificationsModule,
-    InvitationsModule,
     InvitationsModule,
   ],
   controllers: [AppController],

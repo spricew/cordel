@@ -36,8 +36,9 @@ export class InvitationsController {
   public async revoke(
     @Param('slug') slug: string,
     @Param('invitationId') invitationId: string,
+    @CurrentUser() user: UserSummary,
   ): Promise<void> {
-    await this.invitations.revoke(slug, invitationId);
+    await this.invitations.revoke(slug, invitationId, user.id);
   }
 
   @Post('me/invitations/accept')

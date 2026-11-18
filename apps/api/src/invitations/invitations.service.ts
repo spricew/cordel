@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { Inject } from '@nestjs/common';
 import type { Queue } from 'bullmq';
 import { randomBytes } from 'node:crypto';
+import { AuditService } from '../audit/audit.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { NotificationsService } from '../notifications/notifications.service.js';
 import { EMAIL_QUEUE } from '../queue/queue.tokens.js';
@@ -43,6 +44,7 @@ export class InvitationsService {
     private readonly prisma: PrismaService,
     private readonly config: ConfigService,
     private readonly notifications: NotificationsService,
+    private readonly audit: AuditService,
     @Inject(EMAIL_QUEUE) private readonly emails: Queue,
   ) {}
 
@@ -155,6 +157,14 @@ export class InvitationsService {
       removeOnComplete: { count: 20 },
       removeOnFail: { count: 20 },
     });
+    void this.audit.record({
+      action: 'INVITATION_CREATED',
+      actorId: invitedById,
+      organizationId: org.id,
+      entityType: 'Invitation',
+      entityId: rows.id,
+      metadata: { email: rows.email, role: rows.role },
+    });
     return this.toInvitation(rows, rows.token);
   }
 
@@ -167,7 +177,7 @@ export class InvitationsService {
     return rows.map((row) => this.toInvitation(row, row.token));
   }
 
-  public async revoke(orgSlug: string, invitationId: string): Promise<void> {
+  public async revoke(orgSlug: string, invitationId: string, revokedById: string): Promise<void> {
     const org = await this.assertOrganizationExists(orgSlug);
     const row = await this.prisma.invitation.findFirst({
       where: { id: invitationId, organizationId: org.id },
@@ -178,11 +188,20 @@ export class InvitationsService {
     if (row.acceptedAt !== null) {
       throw new ConflictException('La invitación ya fue aceptada');
     }
-    // Revocar dos veces no cambia nada (idempotente): 204 igual.
+    // Revocar dos veces no cambia nada (idempotente): 204 igual, y la
+    // auditoría tampoco se duplica.
     if (row.revokedAt === null) {
       await this.prisma.invitation.update({
         where: { id: row.id },
         data: { revokedAt: new Date() },
+      });
+      void this.audit.record({
+        action: 'INVITATION_REVOKED',
+        actorId: revokedById,
+        organizationId: org.id,
+        entityType: 'Invitation',
+        entityId: row.id,
+        metadata: { email: row.email, role: row.role },
       });
     }
   }
@@ -256,6 +275,15 @@ export class InvitationsService {
         subtaskId: null,
       });
     }
+    // MEMBER_JOINED en bitácora: quién entró, con qué rol y cuándo.
+    void this.audit.record({
+      action: 'MEMBER_JOINED',
+      actorId: userId,
+      organizationId: row.organizationId,
+      entityType: 'Membership',
+      entityId: `${row.organizationId}:${userId}`,
+      metadata: { email: row.email, role: row.role, invitationId: row.id },
+    });
     return {
       userId: membership.userId,
       organizationId: membership.organizationId,

@@ -27,6 +27,7 @@ model User {
     attachments        Attachment[]
     notifications      Notification[]
     invitationsSent    Invitation[]   @relation("InvitationsSent")
+    auditActions       AuditLog[]
 }
 
 enum Plan {
@@ -45,6 +46,7 @@ model Organization {
     members     Membership[]
     teams       Team[]
     invitations Invitation[]
+    auditLogs   AuditLog[]
 }
 
 model Session {
@@ -246,4 +248,33 @@ model Invitation {
     createdAt      DateTime     @default(now())
 
     @@index([organizationId, email])
+}
+
+// Paso 10: auditoría de acciones sensibles. Un registro por acción de
+// estructura/permisos (crear org, crear equipo, invitar, revocar,
+// aceptar invitación). `metadata` lleva el detalle variable (email,
+// rol, etc.) como Json — el contrato tipado vive en @cordel/types.
+// Lectura: OWNER/ADMIN (audit:read). Escritura: AuditService, que jamás
+// rompe la operación de negocio que la genera.
+enum AuditAction {
+    ORG_CREATED
+    TEAM_CREATED
+    INVITATION_CREATED
+    INVITATION_REVOKED
+    MEMBER_JOINED
+}
+
+model AuditLog {
+    id             String       @id @default(cuid())
+    organizationId String
+    organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    actorId        String
+    actor          User         @relation(fields: [actorId], references: [id])
+    action         AuditAction
+    entityType     String
+    entityId       String
+    metadata       Json?
+    createdAt      DateTime     @default(now())
+
+    @@index([organizationId, createdAt])
 }

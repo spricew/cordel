@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AuditService } from '../audit/audit.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import type { Organization, MembershipWithUser } from '@cordel/types';
 import type { CreateOrganizationDto } from './dto/create-organization.dto.js';
@@ -23,6 +24,7 @@ export class OrganizationsService {
   public constructor(
     private readonly prisma: PrismaService,
     private readonly config: ConfigService,
+    private readonly audit: AuditService,
   ) {}
 
   public async create(dto: CreateOrganizationDto, ownerId: string): Promise<CreatedOrganization> {
@@ -48,6 +50,16 @@ export class OrganizationsService {
         ownerId,
         members: { create: { userId: ownerId, role: 'OWNER' } },
       },
+    });
+    // Bitácora: nacimiento del tenant. Fire-and-forget a prueba de
+    // fallos (AuditService no rompe la operación).
+    void this.audit.record({
+      action: 'ORG_CREATED',
+      actorId: ownerId,
+      organizationId: organization.id,
+      entityType: 'Organization',
+      entityId: organization.id,
+      metadata: { name: organization.name, slug: organization.slug },
     });
     return {
       id: organization.id,

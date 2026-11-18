@@ -201,6 +201,29 @@ export interface Invitation {
   createdAt: ISODateString;
 }
 
+/* # Auditoría: registro inmutable de acciones sensibles. */
+/* * Una fila por acción de estructura/permisos. `entityType` +
+ * `entityId` apuntan al objetivo (Organization, Team, Invitation...).
+ * `metadata` es libre por acción (email, rol, etc.). Solo la leen
+ * OWNER/ADMIN de la organización (`audit:read`). */
+export type AuditAction =
+  | 'ORG_CREATED'
+  | 'TEAM_CREATED'
+  | 'INVITATION_CREATED'
+  | 'INVITATION_REVOKED'
+  | 'MEMBER_JOINED';
+
+export interface AuditLog {
+  id: string;
+  organizationId: string;
+  actor: UserSummary;
+  action: AuditAction;
+  entityType: string;
+  entityId: string;
+  metadata: Record<string, unknown> | null;
+  createdAt: ISODateString;
+}
+
 /* # Acciones autorizables. Espeja la matriz de ADR 002: añadir un permiso
  * es añadir una fila aquí y en el `PermissionService`, sin condicionales. */
 export type Permission =
@@ -216,7 +239,8 @@ export type Permission =
   | 'task:update'
   | 'task:delete'
   | 'subtask:create'
-  | 'subtask:update';
+  | 'subtask:update'
+  | 'audit:read';
 
 /* # Contexto con el que se evalúa una autorización: quién actúa y dónde. */
 /* * `teamId` null = acción a nivel organización (p. ej. crear un equipo). */

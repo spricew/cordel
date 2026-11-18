@@ -1,4 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { AuditService } from '../audit/audit.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { RolesService } from '../roles/roles.service.js';
 import type { CreateTeamDto } from './dto/create-team.dto.js';
@@ -15,6 +16,7 @@ export class TeamsService {
   public constructor(
     private readonly prisma: PrismaService,
     private readonly roles: RolesService,
+    private readonly audit: AuditService,
   ) {}
 
   public async create(orgSlug: string, dto: CreateTeamDto, userId: string): Promise<CreatedTeam> {
@@ -43,6 +45,14 @@ export class TeamsService {
         organizationId: membership.organizationId,
         members: { create: { userId, role: 'OWNER' } },
       },
+    });
+    void this.audit.record({
+      action: 'TEAM_CREATED',
+      actorId: userId,
+      organizationId: membership.organizationId,
+      entityType: 'Team',
+      entityId: team.id,
+      metadata: { name: team.name, slug: team.slug },
     });
     return {
       id: team.id,
