@@ -1,4 +1,3 @@
-import { Navbar } from '@/components/layout/Navbar';
 import { PrimaryInput } from '@/components/ui/PrimaryInput';
 import Link from 'next/link';
 
@@ -6,7 +5,6 @@ export default async function ResetPassword({ params }: { params: Promise<{ toke
   const { token } = await params;
   return (
     <div className="flex flex-col w-full h-screen bg-surface-container">
-      <Navbar />
       <section className="flex w-full flex-1 p-space-md pt-0">
         <div className="flex flex-col justify-center items-center w-full h-full rounded-xl bg-white">
           <div className="flex flex-col max-w-115 gap-y-space-md">
