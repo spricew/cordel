@@ -251,6 +251,9 @@ export class SubtasksService {
     // cuando la fila ya está confirmada.
     const wasUnblocked =
       dto.status !== undefined && current.status === 'BLOCKED' && dto.status !== 'BLOCKED';
+    // ENTRAR en bloqueo (desde un estado distinto): aviso SUBTASK_BLOCKED
+    // después del update, con el motivo que quedó fijado.
+    const wasBlocked = dto.status === 'BLOCKED' && current.status !== 'BLOCKED';
     if (wasUnblocked) {
       data.blockedReason = null;
       data.blockedAt = null;
@@ -286,6 +289,19 @@ export class SubtasksService {
         teamId,
         title: 'Subtarea desbloqueada',
         body: subtask.title,
+        taskId: task.id,
+        subtaskId: subtask.id,
+      });
+    }
+    // SUBTASK_BLOCKED: misma regla, con el motivo que quedó fijado.
+    if (wasBlocked && task.assigneeId !== null && task.assigneeId !== userId) {
+      await this.notifications.emit({
+        type: 'SUBTASK_BLOCKED',
+        userId: task.assigneeId,
+        organizationId,
+        teamId,
+        title: 'Subtarea bloqueada',
+        body: `${subtask.title}: ${subtask.blockedReason}`,
         taskId: task.id,
         subtaskId: subtask.id,
       });

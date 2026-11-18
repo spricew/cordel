@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { RateLimitService } from '../queue/rate-limit.service.js';
 import type { RegisterDto } from './dto/register.dto.js';
 import type { LoginDto } from './dto/login.dto.js';
 import { randomUUID } from 'node:crypto';
@@ -26,7 +27,10 @@ export interface LoggedUser extends RegisteredUser {
 // ValidationPipe) y devuelve al usuario SIN el hash: el hash jamás sale.
 @Injectable()
 export class AuthService {
-  public constructor(private readonly prisma: PrismaService) {}
+  public constructor(
+    private readonly prisma: PrismaService,
+    private readonly rateLimit: RateLimitService,
+  ) {}
 
   public async register(dto: RegisterDto): Promise<RegisteredUser> {
     const existing = await this.prisma.user.findUnique({
@@ -44,13 +48,22 @@ export class AuthService {
   }
 
   public async login(dto: LoginDto): Promise<LoggedUser> {
+    // Bruteforce: antes de mirar la contraseña, ¿este email ya quemó
+    // sus intentos? (5 fallos en 15 min → 429, ver RateLimitService).
+    await this.rateLimit.allowLoginAttempt(dto.email);
+
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
 
     if (!user || !(await bcrypt.compare(dto.password, user.passwordHash))) {
+      // Registrar el fallo AUNQUE el email no exista: el contador por
+      // email es el que desanima el diccionario, no el usuario.
+      await this.rateLimit.registerLoginFailure(dto.email);
       throw new UnauthorizedException('Credenciales inválidas');
     }
+
+    await this.rateLimit.registerLoginSuccess(dto.email);
 
     const session = await this.prisma.session.create({
       data: {

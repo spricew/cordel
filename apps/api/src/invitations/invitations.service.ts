@@ -5,9 +5,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Inject } from '@nestjs/common';
+import type { Queue } from 'bullmq';
 import { randomBytes } from 'node:crypto';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { NotificationsService } from '../notifications/notifications.service.js';
+import { EMAIL_QUEUE } from '../queue/queue.tokens.js';
+import type { EmailJob } from '../queue/email-job.js';
 import type { CreateInvitationDto } from './dto/create-invitation.dto.js';
 import type { AcceptInvitationDto } from './dto/accept-invitation.dto.js';
 import type { Invitation, Membership } from '@cordel/types';
@@ -39,6 +43,7 @@ export class InvitationsService {
     private readonly prisma: PrismaService,
     private readonly config: ConfigService,
     private readonly notifications: NotificationsService,
+    @Inject(EMAIL_QUEUE) private readonly emails: Queue,
   ) {}
 
   private toInvitation(
@@ -71,14 +76,14 @@ export class InvitationsService {
 
   private async assertOrganizationExists(
     orgSlug: string,
-  ): Promise<{ id: string; ownerId: string }> {
+  ): Promise<{ id: string; ownerId: string; name: string }> {
     const organization = await this.prisma.organization.findUnique({
       where: { slug: orgSlug },
     });
     if (organization === null) {
       throw new NotFoundException('Organización no encontrada');
     }
-    return { id: organization.id, ownerId: organization.ownerId };
+    return { id: organization.id, ownerId: organization.ownerId, name: organization.name };
   }
 
   public async create(
@@ -134,6 +139,21 @@ export class InvitationsService {
         invitedById,
         expiresAt: new Date(Date.now() + INVITATION_TTL_DAYS * 24 * 60 * 60 * 1000),
       },
+    });
+
+    // El email va por la cola: la petición HTTP no espera al SMTP.
+    // El job lleva todo lo que el worker necesita (ver EmailJob).
+    const inviter = await this.prisma.user.findUnique({ where: { id: invitedById } });
+    const job: EmailJob = {
+      kind: 'invitation',
+      to: rows.email,
+      organizationName: org.name,
+      inviterName: inviter?.name ?? 'Un compañero',
+      token: rows.token,
+    };
+    await this.emails.add('invitation', job, {
+      removeOnComplete: { count: 20 },
+      removeOnFail: { count: 20 },
     });
     return this.toInvitation(rows, rows.token);
   }

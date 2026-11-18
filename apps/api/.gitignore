@@ -3,6 +3,10 @@
 /node_modules
 /build
 
+# adjuntos en disco y emails de desarrollo (storage/attachments,
+# storage/emails — nunca en el repo)
+/storage
+
 # prisma generated client
 /prisma/generated
 
