@@ -390,13 +390,13 @@ export function Landing() {
                 href="/register"
                 className="inline-flex h-12 items-center justify-center rounded-full bg-white px-7 text-label-lg text-primary transition-colors hover:bg-primary-fixed"
               >
-                Crear cuenta
+                Empieza gratis
               </Link>
               <Link
-                href="/login"
+                href="/"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-white/20 px-7 text-label-lg text-primary-fixed transition-colors hover:border-white/40 hover:text-white"
               >
-                Iniciar sesión
+                Ver una demostración
               </Link>
             </div>
           </div>
