@@ -46,15 +46,15 @@
   --color-on-secondary-fixed: #0a1f19;
   --color-on-secondary-fixed-variant: #364b43;
 
-  /* Tertiary — warm clay slate */
-  --color-tertiary: #30271e;
+  /* Tertiary — warm clay slate (chroma elevada para contrastar con el azul apagado) */
+  --color-tertiary: #352514;
   --color-on-tertiary: #ffffff;
-  --color-tertiary-container: #463d33;
-  --color-on-tertiary-container: #b5a89b;
-  --color-tertiary-fixed: #efe0d2;
-  --color-tertiary-fixed-dim: #d2c4b6;
-  --color-on-tertiary-fixed: #221a12;
-  --color-on-tertiary-fixed-variant: #4f453b;
+  --color-tertiary-container: #4c3b29;
+  --color-on-tertiary-container: #bda68e;
+  --color-tertiary-fixed: #f9dec4;
+  --color-tertiary-fixed-dim: #dbc2a8;
+  --color-on-tertiary-fixed: #271809;
+  --color-on-tertiary-fixed-variant: #554331;
 
   /* Feedback — calm, never alarmist */
   --color-error: #ba1a1a;
