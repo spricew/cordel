@@ -300,7 +300,7 @@ export function Landing() {
         >
           <div className="mx-auto grid w-full max-w-6xl gap-16 px-6 py-24 md:grid-cols-2 md:items-center md:py-32">
             <div data-reveal className="flex flex-col items-start gap-5">
-              <span className="text-label-md text-secondary">Aislamiento estricto</span>
+              <Chip tone="active">Aislamiento estricto</Chip>
               <h2 id="aislamiento-title" className="text-balance text-display-lg text-primary">
                 Los datos de un equipo no cruzan la frontera.
               </h2>
