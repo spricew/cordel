@@ -87,18 +87,14 @@ export function ProductPreview() {
                 </span>
                 <span className="text-label-md text-muted">Norte</span>
               </div>
-              <span className="mt-1.5 block text-body-sm text-muted">
-                3 equipos · 11 miembros
-              </span>
+              <span className="mt-1.5 block text-body-sm text-muted">3 equipos · 11 miembros</span>
             </div>
           </div>
 
           <div className="flex min-w-0 flex-1 flex-col gap-5 p-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex flex-col gap-1">
-                <span className="text-label-sm uppercase tracking-caps text-muted">
-                  Equipos
-                </span>
+                <span className="text-label-sm uppercase tracking-caps text-muted">Equipos</span>
                 <span className="text-headline-sm text-primary">Acme</span>
               </div>
               <span className="shrink-0 rounded-full bg-action px-3.5 py-2 text-label-sm text-on-primary">
@@ -119,7 +115,9 @@ export function ProductPreview() {
                   </div>
                   <div className="hidden w-24 sm:block">
                     <div className="h-1.5 overflow-hidden rounded-full bg-surface-container-high">
-                      <div className={`h-full rounded-full ${team.dotClass} ${team.progressClass}`} />
+                      <div
+                        className={`h-full rounded-full ${team.dotClass} ${team.progressClass}`}
+                      />
                     </div>
                   </div>
                   <Chip tone={team.tone} className="shrink-0">

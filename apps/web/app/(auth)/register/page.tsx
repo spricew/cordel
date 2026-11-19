@@ -55,7 +55,7 @@ export default function Register() {
                 />
               </div>
 
-              <div className='flex flex-col gap-y-space-sm'>
+              <div className="flex flex-col gap-y-space-sm">
                 <button className="w-full px-space-md py-space-sm rounded-full bg-action text-label-xl text-on-primary">
                   Crear cuenta
                 </button>

@@ -207,11 +207,7 @@ export interface Invitation {
  * `metadata` es libre por acción (email, rol, etc.). Solo la leen
  * OWNER/ADMIN de la organización (`audit:read`). */
 export type AuditAction =
-  | 'ORG_CREATED'
-  | 'TEAM_CREATED'
-  | 'INVITATION_CREATED'
-  | 'INVITATION_REVOKED'
-  | 'MEMBER_JOINED';
+  'ORG_CREATED' | 'TEAM_CREATED' | 'INVITATION_CREATED' | 'INVITATION_REVOKED' | 'MEMBER_JOINED';
 
 export interface AuditLog {
   id: string;
