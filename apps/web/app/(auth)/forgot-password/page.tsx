@@ -25,7 +25,7 @@ export default function ForgotPassword() {
     <div className="flex flex-col w-full h-screen">
       <section className="flex w-full flex-1 p-space-md pt-0">
         <div className="flex flex-col justify-center items-center w-full h-full rounded-xl bg-white border border-border">
-          <div className="flex flex-col max-w-115 gap-y-space-md">
+          <div className="flex flex-col max-w-115 gap-y-space-md rise-in">
             <header className="flex flex-col gap-y-space-sm">
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-fixed text-on-primary-fixed">
                 <MailIcon />
