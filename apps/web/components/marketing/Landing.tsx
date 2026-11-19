@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { Fragment, useRef } from 'react';
 import type { ReactNode } from 'react';
 
+import { Chip } from '@components/ui/Chip';
+
 import { ProductPreview } from './ProductPreview';
 import { ArrowRightIcon, CheckIcon, OrganizationsIcon, RolesIcon, TeamsIcon } from './icons';
 
@@ -118,7 +120,9 @@ function SectionHeading({
   const centered = align === 'center';
 
   return (
-    <div className={centered ? 'flex flex-col items-center gap-4 text-center' : 'flex flex-col gap-4'}>
+    <div
+      className={centered ? 'flex flex-col items-center gap-4 text-center' : 'flex flex-col gap-4'}
+    >
       <h2
         id={id}
         className={`max-w-3xl text-balance text-display-lg text-primary ${centered ? 'mx-auto' : ''}`}
@@ -230,6 +234,9 @@ export function Landing() {
           className="relative mx-auto w-full max-w-6xl px-6 pb-16 pt-20 md:pb-24 md:pt-28"
         >
           <div className="flex flex-col items-center text-center">
+            <Chip tone="neutral" dot className="rise-in mb-5 max-w-full">
+              Multi-organización desde el primer día
+            </Chip>
             <HeroTitle />
             <p className="rise-in mt-6 max-w-2xl text-body-lg text-muted [animation-delay:320ms]">
               Cordel reúne tus organizaciones, equipos y tareas en un mismo lugar, con el espacio y
@@ -294,10 +301,7 @@ export function Landing() {
           <div className="mx-auto grid w-full max-w-6xl gap-16 px-6 py-24 md:grid-cols-2 md:items-center md:py-32">
             <div data-reveal className="flex flex-col items-start gap-5">
               <span className="text-label-md text-secondary">Aislamiento estricto</span>
-              <h2
-                id="aislamiento-title"
-                className="text-balance text-display-lg text-primary"
-              >
+              <h2 id="aislamiento-title" className="text-balance text-display-lg text-primary">
                 Los datos de un equipo no cruzan la frontera.
               </h2>
               <p className="text-body-lg text-muted">

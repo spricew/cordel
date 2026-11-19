@@ -1,9 +1,11 @@
+import { Chip } from '@components/ui/Chip';
+
 const teams = [
   {
     name: 'Producto',
     meta: '8 miembros · 12 tareas',
     chip: 'En marcha',
-    chipClass: 'border-chip-in-review-border bg-chip-in-review text-chip-in-review-text',
+    tone: 'active',
     dotClass: 'bg-resolved',
     progressClass: 'w-2/3',
   },
@@ -11,7 +13,7 @@ const teams = [
     name: 'Diseño',
     meta: '5 miembros · 7 tareas',
     chip: 'En revisión',
-    chipClass: 'border-chip-active-border bg-chip-active text-chip-active-text',
+    tone: 'in-review',
     dotClass: 'bg-in-progress',
     progressClass: 'w-1/2',
   },
@@ -19,11 +21,11 @@ const teams = [
     name: 'Ingeniería',
     meta: '14 miembros · 19 tareas',
     chip: 'En marcha',
-    chipClass: 'border-chip-in-review-border bg-chip-in-review text-chip-in-review-text',
+    tone: 'active',
     dotClass: 'bg-resolved',
     progressClass: 'w-4/5',
   },
-];
+] as const;
 
 export function ProductPreview() {
   return (
@@ -120,11 +122,9 @@ export function ProductPreview() {
                       <div className={`h-full rounded-full ${team.dotClass} ${team.progressClass}`} />
                     </div>
                   </div>
-                  <span
-                    className={`shrink-0 rounded-full border px-2.5 py-1 text-label-sm ${team.chipClass}`}
-                  >
+                  <Chip tone={team.tone} className="shrink-0">
                     {team.chip}
-                  </span>
+                  </Chip>
                 </div>
               ))}
             </div>
