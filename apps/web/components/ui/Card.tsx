@@ -1,6 +1,6 @@
 export function Card() {
   return (
-    <div className="flex flex-col gap-space-md p-margin bg-panel rounded-xl border border-border">
+    <div className="flex flex-col gap-space-md min-h-115 h-fit p-margin bg-panel rounded-xl border border-border">
       <div className="w-36 aspect-square rounded-lg bg-amber-100"></div>
       <span className="text-headline-lg">Ultra Hogar</span>
 

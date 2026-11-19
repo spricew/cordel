@@ -9,11 +9,13 @@ export default function Organizations() {
           <div className="flex flex-col gap-space-lg flex-1 px-15 py-14 overflow-y-auto scrollbar-calm">
             <h1 className="text-display-lg">Organizaciones</h1>
 
-            <div className="grid grid-cols-3 gap-space-md w-full">
-              <Card />
-              <Card />
-              <Card />
-              <Card />
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] content-start gap-space-md w-full bg-amber-400">
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+
             </div>
           </div>
         </div>  
