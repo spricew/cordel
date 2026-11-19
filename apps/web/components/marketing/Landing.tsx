@@ -231,7 +231,7 @@ export function Landing() {
       <main className="flex-1 overflow-x-hidden">
         <section
           data-hero
-          className="relative mx-auto w-full max-w-6xl px-6 pb-16 pt-20 md:pb-24 md:pt-28"
+          className="relative mx-auto w-full max-w-6xl px-6 pb-16 pt-20 md:pb-24 md:pt-24"
         >
           <div className="flex flex-col items-center text-center">
             <Chip tone="neutral" dot className="rise-in mb-5 max-w-full">
