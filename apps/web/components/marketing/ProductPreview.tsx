@@ -57,7 +57,7 @@ export function ProductPreview() {
           <span className="hidden text-data-sm text-muted sm:block">⌘ K</span>
         </div>
 
-        <div className="flex min-h-[320px]">
+        <div className="flex min-h-80">
           <div className="hidden w-14 flex-col items-center gap-3 border-r border-border-subtle py-5 sm:flex">
             <span className="h-8 w-8 rounded-lg bg-primary" />
             <span className="h-8 w-8 rounded-lg bg-surface-container-high" />
