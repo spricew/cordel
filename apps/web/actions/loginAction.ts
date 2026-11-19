@@ -24,7 +24,7 @@ export async function loginAction(
   let response: Response;
 
   try {
-    response = await fetch(`${API_URL}/auth/login`, {
+    response = await fetch(`${API_URL}/api/v1/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
