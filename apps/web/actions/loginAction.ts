@@ -6,7 +6,7 @@ export async function loginAction(
   _prevState: LoginActionState,
   formData: FormData,
 ): Promise<LoginActionState> {
-  const email = String(formData.get('email') ?? '').trim();
+  const email = String(formData.get('email') ?? '').trim().toLowerCase();
   const password = String(formData.get('password') ?? '');
 
   if (email === '' || password === '') {
