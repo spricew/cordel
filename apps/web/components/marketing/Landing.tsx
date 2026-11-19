@@ -210,7 +210,7 @@ export function Landing() {
         });
 
         gsap.to('[data-preview]', {
-          yPercent: -5,
+          yPercent: -30,
           ease: 'none',
           scrollTrigger: {
             trigger: '[data-hero]',
