@@ -5,7 +5,7 @@ export default function Login() {
     <div className="flex flex-col w-full h-screen">
       <section className="flex w-full flex-1 p-space-md pt-0">
         <div className="flex flex-col justify-center items-center w-full h-full rounded-xl bg-white border border-border">
-          <div className="flex flex-col max-w-115 gap-y-space-md">
+          <div className="flex flex-col max-w-115 gap-y-space-md rise-in">
             <header>
               <h1 className="text-headline-lg text-primary">Iniciar sesión</h1>
               <p className="text-body-lg text-muted">
