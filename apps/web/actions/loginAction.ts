@@ -1,8 +1,10 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import type { LoginActionState } from '@/types';
 
 const API_URL = process.env.API_URL;
+const SESSION_COOKIE = 'cordel_session';
 
 export async function loginAction(
   _prevState: LoginActionState,
@@ -44,5 +46,38 @@ export async function loginAction(
     };
   }
 
+  const data: unknown = await response.json();
+  if (!isLoginResponse(data)) {
+    return { message: 'El servidor devolvió una respuesta inesperada.' };
+  }
+
+  const cookieStore = await cookies();
+  cookieStore.set(SESSION_COOKIE, data.token, {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+    expires: new Date(data.expiresAt),
+  });
+
   return { message: '' };
+}
+
+interface LoginResponse {
+  token: string;
+  expiresAt: string;
+}
+
+function isLoginResponse(value: unknown): value is LoginResponse {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const candidate = value as Record<string, unknown>;
+  return (
+    typeof candidate.token === 'string' &&
+    candidate.token !== '' &&
+    typeof candidate.expiresAt === 'string' &&
+    !Number.isNaN(Date.parse(candidate.expiresAt))
+  );
 }
