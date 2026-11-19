@@ -1,6 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import type { LoginActionState } from '@/types';
 
 const API_URL = process.env.API_URL;
@@ -60,7 +61,7 @@ export async function loginAction(
     expires: new Date(data.expiresAt),
   });
 
-  return { message: '' };
+  redirect('/organizations');
 }
 
 interface LoginResponse {
