@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Fragment, useRef } from 'react';
 import type { ReactNode } from 'react';
 
+import { ButtonLink } from '@components/ui/Button';
 import { Chip } from '@components/ui/Chip';
 
 import { ProductPreview } from './ProductPreview';
@@ -243,19 +244,13 @@ export function Landing() {
               la calma que tu equipo necesita para pensar a largo plazo.
             </p>
             <div className="rise-in mt-9 flex flex-col items-center gap-3 sm:flex-row [animation-delay:440ms]">
-              <Link
-                href="/register"
-                className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-action px-7 text-label-lg text-on-primary transition-colors hover:bg-action-hover"
-              >
+              <ButtonLink href="/register" size="lg" className="group gap-2">
                 Crear cuenta
                 <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-              <Link
-                href="/login"
-                className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-panel px-7 text-label-lg text-primary transition-colors hover:bg-hover-surface"
-              >
+              </ButtonLink>
+              <ButtonLink href="/login" variant="secondary" size="lg">
                 Iniciar sesión
-              </Link>
+              </ButtonLink>
             </div>
           </div>
 
@@ -390,18 +385,12 @@ export function Landing() {
               Crea tu cuenta y ordena el trabajo con la calma que tu equipo necesita.
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link
-                href="/register"
-                className="inline-flex h-12 items-center justify-center rounded-full bg-white px-7 text-label-lg text-primary transition-colors hover:bg-primary-fixed"
-              >
+              <ButtonLink href="/register" variant="inverse" size="lg">
                 Empieza gratis
-              </Link>
-              <Link
-                href="/"
-                className="inline-flex h-12 items-center justify-center rounded-full border border-white/20 px-7 text-label-lg text-primary-fixed transition-colors hover:border-white/40 hover:text-white"
-              >
+              </ButtonLink>
+              <ButtonLink href="/" variant="inverse-outline" size="lg">
                 Ver una demostración
-              </Link>
+              </ButtonLink>
             </div>
           </div>
         </section>
