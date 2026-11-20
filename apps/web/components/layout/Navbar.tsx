@@ -11,7 +11,7 @@ export function Navbar() {
     <header>
       <nav
         aria-label="Principal"
-        className="flex h-14 w-full items-center justify-between px-4 sm:px-6"
+        className="flex h-12 w-full items-center justify-between px-4 sm:px-6"
       >
         <Link
           href="/"
