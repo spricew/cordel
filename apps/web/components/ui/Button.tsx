@@ -1,6 +1,5 @@
 import type { ComponentProps } from 'react';
 
-/** Variantes visuales del botón, tal como se definen en Figma (nodo 76:18). */
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
@@ -11,18 +10,9 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
 };
 
 export type ButtonProps = ComponentProps<'button'> & {
-  /** Estilo visual del botón. */
   variant?: ButtonVariant;
 };
 
-/**
- * Botón base de Cordel.
- *
- * Reproduce el componente Button de Figma: cápsula, padding 8/14 y `label-md`.
- * Los estados `Default` y `Hover` de Figma se resuelven con CSS (`hover:` y
- * `active:`) en vez de exponerse como props, para que el botón mantenga el
- * comportamiento nativo del navegador.
- */
 export function Button({
   variant = 'primary',
   type = 'button',
