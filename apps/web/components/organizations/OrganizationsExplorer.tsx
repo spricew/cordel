@@ -80,7 +80,7 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
       <section className="flex min-h-0 min-w-0 flex-1 flex-col p-space-sm pt-0 lg:pl-0">
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border border-border bg-panel">
           <div className="flex-1 overflow-y-auto scrollbar-calm">
-            <div className="mx-auto flex w-full max-w-6xl flex-col px-6 py-10 lg:px-14 lg:py-14">
+            <div className="flex w-full flex-col px-6 py-10 lg:px-14 lg:py-14">
               <header className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
                 <div className="flex flex-col gap-1.5">
                   <p className="text-label-sm uppercase tracking-caps text-muted">
