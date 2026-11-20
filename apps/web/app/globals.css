@@ -255,7 +255,7 @@
   }
 
   body {
-    background-color: var(--color-background);
+    background-color: var(--color-canvas);
     color: var(--color-on-surface);
     font-family: var(--font-sans);
     font-size: var(--text-body-md);
