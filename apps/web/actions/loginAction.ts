@@ -3,9 +3,9 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import type { LoginActionState } from '@/types';
+import { SESSION_COOKIE } from '@/lib/auth/cookie';
 
 const API_URL = process.env.API_URL;
-const SESSION_COOKIE = 'cordel_session';
 
 export async function loginAction(
   _prevState: LoginActionState,
