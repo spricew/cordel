@@ -1,7 +1,6 @@
 import { cookies } from 'next/headers';
 
-/** Nombre de la cookie donde Next guarda el token de sesión de la API. */
-export const SESSION_COOKIE = 'cordel_session';
+import { SESSION_COOKIE } from '@/lib/auth/cookie';
 
 /**
  * Lee el token de la cookie httpOnly. Solo funciona en el servidor
