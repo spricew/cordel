@@ -5,6 +5,7 @@ import { useActionState, useState } from 'react';
 import { PrimaryInput } from '@/components/ui/PrimaryInput';
 import { loginAction } from '@/actions/loginAction';
 import type { LoginActionState } from '@/types';
+import { Button } from '@/components/ui/Button';
 
 const initialState: LoginActionState = {};
 
@@ -54,13 +55,10 @@ export function LoginForm() {
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="w-full px-space-md py-space-sm rounded-full bg-action text-label-xl text-on-primary transition-colors hover:bg-action-hover"
-      >
+      <Button type="submit" disabled={pending} size='lg'>
         {pending ? 'Entrando…' : 'Iniciar sesión'}
-      </button>
+      </Button>
+
       <p className="text-body-sm text-center text-muted">
         ¿No tienes cuenta?{' '}
         <Link
