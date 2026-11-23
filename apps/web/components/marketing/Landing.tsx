@@ -1,6 +1,13 @@
 'use client';
 
 import { useGSAP } from '@gsap/react';
+import {
+  IconChevronRight,
+  IconBuilding,
+  IconCheck,
+  IconShieldCheck,
+  IconUsersGroup,
+} from '@tabler/icons-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
@@ -11,7 +18,6 @@ import { ButtonLink } from '@components/ui/Button';
 import { Chip } from '@components/ui/Chip';
 
 import { ProductPreview } from './ProductPreview';
-import { ArrowRightIcon, CheckIcon, OrganizationsIcon, RolesIcon, TeamsIcon } from './icons';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -70,17 +76,17 @@ function HeroTitle() {
 
 const features: { icon: ReactNode; title: string; copy: string }[] = [
   {
-    icon: <OrganizationsIcon />,
+    icon: <IconBuilding aria-hidden="true" stroke={1.5} />,
     title: 'Una cuenta, varias organizaciones',
     copy: 'Cambia de contexto sin mezclar datos. Cada organización mantiene sus equipos, sus miembros y su propio pulso.',
   },
   {
-    icon: <TeamsIcon />,
+    icon: <IconUsersGroup aria-hidden="true" stroke={1.5} />,
     title: 'Equipos con su propio espacio',
     copy: 'Cada equipo tiene su gente, sus tareas y sus prioridades. Lo que ocurre en uno no contamina a otro.',
   },
   {
-    icon: <RolesIcon />,
+    icon: <IconShieldCheck aria-hidden="true" stroke={1.5} />,
     title: 'Roles sin ambigüedad',
     copy: 'Permisos definidos en la organización y en el equipo, con una regla clara cuando los dos aplican.',
   },
@@ -244,9 +250,13 @@ export function Landing() {
               la calma que tu equipo necesita para pensar a largo plazo.
             </p>
             <div className="rise-in mt-9 flex flex-col items-center gap-3 sm:flex-row [animation-delay:440ms]">
-              <ButtonLink href="/register" size="lg" className="group gap-2">
+              <ButtonLink href="/register" size="lg" className="group">
                 Crear cuenta
-                <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                <IconChevronRight
+                  aria-hidden="true"
+                  className="size-[1.2em] translate-y-px -translate-x-0.5 transition-transform group-hover:translate-x-0.5"
+                  stroke={3}
+                />
               </ButtonLink>
               <ButtonLink href="/login" variant="secondary" size="lg">
                 Iniciar sesión
@@ -306,7 +316,11 @@ export function Landing() {
               <ul className="mt-2 flex flex-col gap-3">
                 {isolationPoints.map((point) => (
                   <li key={point} className="flex items-start gap-3 text-body-md text-muted">
-                    <CheckIcon className="mt-0.5 h-5 w-5 shrink-0 text-sage" />
+                    <IconCheck
+                      aria-hidden="true"
+                      className="mt-0.5 h-5 w-5 shrink-0 text-sage"
+                      stroke={1.5}
+                    />
                     {point}
                   </li>
                 ))}
