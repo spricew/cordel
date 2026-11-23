@@ -1,6 +1,5 @@
+import { IconSearch } from '@tabler/icons-react';
 import type { ComponentProps } from 'react';
-
-import { SearchIcon } from './icons';
 
 export type SearchFieldProps = ComponentProps<'input'>;
 
@@ -21,7 +20,7 @@ export function SearchField({ className, ...props }: SearchFieldProps) {
         .filter(Boolean)
         .join(' ')}
     >
-      <SearchIcon className="h-4 w-4 shrink-0" />
+      <IconSearch aria-hidden="true" className="h-4 w-4 shrink-0" stroke={1.5} />
       <input
         type="search"
         className="min-w-0 flex-1 bg-transparent text-body-md text-primary outline-none placeholder:text-placeholder"
