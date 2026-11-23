@@ -37,7 +37,7 @@ export function buttonClassName({
   className,
 }: ButtonStyleOptions = {}): string {
   return [
-    'inline-flex items-center justify-center px-4 py-2.5 rounded-full whitespace-nowrap transition-colors',
+    'inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full whitespace-nowrap transition-colors',
     'disabled:pointer-events-none disabled:opacity-50',
     SIZE_CLASSES[size],
     VARIANT_CLASSES[variant],
