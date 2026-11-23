@@ -16,7 +16,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  md: 'px-space-md py-space-sm text-label-md',
+  md: 'px-4 py-2.5 text-label-md',
   lg: 'h-12 px-7 text-label-lg',
 };
 
