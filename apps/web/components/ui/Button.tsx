@@ -3,7 +3,7 @@ import type { ComponentProps } from 'react';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'inverse' | 'inverse-outline';
 
-export type ButtonSize = 'md' | 'lg';
+export type ButtonSize = 'md' | 'lg' | 'xl';
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'bg-action text-on-primary hover:bg-action-hover active:bg-action-hover',
@@ -16,8 +16,9 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  md: 'px-4 py-2.5 text-label-md',
-  lg: 'h-12 px-7 text-label-lg',
+  md: 'text-label-md',
+  lg: 'text-label-lg',
+  xl: 'text-label-xl',
 };
 
 type ButtonStyleOptions = {
@@ -36,7 +37,7 @@ export function buttonClassName({
   className,
 }: ButtonStyleOptions = {}): string {
   return [
-    'inline-flex items-center justify-center rounded-full whitespace-nowrap transition-colors',
+    'inline-flex items-center justify-center px-4 py-2.5 rounded-full whitespace-nowrap transition-colors',
     'disabled:pointer-events-none disabled:opacity-50',
     SIZE_CLASSES[size],
     VARIANT_CLASSES[variant],
