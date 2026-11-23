@@ -1,24 +1,7 @@
+import { IconMail } from '@tabler/icons-react';
 import Link from 'next/link';
 
 import { PrimaryInput } from '@/components/ui/PrimaryInput';
-
-function MailIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-6 w-6"
-      aria-hidden="true"
-    >
-      <rect x="3" y="5" width="18" height="14" rx="3" />
-      <path d="m3.5 7.5 7.3 5.1a2.1 2.1 0 0 0 2.4 0l7.3-5.1" />
-    </svg>
-  );
-}
 
 export default function ForgotPassword() {
   return (
@@ -28,7 +11,7 @@ export default function ForgotPassword() {
           <div className="flex flex-col max-w-115 gap-y-space-md rise-in">
             <header className="flex flex-col gap-y-space-sm">
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-fixed text-on-primary-fixed">
-                <MailIcon />
+                <IconMail aria-hidden="true" className="h-6 w-6" stroke={1.5} />
               </span>
               <h1 className="text-headline-lg text-primary">¿Olvidaste tu contraseña?</h1>
               <p className="text-body-lg text-muted">
