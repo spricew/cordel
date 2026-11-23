@@ -1,21 +1,19 @@
 'use client';
 
-import type { ComponentType } from 'react';
-
-import { GridIcon, ShieldIcon, UsersIcon } from '@components/ui/icons';
+import { IconLayoutGrid, IconShieldCheck, IconUsers, type Icon } from '@tabler/icons-react';
 
 import type { OrganizationFilter } from './types';
 
 type FilterDefinition = {
   id: OrganizationFilter;
   label: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: Icon;
 };
 
 export const ORGANIZATION_FILTERS: FilterDefinition[] = [
-  { id: 'all', label: 'Todas', icon: GridIcon },
-  { id: 'owned', label: 'Propias', icon: ShieldIcon },
-  { id: 'team', label: 'En equipo', icon: UsersIcon },
+  { id: 'all', label: 'Todas', icon: IconLayoutGrid },
+  { id: 'owned', label: 'Propias', icon: IconShieldCheck },
+  { id: 'team', label: 'En equipo', icon: IconUsers },
 ];
 
 type WorkspaceSidebarProps = {
@@ -55,7 +53,7 @@ export function WorkspaceSidebar({
                     : 'text-muted hover:bg-hover-muted hover:text-primary',
                 ].join(' ')}
               >
-                <Icon className="h-4 w-4 shrink-0" />
+                <Icon aria-hidden="true" className="h-4 w-4 shrink-0" stroke={1.5} />
                 <span className="flex-1 truncate">{item.label}</span>
                 <span
                   className={`text-data-sm tabular-nums ${

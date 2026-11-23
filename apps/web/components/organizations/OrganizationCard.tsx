@@ -1,7 +1,7 @@
+import { IconMapPin, IconUsersGroup } from '@tabler/icons-react';
 import type { Role } from '@cordel/types';
 
 import { Chip } from '@components/ui/Chip';
-import { MapPinIcon, TeamsIcon } from '@components/ui/icons';
 
 import type { OrganizationAccent, OrganizationCardData } from './types';
 
@@ -49,13 +49,13 @@ export function OrganizationCard({ organization }: { organization: OrganizationC
 
       <ul className="mt-6 flex flex-col gap-2.5 text-data-sm text-muted">
         <li className="flex min-w-0 items-center gap-2">
-          <TeamsIcon className="h-4 w-4 shrink-0" />
+          <IconUsersGroup aria-hidden="true" className="h-4 w-4 shrink-0" stroke={1.5} />
           <span className="truncate">
             {teams} {teams === 1 ? 'equipo' : 'equipos'}
           </span>
         </li>
         <li className="flex min-w-0 items-center gap-2">
-          <MapPinIcon className="h-4 w-4 shrink-0" />
+          <IconMapPin aria-hidden="true" className="h-4 w-4 shrink-0" stroke={1.5} />
           <span className="truncate">{location}</span>
         </li>
       </ul>

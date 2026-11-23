@@ -1,10 +1,10 @@
 'use client';
 
+import { IconPlus, IconSearch } from '@tabler/icons-react';
 import { useMemo, useState } from 'react';
 
 import { Button } from '@components/ui/Button';
 import { SearchField } from '@components/ui/SearchField';
-import { PlusIcon, SearchIcon } from '@components/ui/icons';
 
 import { OrganizationCard } from './OrganizationCard';
 import { ORGANIZATION_FILTERS, WorkspaceSidebar } from './WorkspaceSidebar';
@@ -91,8 +91,8 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
                     Cada organización mantiene sus equipos, personas y datos en un espacio propio.
                   </p>
                 </div>
-                <Button className="gap-2 self-start sm:self-auto">
-                  <PlusIcon className="h-4 w-4" />
+                <Button className="self-start sm:self-auto">
+                  <IconPlus aria-hidden="true" className="size-4" stroke={3} />
                   Nueva organización
                 </Button>
               </header>
@@ -115,7 +115,7 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
                           : 'border-border bg-panel text-muted hover:bg-hover-muted',
                       ].join(' ')}
                     >
-                      <Icon className="h-3.5 w-3.5" />
+                      <Icon aria-hidden="true" className="h-3.5 w-3.5" stroke={1.5} />
                       {item.label}
                       <span className="text-data-sm tabular-nums opacity-70">
                         {counts[item.id]}
@@ -147,7 +147,7 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
               ) : (
                 <div className="mt-6 flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border-strong bg-surface/50 px-6 py-16 text-center">
                   <span className="grid h-12 w-12 place-items-center rounded-full bg-surface-container-high text-muted">
-                    <SearchIcon className="h-5 w-5" />
+                    <IconSearch aria-hidden="true" className="h-5 w-5" stroke={1.5} />
                   </span>
                   <div className="flex flex-col gap-1">
                     <p className="text-headline-sm text-primary">
