@@ -92,7 +92,7 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
                   </p>
                 </div>
                 <Button className="self-start sm:self-auto">
-                  <IconPlus aria-hidden="true" className="size-4" stroke={3} />
+                  <IconPlus aria-hidden="true" className="size-[1.2em]" stroke={3} />
                   Nueva organización
                 </Button>
               </header>
