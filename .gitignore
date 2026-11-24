@@ -35,3 +35,6 @@ lerna-debug.log*
 # scratch / planning (not part of the product)
 /pdawork
 DESIGN.md
+
+# local scripts (personal automation)
+scripts/
