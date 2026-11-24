@@ -1,6 +1,8 @@
 import { LoginForm } from './LoginForm';
 
-export default function Login() {
+export default async function Login({ searchParams }: PageProps<'/login'>) {
+  const { registered } = await searchParams;
+
   return (
     <div className="flex flex-col w-full h-screen">
       <section className="flex w-full flex-1 p-space-md pt-0">
@@ -13,7 +15,7 @@ export default function Login() {
               </p>
             </header>
 
-            <LoginForm />
+            <LoginForm justRegistered={registered === '1'} />
           </div>
         </div>
       </section>

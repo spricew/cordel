@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button';
 
 const initialState: LoginActionState = {};
 
-export function LoginForm() {
+export function LoginForm({ justRegistered = false }: { justRegistered?: boolean }) {
   const [state, formAction, pending] = useActionState(loginAction, initialState);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -48,6 +48,12 @@ export function LoginForm() {
         value={password}
         onChange={(event) => setPassword(event.target.value)}
       />
+
+      {justRegistered && (
+        <p aria-live="polite" className="text-body-sm text-muted">
+          Cuenta creada. Inicia sesión.
+        </p>
+      )}
 
       {state.message && (
         <p aria-live="polite" className="text-body-sm text-muted">
