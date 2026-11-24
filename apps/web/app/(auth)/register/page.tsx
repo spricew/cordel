@@ -1,5 +1,4 @@
-import { Button, ButtonLink } from '@components/ui/Button';
-import { PrimaryInput } from '@components/ui/PrimaryInput';
+import { RegisterForm } from './RegisterForm';
 
 export default function Register() {
   return (
@@ -24,52 +23,10 @@ export default function Register() {
             </div>
           </div>
 
-          {/* Login content */}
+          {/* Contenido del registro */}
           <div className="relative flex items-center justify-center w-full h-full overflow-clip z-0">
             <div className="glass-surface absolute inset-0 z-40"></div>
-            <form className="flex flex-col gap-y-space-md w-115 z-100">
-              <header>
-                <span className="text-headline-lg">Crear cuenta</span>
-                <p className="text-body-lg text-muted/90">
-                  Potencia la productividad de tu empresa ahora mismo
-                </p>
-              </header>
-              <div className="flex flex-col gap-y-space-xs">
-                <PrimaryInput label="Nombre" type="text" id="name" placeholder="@username" />
-                <PrimaryInput
-                  label="Correo electrónico"
-                  type="email"
-                  id="email"
-                  placeholder="example@email.com"
-                />
-                <PrimaryInput
-                  label="Contraseña"
-                  type="password"
-                  id="password"
-                  placeholder="********"
-                />
-                <PrimaryInput
-                  label="Confirmar contraseña"
-                  type="password"
-                  id="confirm-password"
-                  placeholder="********"
-                />
-              </div>
-
-              <div className="flex flex-col gap-y-3">
-                <Button type="submit" size="lg" fullWidth>
-                  Crear cuenta
-                </Button>
-
-                <ButtonLink href="/login" variant="ghost" size="lg" fullWidth>
-                  Ya tengo cuenta
-                </ButtonLink>
-
-                <p className="text-body-sm text-center text-muted">
-                  Al crear tu cuenta estás aceptando todos nuestros <a>Términos y condiciones</a>
-                </p>
-              </div>
-            </form>
+            <RegisterForm />
           </div>
         </div>
       </div>
