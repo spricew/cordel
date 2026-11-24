@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { ButtonLink } from '@components/ui/Button';
+
 export function MarketingNavbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-white/80 backdrop-blur-lg backdrop-saturate-200">
@@ -48,12 +50,9 @@ export function MarketingNavbar() {
           >
             Iniciar sesión
           </Link>
-          <Link
-            href="/register"
-            className="inline-flex h-10 items-center rounded-full bg-action px-space-md text-label-md text-on-primary transition-colors hover:bg-action-hover"
-          >
+          <ButtonLink href="/register" size="md">
             Crear cuenta
-          </Link>
+          </ButtonLink>
         </div>
       </nav>
     </header>

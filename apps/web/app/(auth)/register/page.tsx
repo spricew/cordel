@@ -1,3 +1,4 @@
+import { Button, ButtonLink } from '@components/ui/Button';
 import { PrimaryInput } from '@components/ui/PrimaryInput';
 
 export default function Register() {
@@ -55,14 +56,14 @@ export default function Register() {
                 />
               </div>
 
-              <div className="flex flex-col gap-y-space-sm">
-                <button className="w-full px-space-md py-space-sm rounded-full bg-action text-label-xl text-on-primary">
+              <div className="flex flex-col gap-y-3">
+                <Button type="submit" size="lg" fullWidth>
                   Crear cuenta
-                </button>
+                </Button>
 
-                <button className="w-full px-space-md py-space-sm rounded-full text-label-lg text-on-surface-variant">
+                <ButtonLink href="/login" variant="ghost" size="lg" fullWidth>
                   Ya tengo cuenta
-                </button>
+                </ButtonLink>
 
                 <p className="text-body-sm text-center text-muted">
                   Al crear tu cuenta estás aceptando todos nuestros <a>Términos y condiciones</a>

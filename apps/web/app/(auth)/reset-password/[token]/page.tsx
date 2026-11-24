@@ -1,3 +1,4 @@
+import { Button } from '@components/ui/Button';
 import { PrimaryInput } from '@/components/ui/PrimaryInput';
 import Link from 'next/link';
 
@@ -28,9 +29,9 @@ export default async function ResetPassword({ params }: { params: Promise<{ toke
                 id="confirm-password"
                 placeholder="********"
               />
-              <button className="w-full px-space-md py-space-sm rounded-full bg-action text-label-xl text-on-primary">
+              <Button type="submit" size="lg" fullWidth>
                 Guardar contraseña
-              </button>
+              </Button>
             </form>
 
             <Link

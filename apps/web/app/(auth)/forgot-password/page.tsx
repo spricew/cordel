@@ -1,6 +1,7 @@
 import { IconMail } from '@tabler/icons-react';
 import Link from 'next/link';
 
+import { Button } from '@components/ui/Button';
 import { PrimaryInput } from '@/components/ui/PrimaryInput';
 
 export default function ForgotPassword() {
@@ -29,12 +30,9 @@ export default function ForgotPassword() {
                 required
               />
 
-              <button
-                type="submit"
-                className="w-full px-space-md py-space-sm rounded-full bg-action text-label-xl text-on-primary transition-colors hover:bg-action-hover"
-              >
+              <Button type="submit" size="lg" fullWidth>
                 Enviar enlace
-              </button>
+              </Button>
             </form>
 
             <p className="text-body-sm text-center text-muted">

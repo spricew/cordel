@@ -55,8 +55,8 @@ export function LoginForm() {
         </p>
       )}
 
-      <Button type="submit" disabled={pending} size='lg'>
-        {pending ? 'Entrando…' : 'Iniciar sesión'}
+      <Button type="submit" size="lg" fullWidth loading={pending}>
+        Iniciar sesión
       </Button>
 
       <p className="text-body-sm text-center text-muted">
