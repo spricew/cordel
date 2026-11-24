@@ -40,9 +40,9 @@ const VARIANT_CLASSES: Record<ButtonVariant, VariantDefinition> = {
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  md: 'min-h-11 min-w-11 px-5 py-2 text-label-md',
-  lg: 'min-h-12 min-w-12 px-6 py-2.5 text-label-lg tracking-tight',
-  xl: 'min-h-13 min-w-13 px-7 py-3 text-label-xl tracking-tight',
+  md: 'min-h-11 min-w-11 px-4 py-2 text-label-md',
+  lg: 'min-h-12 min-w-12 px-4 py-2 text-label-lg tracking-tight',
+  xl: 'min-h-13 min-w-13 px-5 py-2.5 text-label-xl tracking-tight',
 };
 
 const BASE_CLASSES = [
