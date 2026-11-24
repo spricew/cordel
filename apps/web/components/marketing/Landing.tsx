@@ -250,15 +250,15 @@ export function Landing() {
               la calma que tu equipo necesita para pensar a largo plazo.
             </p>
             <div className="rise-in mt-9 flex flex-col items-center gap-3 sm:flex-row [animation-delay:440ms]">
-              <ButtonLink href="/register" size="lg" className="group">
+              <ButtonLink href="/register" size="xl" className="group">
                 Crear cuenta
                 <IconChevronRight
                   aria-hidden="true"
-                  className="size-[1.2em] translate-y-px -translate-x-0.5 transition-transform group-hover:translate-x-0.5"
+                  className="size-[1.25em] -ml-0.5 -mr-0.5 transition-transform group-hover:translate-x-0.5"
                   stroke={3}
                 />
               </ButtonLink>
-              <ButtonLink href="/login" variant="secondary" size="lg">
+              <ButtonLink href="/login" variant="secondary" size="xl">
                 Iniciar sesión
               </ButtonLink>
             </div>
