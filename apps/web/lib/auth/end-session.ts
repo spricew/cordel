@@ -13,8 +13,7 @@ import { SESSION_COOKIE } from '@/lib/auth/cookie';
 export async function endSession(): Promise<void> {
   try {
     await authFetch('/api/v1/auth/logout', { method: 'POST' });
-  } catch {
-  }
+  } catch {}
 
   const cookieStore = await cookies();
   cookieStore.delete(SESSION_COOKIE);
