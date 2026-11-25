@@ -97,6 +97,7 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
                 </Button>
               </header>
 
+              {/* filtros en mobile */}
               <div className="mt-7 flex gap-2 overflow-x-auto pb-1 lg:hidden">
                 {ORGANIZATION_FILTERS.map((item) => {
                   const isActive = filter === item.id;
@@ -109,15 +110,27 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
                       onClick={() => setFilter(item.id)}
                       aria-pressed={isActive}
                       className={[
-                        'inline-flex shrink-0 items-center gap-2 rounded-full border px-3 py-1.5 text-label-md transition-colors',
+                        'inline-flex shrink-0 cursor-pointer select-none items-center gap-2 rounded-full border px-3 py-1.5 text-sidebar transition-colors duration-150 ease-out',
                         isActive
-                          ? 'border-secondary-fixed-dim bg-secondary-container text-on-secondary-container'
-                          : 'border-border bg-panel text-muted hover:bg-hover-muted',
+                          ? 'border-secondary-fixed-dim bg-secondary-container text-on-secondary-fixed-variant'
+                          : 'border-border bg-panel text-on-surface hover:bg-hover-muted',
                       ].join(' ')}
                     >
-                      <Icon aria-hidden="true" className="h-3.5 w-3.5" stroke={1.5} />
+                      <Icon
+                        aria-hidden="true"
+                        className={[
+                          'size-4.5',
+                          isActive ? 'text-secondary' : 'text-on-surface',
+                        ].join(' ')}
+                        stroke={2}
+                      />
                       {item.label}
-                      <span className="text-data-sm tabular-nums opacity-70">
+                      <span
+                        className={[
+                          'text-body-sm tabular-nums',
+                          isActive ? 'text-secondary/80' : 'text-muted',
+                        ].join(' ')}
+                      >
                         {counts[item.id]}
                       </span>
                     </button>
