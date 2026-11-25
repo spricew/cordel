@@ -1,6 +1,14 @@
 'use client';
 
-import { IconLayoutGrid, IconShieldCheck, IconUsers, type Icon } from '@tabler/icons-react';
+import {
+  IconBuilding,
+  IconStack2,
+  IconUser,
+  IconUserCheck,
+  IconUsers,
+  IconUsersGroup,
+  type Icon,
+} from '@tabler/icons-react';
 
 import type { OrganizationFilter } from './types';
 
@@ -11,9 +19,9 @@ type FilterDefinition = {
 };
 
 export const ORGANIZATION_FILTERS: FilterDefinition[] = [
-  { id: 'all', label: 'Todas', icon: IconLayoutGrid },
-  { id: 'owned', label: 'Propias', icon: IconShieldCheck },
-  { id: 'team', label: 'En equipo', icon: IconUsers },
+  { id: 'all', label: 'Todas', icon: IconStack2 },
+  { id: 'owned', label: 'Propias', icon: IconUserCheck },
+  { id: 'team', label: 'Compartidas', icon: IconUsers },
 ];
 
 type WorkspaceSidebarProps = {
@@ -31,11 +39,17 @@ export function WorkspaceSidebar({
   totalMembers,
   onFilterChange,
 }: WorkspaceSidebarProps) {
+  const summary = [
+    { label: 'Organizaciones', value: counts.all, icon: IconBuilding },
+    { label: 'Equipos', value: totalTeams, icon: IconUsersGroup },
+    { label: 'Miembros', value: totalMembers, icon: IconUser },
+  ];
+
   return (
     <aside className="hidden w-60 shrink-0 flex-col px-space-lg py-space-lg lg:flex">
       <nav aria-label="Filtrar organizaciones">
-        <p className="px-3 text-label-sm uppercase tracking-caps text-muted">Vistas</p>
-        <div className="mt-2 flex flex-col gap-1">
+        <p className="px-3 text-label-sm font-semibold text-muted">Vistas</p>
+        <div className="mt-2 flex flex-col gap-0.5">
           {ORGANIZATION_FILTERS.map((item) => {
             const isActive = activeFilter === item.id;
             const Icon = item.icon;
@@ -47,18 +61,26 @@ export function WorkspaceSidebar({
                 onClick={() => onFilterChange(item.id)}
                 aria-pressed={isActive}
                 className={[
-                  'flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-label-md transition-colors',
+                  'flex min-h-9 w-full cursor-pointer select-none items-center gap-2.5 rounded-sm px-3 py-2 text-left text-sidebar transition-colors duration-150 ease-out',
                   isActive
-                    ? 'bg-secondary-container text-on-secondary-container'
-                    : 'text-muted hover:bg-hover-muted hover:text-primary',
+                    ? 'bg-secondary-container/60 text-on-secondary-fixed-variant'
+                    : 'text-on-surface hover:bg-hover-muted',
                 ].join(' ')}
               >
-                <Icon aria-hidden="true" className="h-4 w-4 shrink-0" stroke={1.5} />
+                <Icon
+                  aria-hidden="true"
+                  className={[
+                    'size-5 shrink-0 transition-colors',
+                    isActive ? 'text-secondary' : 'text-on-surface',
+                  ].join(' ')}
+                  stroke={2}
+                />
                 <span className="flex-1 truncate">{item.label}</span>
                 <span
-                  className={`text-data-sm tabular-nums ${
-                    isActive ? 'text-on-secondary-container/70' : 'text-text-subtle'
-                  }`}
+                  className={[
+                    'text-body-sm tabular-nums',
+                    isActive ? 'text-secondary/80' : 'text-muted',
+                  ].join(' ')}
                 >
                   {counts[item.id]}
                 </span>
@@ -68,21 +90,20 @@ export function WorkspaceSidebar({
         </div>
       </nav>
 
-      <div className="mt-auto rounded-lg border border-border bg-panel p-space-md">
-        <p className="text-label-sm uppercase tracking-caps text-muted">Resumen</p>
-        <dl className="mt-3 flex flex-col gap-2.5">
-          <div className="flex items-baseline justify-between gap-2">
-            <dt className="text-body-sm text-muted">Organizaciones</dt>
-            <dd className="text-label-md tabular-nums text-primary">{counts.all}</dd>
-          </div>
-          <div className="flex items-baseline justify-between gap-2">
-            <dt className="text-body-sm text-muted">Equipos</dt>
-            <dd className="text-label-md tabular-nums text-primary">{totalTeams}</dd>
-          </div>
-          <div className="flex items-baseline justify-between gap-2">
-            <dt className="text-body-sm text-muted">Miembros</dt>
-            <dd className="text-label-md tabular-nums text-primary">{totalMembers}</dd>
-          </div>
+      <div className="mt-auto border-t border-border-subtle pt-space-md">
+        <p className="px-3 text-label-sm font-semibold text-muted">Resumen</p>
+        <dl className="mt-2 flex flex-col gap-0.5">
+          {summary.map((stat) => {
+            const Icon = stat.icon;
+
+            return (
+              <div key={stat.label} className="flex min-h-9 items-center gap-2.5 px-3">
+                <Icon aria-hidden="true" className="size-5 shrink-0 text-muted" stroke={1.75} />
+                <dt className="flex-1 text-sidebar text-on-surface-variant">{stat.label}</dt>
+                <dd className="text-body-sm tabular-nums text-primary">{stat.value}</dd>
+              </div>
+            );
+          })}
         </dl>
       </div>
     </aside>
