@@ -151,6 +151,12 @@
   --text-body-sm--font-weight: 400;
   --text-body-sm--letter-spacing: 0em;
 
+  /* Usage: sidebar navigation labels — denser than body, larger than label-md */
+  --text-sidebar: 0.875rem; /* 14px */
+  --text-sidebar--line-height: 1.25rem; /* 20px */
+  --text-sidebar--font-weight: 500;
+  --text-sidebar--letter-spacing: -0.005em;
+
   /* Usage: primary CTA, registration/submit, large buttons */
   --text-label-xl: 1.125rem; /* 18px */
   --text-label-xl--line-height: 1.5rem; /* 24px */
