@@ -49,6 +49,14 @@ export interface Organization {
   updatedAt: ISODateString;
 }
 
+/* # Organización vista por el usuario autenticado: su rol y los totales
+ * del espacio. Es la forma que devuelve `GET /organizations`. */
+export interface OrganizationOverview extends Organization {
+  role: Role;
+  memberCount: number;
+  teamCount: number;
+}
+
 /* # Membresía. Relación usuario ↔ organización, y donde vive el rol
  * a nivel organización. */
 export interface Membership {
