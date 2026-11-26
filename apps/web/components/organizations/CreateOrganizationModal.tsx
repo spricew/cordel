@@ -17,43 +17,21 @@ import { Button } from '@components/ui/Button';
 import { PrimaryInput } from '@components/ui/PrimaryInput';
 
 import { createOrganizationAction } from '@/actions/createOrganizationAction';
+import {
+  NAME_MAX_LENGTH,
+  NAME_MIN_LENGTH,
+  SLUG_MAX_LENGTH,
+  SLUG_PATTERN,
+  normalizeSlugInput,
+  toSlug,
+} from '@/lib/organizations/presentation';
 import type { CreateOrganizationFieldErrors, CreateOrganizationState } from '@/types';
-
-const NAME_MIN_LENGTH = 2;
-const NAME_MAX_LENGTH = 100;
-const SLUG_MAX_LENGTH = 100;
-const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const INITIAL_STATE: CreateOrganizationState = { status: 'idle' };
 
 type CreateOrganizationModalProps = {
   onClose: () => void;
 };
-
-/** Quita acentos y normaliza el texto para generar un slug válido. */
-function toSlug(value: string): string {
-  return value
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, SLUG_MAX_LENGTH);
-}
-
-/**
- * Limpia el slug mientras se escribe, sin recortar los guiones finales,
- * así se puede seguir escribiendo una palabra compuesta
- */
-function normalizeSlugInput(value: string): string {
-  return value
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9-]+/g, '-')
-    .replace(/-{2,}/g, '-')
-    .slice(0, SLUG_MAX_LENGTH);
-}
 
 export function CreateOrganizationModal({ onClose }: CreateOrganizationModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
