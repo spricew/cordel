@@ -1,11 +1,12 @@
 'use client';
 
 import { IconPlus } from '@tabler/icons-react';
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import { Button } from '@components/ui/Button';
 import { SearchField } from '@components/ui/SearchField';
 
+import { CreateOrganizationModal } from './CreateOrganizationModal';
 import { OrganizationCard } from './OrganizationCard';
 import { OrganizationEmptyState } from './OrganizationEmptyState';
 import { ORGANIZATION_FILTERS, WorkspaceSidebar } from './WorkspaceSidebar';
@@ -19,6 +20,9 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<OrganizationFilter>('all');
   const searchRef = useRef<HTMLInputElement>(null);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+
+  const closeCreateModal = useCallback(() => setIsCreateOpen(false), []);
 
   const counts = useMemo<Record<OrganizationFilter, number>>(
     () => ({
@@ -96,7 +100,7 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
                     Cada organización mantiene sus equipos, personas y datos en un espacio propio.
                   </p>
                 </div>
-                <Button className="self-start sm:self-auto">
+                <Button className="self-start sm:self-auto" onClick={() => setIsCreateOpen(true)}>
                   <IconPlus aria-hidden="true" className="size-[1.2em]" stroke={3} />
                   Nueva organización
                 </Button>
@@ -182,6 +186,8 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
           </div>
         </div>
       </section>
+
+      {isCreateOpen ? <CreateOrganizationModal onClose={closeCreateModal} /> : null}
     </div>
   );
 }
