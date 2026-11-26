@@ -270,6 +270,34 @@ describe('Aislamiento multi-tenant (anti-BOLA)', () => {
     });
   });
 
+  describe('listado de organizaciones del usuario', () => {
+    it('solo devuelve las organizaciones propias, con rol y totales', async () => {
+      const mine = await request(server)
+        .get('/api/v1/organizations')
+        .set('Authorization', `Bearer ${tokenOwnerA}`);
+
+      expect(mine.status).toBe(200);
+      expect(mine.body).toHaveLength(1);
+      expect(mine.body[0]).toMatchObject({
+        slug: orgA,
+        role: 'OWNER',
+        memberCount: 4,
+        teamCount: 2,
+      });
+    });
+
+    it('el listado de rivalD no incluye la organización ajena', async () => {
+      const rival = await request(server)
+        .get('/api/v1/organizations')
+        .set('Authorization', `Bearer ${tokenRivalD}`);
+
+      const organizations = rival.body as Array<{ slug: string }>;
+      const slugs = organizations.map((organization) => organization.slug);
+      expect(rival.status).toBe(200);
+      expect(slugs).not.toContain(orgA);
+    });
+  });
+
   describe('otro equipo de la misma org (BOLA de equipo)', () => {
     it('visitorC ve el equipo (org member) pero NO sus tareas: 403', async () => {
       const team = await request(server)
