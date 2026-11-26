@@ -47,7 +47,7 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
       if (filter === 'team' && organization.role === 'OWNER') return false;
       if (normalizedQuery === '') return true;
 
-      return [organization.name, organization.slug, organization.location].some((value) =>
+      return [organization.name, organization.slug].some((value) =>
         value.toLowerCase().includes(normalizedQuery),
       );
     });
@@ -141,7 +141,7 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <SearchField
                   aria-label="Buscar organizaciones"
-                  placeholder="Buscar por nombre, slug o ubicación…"
+                  placeholder="Buscar por nombre o slug…"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   className="w-full sm:max-w-xs"
@@ -170,7 +170,7 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
                     </p>
                     <p className="max-w-sm text-body-sm text-muted">
                       {hasOrganizations
-                        ? 'Prueba con otro nombre, slug o ubicación, o vuelve a “Todas”.'
+                        ? 'Prueba con otro nombre o slug, o vuelve a “Todas”.'
                         : 'Crea tu primera organización para empezar a ordenar equipos y personas.'}
                     </p>
                   </div>

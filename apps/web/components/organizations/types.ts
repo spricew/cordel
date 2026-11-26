@@ -13,6 +13,6 @@ export interface OrganizationCardData {
   role: Role;
   members: number;
   teams: number;
-  location: string;
+  createdAt: string;
   accent: OrganizationAccent;
 }

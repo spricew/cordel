@@ -1,4 +1,4 @@
-import { IconMapPin, IconUsersGroup } from '@tabler/icons-react';
+import { IconCalendar, IconUsersGroup } from '@tabler/icons-react';
 import type { Role } from '@cordel/types';
 
 import { Chip } from '@components/ui/Chip';
@@ -19,6 +19,13 @@ const AVATAR_TONES: Record<OrganizationAccent, string> = {
   moss: 'bg-secondary-fixed-dim text-on-secondary-fixed-variant',
 };
 
+const CREATED_AT_FORMATTER = new Intl.DateTimeFormat('es-MX', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+
 function getInitials(name: string): string {
   return name
     .trim()
@@ -29,8 +36,14 @@ function getInitials(name: string): string {
     .toUpperCase();
 }
 
+function formatCreatedAt(value: string): string {
+  const date = new Date(value);
+
+  return Number.isNaN(date.getTime()) ? 'fecha desconocida' : CREATED_AT_FORMATTER.format(date);
+}
+
 export function OrganizationCard({ organization }: { organization: OrganizationCardData }) {
-  const { name, slug, role, members, teams, location, accent } = organization;
+  const { name, slug, role, members, teams, createdAt, accent } = organization;
 
   return (
     <article className="flex h-full min-h-56 flex-col rounded-lg border border-border bg-panel p-space-lg">
@@ -55,8 +68,8 @@ export function OrganizationCard({ organization }: { organization: OrganizationC
           </span>
         </li>
         <li className="flex min-w-0 items-center gap-2">
-          <IconMapPin aria-hidden="true" className="h-4 w-4 shrink-0" stroke={1.5} />
-          <span className="truncate">{location}</span>
+          <IconCalendar aria-hidden="true" className="h-4 w-4 shrink-0" stroke={1.5} />
+          <span className="truncate">Creada el {formatCreatedAt(createdAt)}</span>
         </li>
       </ul>
 
