@@ -7,7 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { AuditService } from '../audit/audit.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
-import type { Organization, MembershipWithUser } from '@cordel/types';
+import type { Organization, OrganizationOverview, MembershipWithUser } from '@cordel/types';
 import type { CreateOrganizationDto } from './dto/create-organization.dto.js';
 
 export interface CreatedOrganization {
@@ -68,20 +68,31 @@ export class OrganizationsService {
     };
   }
 
-  public async listMine(ownerId: string): Promise<Organization[]> {
+  public async listMine(userId: string): Promise<OrganizationOverview[]> {
+    // El filtro es la membership, no un id que venga del cliente: solo
+    // aparecen las organizaciones a las que el usuario pertenece.
     const memberships = await this.prisma.membership.findMany({
-      where: { userId: ownerId },
-      include: { organization: true },
+      where: { userId },
+      include: {
+        organization: {
+          include: {
+            _count: { select: { members: true, teams: true } },
+          },
+        },
+      },
       orderBy: { organization: { name: 'asc' } },
     });
 
-    return memberships.map(({ organization }) => ({
+    return memberships.map(({ role, organization }) => ({
       id: organization.id,
       name: organization.name,
       slug: organization.slug,
       ownerId: organization.ownerId,
       createdAt: organization.createdAt.toISOString(),
       updatedAt: organization.updatedAt.toISOString(),
+      role,
+      memberCount: organization._count.members,
+      teamCount: organization._count.teams,
     }));
   }
 

@@ -1,5 +1,10 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
-import type { UserSummary, MembershipWithUser, Organization } from '@cordel/types';
+import type {
+  UserSummary,
+  MembershipWithUser,
+  Organization,
+  OrganizationOverview,
+} from '@cordel/types';
 import { CurrentUser } from '../auth/current-user.decorator.js';
 import { CreateOrganizationDto } from './dto/create-organization.dto.js';
 import { OrganizationsService, type CreatedOrganization } from './organizations.service.js';
@@ -9,7 +14,7 @@ export class OrganizationsController {
   public constructor(private readonly org: OrganizationsService) {}
 
   @Get()
-  public listMine(@CurrentUser() user: UserSummary): Promise<Organization[]> {
+  public listMine(@CurrentUser() user: UserSummary): Promise<OrganizationOverview[]> {
     return this.org.listMine(user.id);
   }
 
