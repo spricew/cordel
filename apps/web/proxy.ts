@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
 import { SESSION_COOKIE } from '@/lib/auth/cookie';
+import { sanitizeRedirectPath } from '@/lib/auth/redirect';
 
 const LOGIN_PATH = '/login';
 const HOME_PATH = '/organizations';
@@ -15,19 +16,26 @@ export function proxy(request: NextRequest): NextResponse {
 
   if (request.nextUrl.pathname === LOGIN_PATH) {
     if (hasSession) {
-      return NextResponse.redirect(new URL(HOME_PATH, request.url));
+      const nextPath = sanitizeRedirectPath(request.nextUrl.searchParams.get('next'), HOME_PATH);
+      return NextResponse.redirect(new URL(nextPath, request.url));
     }
 
     return NextResponse.next();
   }
 
   if (!hasSession) {
-    return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
+    const loginUrl = new URL(LOGIN_PATH, request.url);
+    const requestedPath = `${request.nextUrl.pathname}${request.nextUrl.search}`;
+    const safeNext = sanitizeRedirectPath(requestedPath, '');
+    if (safeNext !== '') {
+      loginUrl.searchParams.set('next', safeNext);
+    }
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/organizations/:path*', '/login'],
+  matcher: ['/organizations/:path*', '/invitations', '/invitations/:path*', '/login'],
 };

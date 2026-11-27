@@ -9,13 +9,20 @@ import { Button } from '@/components/ui/Button';
 
 const initialState: LoginActionState = {};
 
-export function LoginForm({ justRegistered = false }: { justRegistered?: boolean }) {
+export function LoginForm({
+  justRegistered = false,
+  nextPath = '',
+}: {
+  justRegistered?: boolean;
+  nextPath?: string;
+}) {
   const [state, formAction, pending] = useActionState(loginAction, initialState);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   return (
     <form action={formAction} className="flex flex-col gap-y-space-sm">
+      {nextPath !== '' ? <input type="hidden" name="next" value={nextPath} /> : null}
       <PrimaryInput
         label="Correo electrónico"
         type="email"

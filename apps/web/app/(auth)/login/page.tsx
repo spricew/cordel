@@ -1,7 +1,11 @@
+import { sanitizeRedirectPath } from '@/lib/auth/redirect';
+
 import { LoginForm } from './LoginForm';
 
 export default async function Login({ searchParams }: PageProps<'/login'>) {
-  const { registered } = await searchParams;
+  const { registered, next } = await searchParams;
+  const rawNext = Array.isArray(next) ? next[0] : next;
+  const nextPath = sanitizeRedirectPath(rawNext, '');
 
   return (
     <div className="flex flex-col w-full h-screen">
@@ -15,7 +19,7 @@ export default async function Login({ searchParams }: PageProps<'/login'>) {
               </p>
             </header>
 
-            <LoginForm justRegistered={registered === '1'} />
+            <LoginForm justRegistered={registered === '1'} nextPath={nextPath} />
           </div>
         </div>
       </section>

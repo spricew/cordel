@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import type { LoginActionState } from '@/types';
 import { SESSION_COOKIE } from '@/lib/auth/cookie';
+import { sanitizeRedirectPath } from '@/lib/auth/redirect';
 
 const API_URL = process.env.API_URL;
 
@@ -61,7 +62,7 @@ export async function loginAction(
     expires: new Date(data.expiresAt),
   });
 
-  redirect('/organizations');
+  redirect(sanitizeRedirectPath(String(formData.get('next') ?? ''), '/organizations'));
 }
 
 interface LoginResponse {
