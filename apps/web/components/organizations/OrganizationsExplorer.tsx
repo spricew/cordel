@@ -1,11 +1,12 @@
 'use client';
 
-import { IconPlus } from '@tabler/icons-react';
+import { IconMailCheck, IconPlus } from '@tabler/icons-react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 import { Button } from '@components/ui/Button';
 import { SearchField } from '@components/ui/SearchField';
 
+import { AcceptInvitationModal } from './AcceptInvitationModal';
 import { CreateOrganizationModal } from './CreateOrganizationModal';
 import { OrganizationCard } from './OrganizationCard';
 import { OrganizationEmptyState } from './OrganizationEmptyState';
@@ -21,8 +22,10 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
   const [filter, setFilter] = useState<OrganizationFilter>('all');
   const searchRef = useRef<HTMLInputElement>(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isAcceptOpen, setIsAcceptOpen] = useState(false);
 
   const closeCreateModal = useCallback(() => setIsCreateOpen(false), []);
+  const closeAcceptModal = useCallback(() => setIsAcceptOpen(false), []);
 
   const counts = useMemo<Record<OrganizationFilter, number>>(
     () => ({
@@ -100,10 +103,16 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
                     Cada organización mantiene sus equipos, personas y datos en un espacio propio.
                   </p>
                 </div>
-                <Button className="self-start sm:self-auto" onClick={() => setIsCreateOpen(true)}>
-                  <IconPlus aria-hidden="true" className="size-[1.2em]" stroke={3} />
-                  Nueva organización
-                </Button>
+                <div className="flex flex-wrap items-center gap-2.5 self-start sm:self-auto">
+                  <Button variant="secondary" onClick={() => setIsAcceptOpen(true)}>
+                    <IconMailCheck aria-hidden="true" className="size-4.5" stroke={1.75} />
+                    Aceptar invitación
+                  </Button>
+                  <Button onClick={() => setIsCreateOpen(true)}>
+                    <IconPlus aria-hidden="true" className="size-[1.2em]" stroke={3} />
+                    Nueva organización
+                  </Button>
+                </div>
               </header>
 
               {hasOrganizations ? (
@@ -188,6 +197,7 @@ export function OrganizationsExplorer({ organizations }: OrganizationsExplorerPr
       </section>
 
       {isCreateOpen ? <CreateOrganizationModal onClose={closeCreateModal} /> : null}
+      {isAcceptOpen ? <AcceptInvitationModal onClose={closeAcceptModal} /> : null}
     </div>
   );
 }
