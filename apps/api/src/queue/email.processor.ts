@@ -30,8 +30,10 @@ export class EmailProcessor implements OnModuleInit, OnModuleDestroy {
           `Te invitaron a ${job.data.organizationName} en Cordel`,
           `${job.data.inviterName} te invitó a la organización ` +
             `"${job.data.organizationName}" de Cordel.\n\n` +
-            'Abre la aplicación, inicia sesión con ESTE email y usa el ' +
-            `siguiente código para aceptar:\n\n${job.data.token}\n\n` +
+            'Acepta la invitación con ESTE email desde este enlace:\n' +
+            `${job.data.acceptUrl}\n\n` +
+            'Si el enlace no funciona, pega este código en la aplicación:\n\n' +
+            `${job.data.token}\n\n` +
             '(El código vence en 7 días.)',
         );
       },

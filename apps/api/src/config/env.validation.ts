@@ -11,6 +11,9 @@ export const envSchema = z.object({
   SHADOW_DATABASE_URL: z.string().startsWith('postgresql://').optional(),
   FREE_MAX_ORGANIZATIONS_PER_USER: z.coerce.number().int().positive().default(3),
   FREE_MAX_MEMBERS_PER_ORGANIZATION: z.coerce.number().int().positive().default(10),
+  // URL pública del frontend: se usa para armar los enlaces profundos
+  // de invitación que viajan en el correo.
+  APP_URL: z.string().url().default('http://localhost:3000'),
   // Redis para BullMQ (colas de trabajos) y rate limiting. Sin Redis
   // la API no arranca — es infraestructura base, no opcional.
   REDIS_URL: z.string().startsWith('redis://').default('redis://127.0.0.1:6379'),

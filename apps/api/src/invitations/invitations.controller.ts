@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
-import type { Invitation, Membership, UserSummary } from '@cordel/types';
+import type { AcceptedInvitation, CreatedInvitation, Invitation, UserSummary } from '@cordel/types';
 import { CurrentUser } from '../auth/current-user.decorator.js';
 import { RequirePermission } from '../roles/require-permission.decorator.js';
 import { CreateInvitationDto } from './dto/create-invitation.dto.js';
@@ -20,7 +20,7 @@ export class InvitationsController {
     @Param('slug') slug: string,
     @CurrentUser() user: UserSummary,
     @Body() dto: CreateInvitationDto,
-  ): Promise<Invitation> {
+  ): Promise<CreatedInvitation> {
     return this.invitations.create(slug, user.id, dto);
   }
 
@@ -28,6 +28,17 @@ export class InvitationsController {
   @Get('organizations/:slug/invitations')
   public listPending(@Param('slug') slug: string): Promise<Invitation[]> {
     return this.invitations.listPending(slug);
+  }
+
+  @RequirePermission('member:invite', 'slug')
+  @Post('organizations/:slug/invitations/:invitationId/resend')
+  @HttpCode(HttpStatus.OK)
+  public resend(
+    @Param('slug') slug: string,
+    @Param('invitationId') invitationId: string,
+    @CurrentUser() user: UserSummary,
+  ): Promise<CreatedInvitation> {
+    return this.invitations.resend(slug, invitationId, user.id);
   }
 
   @RequirePermission('member:invite', 'slug')
@@ -45,7 +56,7 @@ export class InvitationsController {
   public accept(
     @CurrentUser() user: UserSummary,
     @Body() dto: AcceptInvitationDto,
-  ): Promise<Membership> {
+  ): Promise<AcceptedInvitation> {
     return this.invitations.accept(user.id, dto);
   }
 }
