@@ -193,20 +193,32 @@ export interface Notification {
 }
 
 /* # Invitación por email a una organización. */
-/* * El token es el secreto que se manda por email: quien lo tiene puede
- * aceptar la invitación (con la cuenta de ese email). `acceptedAt` y
- * `revokedAt` en null = sigue pendiente. */
+/* * El token en claro solo viaja en la respuesta de creación o reenvío;
+ * en la base se guarda su hash. `acceptedAt` y `revokedAt` en null =
+ * sigue pendiente. `sentAt` es la última vez que se envió el correo. */
 export interface Invitation {
   id: string;
   organizationId: string;
   email: string;
   role: Role;
-  token: string;
   invitedById: string;
   acceptedAt: ISODateString | null;
   revokedAt: ISODateString | null;
   expiresAt: ISODateString;
+  sentAt: ISODateString;
   createdAt: ISODateString;
+}
+
+/* # Invitación recién creada o reenviada: incluye el token en claro una
+ * sola vez para que quien invita pueda compartirlo si el correo falla. */
+export interface CreatedInvitation extends Invitation {
+  token: string;
+}
+
+/* # Respuesta al aceptar una invitación: membresía creada más los datos
+ * mínimos de la organización para redirigir sin exponerla antes. */
+export interface AcceptedInvitation extends Membership {
+  organization: Pick<Organization, 'id' | 'name' | 'slug'>;
 }
 
 /* # Auditoría: registro inmutable de acciones sensibles. */
@@ -215,7 +227,12 @@ export interface Invitation {
  * `metadata` es libre por acción (email, rol, etc.). Solo la leen
  * OWNER/ADMIN de la organización (`audit:read`). */
 export type AuditAction =
-  'ORG_CREATED' | 'TEAM_CREATED' | 'INVITATION_CREATED' | 'INVITATION_REVOKED' | 'MEMBER_JOINED';
+  | 'ORG_CREATED'
+  | 'TEAM_CREATED'
+  | 'INVITATION_CREATED'
+  | 'INVITATION_RESENT'
+  | 'INVITATION_REVOKED'
+  | 'MEMBER_JOINED';
 
 export interface AuditLog {
   id: string;
