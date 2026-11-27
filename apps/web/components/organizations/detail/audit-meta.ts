@@ -2,6 +2,7 @@ import {
   IconBuildingPlus,
   IconMailCancel,
   IconMailForward,
+  IconRefresh,
   IconUserPlus,
   IconUsersPlus,
   type Icon,
@@ -40,6 +41,12 @@ export const AUDIT_EVENT_META: Record<AuditAction, AuditEventMeta> = {
     label: 'Invitación revocada',
     icon: IconMailCancel,
     tone: 'bg-surface-container-high text-muted',
+    category: 'members',
+  },
+  INVITATION_RESENT: {
+    label: 'Invitación reenviada',
+    icon: IconRefresh,
+    tone: 'bg-tertiary-fixed text-on-tertiary-fixed-variant',
     category: 'members',
   },
   MEMBER_JOINED: {

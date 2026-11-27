@@ -1,6 +1,6 @@
 'use server';
 
-import type { Invitation } from '@cordel/types';
+import type { CreatedInvitation } from '@cordel/types';
 import { revalidatePath } from 'next/cache';
 
 import { authFetch, type AuthFetchResult } from '@/lib/api';
@@ -116,7 +116,7 @@ export async function createInvitationAction(
 
   return {
     status: 'success',
-    invitation: isInvitation(payload) ? payload : undefined,
+    invitation: isCreatedInvitation(payload) ? payload : undefined,
   };
 }
 
@@ -136,14 +136,21 @@ async function readErrorMessage(response: Response): Promise<string | null> {
   return null;
 }
 
-function isInvitation(value: unknown): value is Invitation {
+function isCreatedInvitation(value: unknown): value is CreatedInvitation {
   if (typeof value !== 'object' || value === null) return false;
   const candidate = value as Record<string, unknown>;
 
   return (
     typeof candidate.id === 'string' &&
+    typeof candidate.organizationId === 'string' &&
     typeof candidate.email === 'string' &&
     typeof candidate.token === 'string' &&
-    (candidate.role === 'OWNER' || candidate.role === 'ADMIN' || candidate.role === 'MEMBER')
+    candidate.token !== '' &&
+    (candidate.role === 'OWNER' || candidate.role === 'ADMIN' || candidate.role === 'MEMBER') &&
+    (candidate.acceptedAt === null || typeof candidate.acceptedAt === 'string') &&
+    (candidate.revokedAt === null || typeof candidate.revokedAt === 'string') &&
+    typeof candidate.expiresAt === 'string' &&
+    typeof candidate.sentAt === 'string' &&
+    typeof candidate.createdAt === 'string'
   );
 }

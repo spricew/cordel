@@ -237,11 +237,11 @@ function isInvitation(value: unknown): value is Invitation {
     typeof value.organizationId === 'string' &&
     typeof value.email === 'string' &&
     isRole(value.role) &&
-    typeof value.token === 'string' &&
     typeof value.invitedById === 'string' &&
     (value.acceptedAt === null || typeof value.acceptedAt === 'string') &&
     (value.revokedAt === null || typeof value.revokedAt === 'string') &&
     typeof value.expiresAt === 'string' &&
+    typeof value.sentAt === 'string' &&
     typeof value.createdAt === 'string'
   );
 }
@@ -254,6 +254,7 @@ const AUDIT_ACTIONS: readonly AuditAction[] = [
   'ORG_CREATED',
   'TEAM_CREATED',
   'INVITATION_CREATED',
+  'INVITATION_RESENT',
   'INVITATION_REVOKED',
   'MEMBER_JOINED',
 ];
